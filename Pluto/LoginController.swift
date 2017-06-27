@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 import Hue
 
 class LoginController: UIViewController {
@@ -91,7 +92,7 @@ class LoginController: UIViewController {
         return textField
     }()
     
-    let loginRegisterButton: UIButton = {
+    lazy var loginRegisterButton: UIButton = {
         
         let button = UIButton(type: .system)
         button.backgroundColor = UIColor.white
@@ -100,8 +101,38 @@ class LoginController: UIViewController {
         button.setTitleColor(UIColor.black, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         
+        button.addTarget(self, action: #selector(handleRegister), for: .touchUpInside)
+        
         return button
     }()
+    
+    func handleRegister() {
+        
+        guard let email = emailTextField.text, let password = passwordTextField.text, let username = usernameTextField.text else {
+            
+            print("ERROR: the text fields are invalid.")
+            return
+        }
+        
+        // Authenticate the new user using Firebase.
+        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+            
+            if error != nil {
+                
+                print("ERROR: something went wrong while creating the account. Details: \(error.debugDescription)")
+                return
+            }
+            
+            guard let uid = user?.uid else {
+                return
+            }
+            
+            let values = ["username": username,
+                          "email": email]
+            
+            DataService.ds.createFirebaseDBUser(uid: uid, userData: values)
+        }
+    }
     
     // MARK: - View Configuration
     
