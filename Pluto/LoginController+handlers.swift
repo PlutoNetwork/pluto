@@ -163,29 +163,7 @@ extension LoginController: GIDSignInDelegate {
             // Grab the user's profile picture from Facebook.
             if let profileImageUrl = ((userData.value(forKey: "picture") as AnyObject).value(forKey: "data") as AnyObject).value(forKey: "url") as? String {
                 
-                // Create a dictionary of values to add to the database.
-                let values = ["name": userData.value(forKey: "name"),
-                              "email": userData.value(forKey: "email"),
-                              "profileImageUrl": profileImageUrl]
-                
-                // Use Firebase to sign the user in.
-                Auth.auth().signIn(with: credentials) { (user, error) in
-                    
-                    if error != nil {
-                        
-                        print("ERROR: something went wrong authenticating in Firebase with the Facebook user data. Details: \(error.debugDescription)")
-                        return
-                    }
-                    
-                    guard let uid = user?.uid else {
-                        
-                        print("ERROR: could not get user ID.")
-                        return
-                    }
-                    
-                    // Register the user to the Firebase database.
-                    self.registerUserToDatabase(withUid: uid, values: values as [String : AnyObject])
-                }
+                self.firebaseAuthSignIn(withCredentials: credentials, name: userData.value(forKey: "name") as! String, email: userData.value(forKey: "email") as! String, profileImageUrl: profileImageUrl)
             }
         }
     }
@@ -205,18 +183,22 @@ extension LoginController: GIDSignInDelegate {
         
         guard let idToken = user.authentication.idToken else { return }
         guard let accessToken = user.authentication.accessToken else { return }
-        
         let credentials = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
         
         let profileImageUrl = user.profile.imageURL(withDimension: 1000).absoluteString
         
+        self.firebaseAuthSignIn(withCredentials: credentials, name: user.profile.name, email: user.profile.email, profileImageUrl: profileImageUrl)
+    }
+    
+    private func firebaseAuthSignIn(withCredentials: AuthCredential, name: String, email: String, profileImageUrl: String) {
+        
         // Create a dictionary of values to add to the database.
-        let values = ["name": user.profile.name,
-                      "email": user.profile.email,
+        let values = ["name": name,
+                      "email": email,
                       "profileImageUrl": profileImageUrl]
         
         // Authenticate with Firebase.
-        Auth.auth().signIn(with: credentials) { (user, error) in
+        Auth.auth().signIn(with: withCredentials) { (user, error) in
             
             if error != nil {
                 
