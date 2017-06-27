@@ -17,6 +17,10 @@
 		06A2F1521F02004100FCA614 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1511F02004100FCA614 /* MainController.swift */; };
 		06A2F1541F02216900FCA614 /* LoginController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1531F02216900FCA614 /* LoginController+handlers.swift */; };
 		06A2F1581F0229F500FCA614 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1571F0229F500FCA614 /* User.swift */; };
+		06A2F15C1F02FBD200FCA614 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F15B1F02FBD200FCA614 /* MenuBar.swift */; };
+		06A2F15F1F03127B00FCA614 /* MainController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F15E1F03127B00FCA614 /* MainController+handlers.swift */; };
+		06A2F1631F031A3900FCA614 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1621F031A3900FCA614 /* MenuCell.swift */; };
+		06A2F1651F031AC800FCA614 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1641F031AC800FCA614 /* BaseCollectionViewCell.swift */; };
 		59A92D86D3E4CD59512A36D6 /* Pods_Pluto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF89C375029B119D199AE2CB /* Pods_Pluto.framework */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +39,10 @@
 		06A2F1531F02216900FCA614 /* LoginController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LoginController+handlers.swift"; sourceTree = "<group>"; };
 		06A2F1571F0229F500FCA614 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		06A2F1591F02C0B100FCA614 /* Pluto.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pluto.entitlements; sourceTree = "<group>"; };
+		06A2F15B1F02FBD200FCA614 /* MenuBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
+		06A2F15E1F03127B00FCA614 /* MainController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MainController+handlers.swift"; sourceTree = "<group>"; };
+		06A2F1621F031A3900FCA614 /* MenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
+		06A2F1641F031AC800FCA614 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		2E88C97749A68A95B04F28AB /* Pods-Pluto.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pluto.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pluto/Pods-Pluto.debug.xcconfig"; sourceTree = "<group>"; };
 		46ABF12315458623F5736911 /* Pods-Pluto.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pluto.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pluto/Pods-Pluto.release.xcconfig"; sourceTree = "<group>"; };
 		CF89C375029B119D199AE2CB /* Pods_Pluto.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pluto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,6 +91,7 @@
 				062F08021F01CD0D008F3014 /* Controllers */,
 				06A2F1561F0229E900FCA614 /* Models */,
 				06A2F14E1F01F23400FCA614 /* Services */,
+				06A2F15A1F02FBC400FCA614 /* Views */,
 				062F07D81F01C8F7008F3014 /* Pluto.xcdatamodeld */,
 			);
 			path = Pluto;
@@ -92,7 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				06A2F1551F0221C000FCA614 /* LoginController */,
-				06A2F1511F02004100FCA614 /* MainController.swift */,
+				06A2F15D1F02FCBD00FCA614 /* MainController */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -120,6 +129,33 @@
 				06A2F1571F0229F500FCA614 /* User.swift */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		06A2F15A1F02FBC400FCA614 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				06A2F1641F031AC800FCA614 /* BaseCollectionViewCell.swift */,
+				06A2F1611F031A1E00FCA614 /* MenuBar */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		06A2F15D1F02FCBD00FCA614 /* MainController */ = {
+			isa = PBXGroup;
+			children = (
+				06A2F1511F02004100FCA614 /* MainController.swift */,
+				06A2F15E1F03127B00FCA614 /* MainController+handlers.swift */,
+			);
+			name = MainController;
+			sourceTree = "<group>";
+		};
+		06A2F1611F031A1E00FCA614 /* MenuBar */ = {
+			isa = PBXGroup;
+			children = (
+				06A2F15B1F02FBD200FCA614 /* MenuBar.swift */,
+				06A2F1621F031A3900FCA614 /* MenuCell.swift */,
+			);
+			name = MenuBar;
 			sourceTree = "<group>";
 		};
 		3D8FD35569022D3F3255DC6C /* Pods */ = {
@@ -272,9 +308,13 @@
 			files = (
 				062F07D41F01C8F6008F3014 /* LoginController.swift in Sources */,
 				062F07D21F01C8F6008F3014 /* AppDelegate.swift in Sources */,
+				06A2F15C1F02FBD200FCA614 /* MenuBar.swift in Sources */,
 				06A2F1541F02216900FCA614 /* LoginController+handlers.swift in Sources */,
+				06A2F1651F031AC800FCA614 /* BaseCollectionViewCell.swift in Sources */,
 				062F07DA1F01C8F7008F3014 /* Pluto.xcdatamodeld in Sources */,
 				06A2F1501F01F24E00FCA614 /* DataService.swift in Sources */,
+				06A2F1631F031A3900FCA614 /* MenuCell.swift in Sources */,
+				06A2F15F1F03127B00FCA614 /* MainController+handlers.swift in Sources */,
 				06A2F1521F02004100FCA614 /* MainController.swift in Sources */,
 				06A2F1581F0229F500FCA614 /* User.swift in Sources */,
 			);

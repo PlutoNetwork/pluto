@@ -26,6 +26,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Initialize a starting point for the app.
         window?.rootViewController = UINavigationController(rootViewController: MainController())
         
+        // Customize the navigation bar.
+        UINavigationBar.appearance().tintColor = UIColor.white
+        // The following lines will hide the bottom border of the navigation bar.
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+        
         // Add Firebase.
         FirebaseApp.configure()
         
