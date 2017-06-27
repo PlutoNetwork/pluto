@@ -40,15 +40,4 @@ class DataService {
         
         return _REF_PROFILE_PICS
     }
-    
-    /**
-        Adds created users to the database (NOT authentication).
-     
-        - Parameter uid: the ID of the user being created.
-        - Parameter userData: dictionary of data being stored (including email, board, provider, etc).
-     */
-    func createFirebaseDBUser(uid: String, userData: Dictionary<String, String>) {
-        
-        REF_USERS.child(uid).updateChildValues(userData)
-    }
 }
