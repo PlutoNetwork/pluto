@@ -8,13 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		062F07D21F01C8F6008F3014 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062F07D11F01C8F6008F3014 /* AppDelegate.swift */; };
-		062F07D41F01C8F6008F3014 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062F07D31F01C8F6008F3014 /* ViewController.swift */; };
-		062F07D71F01C8F7008F3014 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 062F07D51F01C8F7008F3014 /* Main.storyboard */; };
+		062F07D41F01C8F6008F3014 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062F07D31F01C8F6008F3014 /* LoginController.swift */; };
 		062F07DA1F01C8F7008F3014 /* Pluto.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 062F07D81F01C8F7008F3014 /* Pluto.xcdatamodeld */; };
 		062F07DC1F01C8F7008F3014 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 062F07DB1F01C8F7008F3014 /* Assets.xcassets */; };
 		062F07DF1F01C8F7008F3014 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 062F07DD1F01C8F7008F3014 /* LaunchScreen.storyboard */; };
 		062F07EA1F01C8F7008F3014 /* PlutoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062F07E91F01C8F7008F3014 /* PlutoTests.swift */; };
 		062F07F51F01C8F7008F3014 /* PlutoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062F07F41F01C8F7008F3014 /* PlutoUITests.swift */; };
+		59A92D86D3E4CD59512A36D6 /* Pods_Pluto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF89C375029B119D199AE2CB /* Pods_Pluto.framework */; };
+		7B1D2AFC79568EC22AC710A1 /* Pods_PlutoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFEC71BD6A36F2AB50549034 /* Pods_PlutoUITests.framework */; };
+		E972179DD032A3E6DB0C67EB /* Pods_PlutoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B237370D2F0E28D0100195 /* Pods_PlutoTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,10 +37,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		00B237370D2F0E28D0100195 /* Pods_PlutoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlutoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		062F07CE1F01C8F6008F3014 /* Pluto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pluto.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		062F07D11F01C8F6008F3014 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		062F07D31F01C8F6008F3014 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		062F07D61F01C8F7008F3014 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		062F07D31F01C8F6008F3014 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		062F07D91F01C8F7008F3014 /* Pluto.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Pluto.xcdatamodel; sourceTree = "<group>"; };
 		062F07DB1F01C8F7008F3014 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		062F07DE1F01C8F7008F3014 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +51,14 @@
 		062F07F01F01C8F7008F3014 /* PlutoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlutoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		062F07F41F01C8F7008F3014 /* PlutoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlutoUITests.swift; sourceTree = "<group>"; };
 		062F07F61F01C8F7008F3014 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		222EB389DC3A085C4A910EF6 /* Pods-PlutoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlutoUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PlutoUITests/Pods-PlutoUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		2E88C97749A68A95B04F28AB /* Pods-Pluto.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pluto.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pluto/Pods-Pluto.debug.xcconfig"; sourceTree = "<group>"; };
+		337F3F59A2FBB95FB6A42C40 /* Pods-PlutoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlutoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PlutoTests/Pods-PlutoTests.release.xcconfig"; sourceTree = "<group>"; };
+		46ABF12315458623F5736911 /* Pods-Pluto.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pluto.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pluto/Pods-Pluto.release.xcconfig"; sourceTree = "<group>"; };
+		47941F4F044AB0AF5D799685 /* Pods-PlutoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlutoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PlutoTests/Pods-PlutoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5F648FF2EF84F4248EC0DF3F /* Pods-PlutoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlutoUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PlutoUITests/Pods-PlutoUITests.release.xcconfig"; sourceTree = "<group>"; };
+		CF89C375029B119D199AE2CB /* Pods_Pluto.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pluto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DFEC71BD6A36F2AB50549034 /* Pods_PlutoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlutoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59A92D86D3E4CD59512A36D6 /* Pods_Pluto.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E972179DD032A3E6DB0C67EB /* Pods_PlutoTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B1D2AFC79568EC22AC710A1 /* Pods_PlutoUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +96,8 @@
 				062F07E81F01C8F7008F3014 /* PlutoTests */,
 				062F07F31F01C8F7008F3014 /* PlutoUITests */,
 				062F07CF1F01C8F6008F3014 /* Products */,
+				3D8FD35569022D3F3255DC6C /* Pods */,
+				ACCEDBB9A8DC8CC588CC448A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,12 +114,11 @@
 		062F07D01F01C8F6008F3014 /* Pluto */ = {
 			isa = PBXGroup;
 			children = (
-				062F07D11F01C8F6008F3014 /* AppDelegate.swift */,
-				062F07D31F01C8F6008F3014 /* ViewController.swift */,
-				062F07D51F01C8F7008F3014 /* Main.storyboard */,
 				062F07DB1F01C8F7008F3014 /* Assets.xcassets */,
-				062F07DD1F01C8F7008F3014 /* LaunchScreen.storyboard */,
 				062F07E01F01C8F7008F3014 /* Info.plist */,
+				062F07D11F01C8F6008F3014 /* AppDelegate.swift */,
+				062F08021F01CD0D008F3014 /* Controllers */,
+				062F07DD1F01C8F7008F3014 /* LaunchScreen.storyboard */,
 				062F07D81F01C8F7008F3014 /* Pluto.xcdatamodeld */,
 			);
 			path = Pluto;
@@ -128,6 +142,37 @@
 			path = PlutoUITests;
 			sourceTree = "<group>";
 		};
+		062F08021F01CD0D008F3014 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				062F07D31F01C8F6008F3014 /* LoginController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		3D8FD35569022D3F3255DC6C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				2E88C97749A68A95B04F28AB /* Pods-Pluto.debug.xcconfig */,
+				46ABF12315458623F5736911 /* Pods-Pluto.release.xcconfig */,
+				47941F4F044AB0AF5D799685 /* Pods-PlutoTests.debug.xcconfig */,
+				337F3F59A2FBB95FB6A42C40 /* Pods-PlutoTests.release.xcconfig */,
+				222EB389DC3A085C4A910EF6 /* Pods-PlutoUITests.debug.xcconfig */,
+				5F648FF2EF84F4248EC0DF3F /* Pods-PlutoUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		ACCEDBB9A8DC8CC588CC448A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CF89C375029B119D199AE2CB /* Pods_Pluto.framework */,
+				00B237370D2F0E28D0100195 /* Pods_PlutoTests.framework */,
+				DFEC71BD6A36F2AB50549034 /* Pods_PlutoUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -135,9 +180,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 062F07F91F01C8F7008F3014 /* Build configuration list for PBXNativeTarget "Pluto" */;
 			buildPhases = (
+				1C4860C3295EF2B947BCA7C4 /* [CP] Check Pods Manifest.lock */,
 				062F07CA1F01C8F6008F3014 /* Sources */,
 				062F07CB1F01C8F6008F3014 /* Frameworks */,
 				062F07CC1F01C8F6008F3014 /* Resources */,
+				AC4A6BB77018F201FF87339A /* [CP] Embed Pods Frameworks */,
+				81132090D4C73DDD0C057D37 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -152,9 +200,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 062F07FC1F01C8F7008F3014 /* Build configuration list for PBXNativeTarget "PlutoTests" */;
 			buildPhases = (
+				CA1A47FA2CF78655340734C5 /* [CP] Check Pods Manifest.lock */,
 				062F07E11F01C8F7008F3014 /* Sources */,
 				062F07E21F01C8F7008F3014 /* Frameworks */,
 				062F07E31F01C8F7008F3014 /* Resources */,
+				5C85AAB04218D65523CE68E7 /* [CP] Embed Pods Frameworks */,
+				FE579ED9F3603DDF7E296DC0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -170,9 +221,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 062F07FF1F01C8F7008F3014 /* Build configuration list for PBXNativeTarget "PlutoUITests" */;
 			buildPhases = (
+				39E4C97C1C45BDDD90D1D938 /* [CP] Check Pods Manifest.lock */,
 				062F07EC1F01C8F7008F3014 /* Sources */,
 				062F07ED1F01C8F7008F3014 /* Frameworks */,
 				062F07EE1F01C8F7008F3014 /* Resources */,
+				8C8CD3C55EFCAA65C673D048 /* [CP] Embed Pods Frameworks */,
+				85E8B3B4650C97D8150B71B2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -240,7 +294,6 @@
 			files = (
 				062F07DF1F01C8F7008F3014 /* LaunchScreen.storyboard in Resources */,
 				062F07DC1F01C8F7008F3014 /* Assets.xcassets in Resources */,
-				062F07D71F01C8F7008F3014 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,12 +313,150 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1C4860C3295EF2B947BCA7C4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		39E4C97C1C45BDDD90D1D938 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		5C85AAB04218D65523CE68E7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PlutoTests/Pods-PlutoTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		81132090D4C73DDD0C057D37 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Pluto/Pods-Pluto-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		85E8B3B4650C97D8150B71B2 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PlutoUITests/Pods-PlutoUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8C8CD3C55EFCAA65C673D048 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PlutoUITests/Pods-PlutoUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AC4A6BB77018F201FF87339A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Pluto/Pods-Pluto-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CA1A47FA2CF78655340734C5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		FE579ED9F3603DDF7E296DC0 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PlutoTests/Pods-PlutoTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		062F07CA1F01C8F6008F3014 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				062F07D41F01C8F6008F3014 /* ViewController.swift in Sources */,
+				062F07D41F01C8F6008F3014 /* LoginController.swift in Sources */,
 				062F07D21F01C8F6008F3014 /* AppDelegate.swift in Sources */,
 				062F07DA1F01C8F7008F3014 /* Pluto.xcdatamodeld in Sources */,
 			);
@@ -303,14 +494,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		062F07D51F01C8F7008F3014 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				062F07D61F01C8F7008F3014 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		062F07DD1F01C8F7008F3014 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -417,11 +600,13 @@
 		};
 		062F07FA1F01C8F7008F3014 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2E88C97749A68A95B04F28AB /* Pods-Pluto.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 3KFDZ263TX;
 				INFOPLIST_FILE = Pluto/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.faisalmlalani.Pluto;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -431,11 +616,13 @@
 		};
 		062F07FB1F01C8F7008F3014 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 46ABF12315458623F5736911 /* Pods-Pluto.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 3KFDZ263TX;
 				INFOPLIST_FILE = Pluto/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.faisalmlalani.Pluto;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -445,6 +632,7 @@
 		};
 		062F07FD1F01C8F7008F3014 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 47941F4F044AB0AF5D799685 /* Pods-PlutoTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -460,6 +648,7 @@
 		};
 		062F07FE1F01C8F7008F3014 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 337F3F59A2FBB95FB6A42C40 /* Pods-PlutoTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -475,6 +664,7 @@
 		};
 		062F08001F01C8F7008F3014 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 222EB389DC3A085C4A910EF6 /* Pods-PlutoUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = 3KFDZ263TX;
@@ -489,6 +679,7 @@
 		};
 		062F08011F01C8F7008F3014 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5F648FF2EF84F4248EC0DF3F /* Pods-PlutoUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = 3KFDZ263TX;
@@ -520,6 +711,7 @@
 				062F07FB1F01C8F7008F3014 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		062F07FC1F01C8F7008F3014 /* Build configuration list for PBXNativeTarget "PlutoTests" */ = {
 			isa = XCConfigurationList;
@@ -528,6 +720,7 @@
 				062F07FE1F01C8F7008F3014 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		062F07FF1F01C8F7008F3014 /* Build configuration list for PBXNativeTarget "PlutoUITests" */ = {
 			isa = XCConfigurationList;
@@ -536,6 +729,7 @@
 				062F08011F01C8F7008F3014 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

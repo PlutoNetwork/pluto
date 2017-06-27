@@ -1,0 +1,852 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		055BA77B1AB315946BD3769D9714A3A3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 616BEB51ECCAD129BDBCB7A956B56CC6 /* Foundation.framework */; };
+		20070C9501DA782A1D5EDCB4F75AEDE2 /* Hue-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = BD55FE44411E29D7F81C7714D163949F /* Hue-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		268C7B7D6DBAC0959418555FABE14969 /* Pods-Pluto-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 939B9C28EC3338B3711789E5812CBCC3 /* Pods-Pluto-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38763338BDEAA2B9AA52B0FC8FE6BC59 /* Pods-PlutoUITests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 70E73369CF0B798D6103E79EC8B71436 /* Pods-PlutoUITests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		57FA0A147CF260A959BBE295250E0897 /* Pods-Pluto-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 674B337DDD6D5733F98F4B8EEA11489B /* Pods-Pluto-dummy.m */; };
+		5B42048C3ADC59AC19E1C168A5B0561C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 616BEB51ECCAD129BDBCB7A956B56CC6 /* Foundation.framework */; };
+		70CBCB67007D356F14B8EC15118BA9E3 /* Hue-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6A17ADCE095E734E2CD428F66B5A0F /* Hue-dummy.m */; };
+		774ABEC705DF70E241F4DDDE3E71EDBD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 616BEB51ECCAD129BDBCB7A956B56CC6 /* Foundation.framework */; };
+		83790D4473D3F8965A7705C0EE1ADFC6 /* UIColor+Hue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A462FF50296DDF57AA922E95215295B4 /* UIColor+Hue.swift */; };
+		8A86BA33B0317512AC8AECE15DD38173 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 616BEB51ECCAD129BDBCB7A956B56CC6 /* Foundation.framework */; };
+		BA215FEB800D0782740C48D09AF5C4FA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EC994CDC2D681BA26389F78A7E4B325 /* UIKit.framework */; };
+		D2C832F5D103A638899EE161352D7699 /* Pods-PlutoUITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C3CD34F1E779653536FE1011DA308951 /* Pods-PlutoUITests-dummy.m */; };
+		DF2E9FB9416E019E7CF7636602F7CF36 /* Pods-PlutoTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 183B3FBA46793FB3FD9EF00F60987CB0 /* Pods-PlutoTests-dummy.m */; };
+		F2AEAFD17BF57CBB3538799FF36509A7 /* Pods-PlutoTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DBB3EF06104B5DFC0CD5BC16C243ADA2 /* Pods-PlutoTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F85030977A6D1BAC697812B41A5905C7 /* UIImage+Hue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904C5C286F7827D05D6F8593CFDE437A /* UIImage+Hue.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0A46A8171CFF0FF3649CB52C9F2716E8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B2542602E50EDF091ADB18B4688DF34F;
+			remoteInfo = Hue;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0B22EE0642962BFB5CFBB9E48AE0E106 /* Pods-Pluto-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Pluto-acknowledgements.markdown"; sourceTree = "<group>"; };
+		0EE7B2E24F569C0796EC136B60B34BC1 /* Pods_PlutoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_PlutoUITests.framework; path = "Pods-PlutoUITests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		183B3FBA46793FB3FD9EF00F60987CB0 /* Pods-PlutoTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-PlutoTests-dummy.m"; sourceTree = "<group>"; };
+		1B8FA92982B599BF6B2CFDAAC3554807 /* Pods-PlutoTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PlutoTests-frameworks.sh"; sourceTree = "<group>"; };
+		1E6A17ADCE095E734E2CD428F66B5A0F /* Hue-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Hue-dummy.m"; sourceTree = "<group>"; };
+		1FAC128B808C8EEA416B6F081CEDEDC6 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3994B185CB2DDD5236D9B043C95F363E /* Pods-Pluto-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Pluto-resources.sh"; sourceTree = "<group>"; };
+		3F68FFFD84C64F689239B5A70EBD77C0 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		400A86DAC45D9DC92C315477BEF29E65 /* Pods-PlutoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PlutoUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		466A5B214335738FB1F1C5C9157EC37F /* Pods-PlutoTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-PlutoTests-acknowledgements.plist"; sourceTree = "<group>"; };
+		482D00EC9DE8744737E064D00A3A1EB6 /* Pods-Pluto.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Pluto.debug.xcconfig"; sourceTree = "<group>"; };
+		549DE05322B50C781F467E463CBE9C22 /* Pods-PlutoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PlutoUITests.release.xcconfig"; sourceTree = "<group>"; };
+		6014C334D3F3EE6CD5EC7E3B9A76398B /* Pods-PlutoUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-PlutoUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		616BEB51ECCAD129BDBCB7A956B56CC6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		674B337DDD6D5733F98F4B8EEA11489B /* Pods-Pluto-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Pluto-dummy.m"; sourceTree = "<group>"; };
+		680F2D066BFC79D2F96F3C27AC8FD3FA /* Pods-PlutoTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PlutoTests-resources.sh"; sourceTree = "<group>"; };
+		6ACE4AC0AFE35C1DCAAC291078DF21F9 /* Pods_PlutoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_PlutoTests.framework; path = "Pods-PlutoTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		70E73369CF0B798D6103E79EC8B71436 /* Pods-PlutoUITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-PlutoUITests-umbrella.h"; sourceTree = "<group>"; };
+		7EC994CDC2D681BA26389F78A7E4B325 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		81CCF0EC6F613748AFBFE9B64CDF2976 /* Pods-PlutoUITests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PlutoUITests-frameworks.sh"; sourceTree = "<group>"; };
+		870E11539D35DEDB8334DEAD4315B787 /* Hue.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Hue.framework; path = Hue.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		89FE0C5FC226B0194EC53939A633EA93 /* Hue.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Hue.xcconfig; sourceTree = "<group>"; };
+		8DBC10F93C973C871B3AB53BA289031E /* Pods-PlutoUITests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PlutoUITests-resources.sh"; sourceTree = "<group>"; };
+		8FA3CA06B12894818A7C2AD594DEEB61 /* Pods-PlutoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PlutoTests.release.xcconfig"; sourceTree = "<group>"; };
+		904C5C286F7827D05D6F8593CFDE437A /* UIImage+Hue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIImage+Hue.swift"; path = "Source/iOS/UIImage+Hue.swift"; sourceTree = "<group>"; };
+		939B9C28EC3338B3711789E5812CBCC3 /* Pods-Pluto-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Pluto-umbrella.h"; sourceTree = "<group>"; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		A462FF50296DDF57AA922E95215295B4 /* UIColor+Hue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIColor+Hue.swift"; path = "Source/iOS/UIColor+Hue.swift"; sourceTree = "<group>"; };
+		B43FF47931AF9816E2B76716F62E40EB /* Pods-PlutoUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-PlutoUITests.modulemap"; sourceTree = "<group>"; };
+		B4BB4120B9972629BA2CB2F1FB439F80 /* Pods-Pluto-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Pluto-frameworks.sh"; sourceTree = "<group>"; };
+		BA97C27512D3BA8B49CBBA9FAB923955 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BD55FE44411E29D7F81C7714D163949F /* Hue-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Hue-umbrella.h"; sourceTree = "<group>"; };
+		C006E002235B68B7AD282AB492F0CE74 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C0CA39B2A2C13347D7290EE0E3B24530 /* Pods-Pluto-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Pluto-acknowledgements.plist"; sourceTree = "<group>"; };
+		C1921C16D45E40744B69F734202CE41D /* Hue.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = Hue.modulemap; sourceTree = "<group>"; };
+		C3CD34F1E779653536FE1011DA308951 /* Pods-PlutoUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-PlutoUITests-dummy.m"; sourceTree = "<group>"; };
+		C72E2D0CC47EDEF5739310DFD15E689F /* Pods_Pluto.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Pluto.framework; path = "Pods-Pluto.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C906D4B11E41854A11039581332F964D /* Pods-Pluto.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-Pluto.modulemap"; sourceTree = "<group>"; };
+		DB99902A23FDC90A59A306CAEBEF0F24 /* Hue-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Hue-prefix.pch"; sourceTree = "<group>"; };
+		DBB3EF06104B5DFC0CD5BC16C243ADA2 /* Pods-PlutoTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-PlutoTests-umbrella.h"; sourceTree = "<group>"; };
+		E386FB58E6117A2787806C9FDA6DB1E0 /* Pods-PlutoTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-PlutoTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		E7667EF056232946FF8074A8C1D41335 /* Pods-PlutoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PlutoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F108FBA05194C94B05A772D37B513727 /* Pods-Pluto.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Pluto.release.xcconfig"; sourceTree = "<group>"; };
+		F6A626B0347F3C366452391CCC3DDFC8 /* Pods-PlutoTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-PlutoTests.modulemap"; sourceTree = "<group>"; };
+		FDA48479F95DFBB030B4A7C61BD85806 /* Pods-PlutoUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-PlutoUITests-acknowledgements.plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0A325AAFE109272B85689483EA39F9B2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B42048C3ADC59AC19E1C168A5B0561C /* Foundation.framework in Frameworks */,
+				BA215FEB800D0782740C48D09AF5C4FA /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		51AFB755E9F0A80ACD76DDC5C853A95C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				055BA77B1AB315946BD3769D9714A3A3 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		657E5B18042F229F702FE7E3FAE104CF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A86BA33B0317512AC8AECE15DD38173 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C58C675DC092E0CC21B150D38772493 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				774ABEC705DF70E241F4DDDE3E71EDBD /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2264A446A19B3EC821D6421C26AA1361 /* Pods-PlutoUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C006E002235B68B7AD282AB492F0CE74 /* Info.plist */,
+				B43FF47931AF9816E2B76716F62E40EB /* Pods-PlutoUITests.modulemap */,
+				6014C334D3F3EE6CD5EC7E3B9A76398B /* Pods-PlutoUITests-acknowledgements.markdown */,
+				FDA48479F95DFBB030B4A7C61BD85806 /* Pods-PlutoUITests-acknowledgements.plist */,
+				C3CD34F1E779653536FE1011DA308951 /* Pods-PlutoUITests-dummy.m */,
+				81CCF0EC6F613748AFBFE9B64CDF2976 /* Pods-PlutoUITests-frameworks.sh */,
+				8DBC10F93C973C871B3AB53BA289031E /* Pods-PlutoUITests-resources.sh */,
+				70E73369CF0B798D6103E79EC8B71436 /* Pods-PlutoUITests-umbrella.h */,
+				400A86DAC45D9DC92C315477BEF29E65 /* Pods-PlutoUITests.debug.xcconfig */,
+				549DE05322B50C781F467E463CBE9C22 /* Pods-PlutoUITests.release.xcconfig */,
+			);
+			name = "Pods-PlutoUITests";
+			path = "Target Support Files/Pods-PlutoUITests";
+			sourceTree = "<group>";
+		};
+		433CD3331B6C3787F473C941B61FC68F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E6EE98446B568159EE277B68FD442AF0 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		532AB1570A1246EE6CCA380D439A3FBF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				870E11539D35DEDB8334DEAD4315B787 /* Hue.framework */,
+				C72E2D0CC47EDEF5739310DFD15E689F /* Pods_Pluto.framework */,
+				6ACE4AC0AFE35C1DCAAC291078DF21F9 /* Pods_PlutoTests.framework */,
+				0EE7B2E24F569C0796EC136B60B34BC1 /* Pods_PlutoUITests.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5BAF6137CC8980421BC6A241835F3C87 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				CF2CEE5ED4F4D6286051FD7188352EAC /* Pods-Pluto */,
+				E2F4CBDCF4D6DDB08B7938F84353B52B /* Pods-PlutoTests */,
+				2264A446A19B3EC821D6421C26AA1361 /* Pods-PlutoUITests */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		7DB346D0F39D3F0E887471402A8071AB = {
+			isa = PBXGroup;
+			children = (
+				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
+				433CD3331B6C3787F473C941B61FC68F /* Frameworks */,
+				B3BFD46E7DC9057F91B7F6F99F290FA4 /* Pods */,
+				532AB1570A1246EE6CCA380D439A3FBF /* Products */,
+				5BAF6137CC8980421BC6A241835F3C87 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		99BCA580C8C3137C76EED3391D7EB540 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				C1921C16D45E40744B69F734202CE41D /* Hue.modulemap */,
+				89FE0C5FC226B0194EC53939A633EA93 /* Hue.xcconfig */,
+				1E6A17ADCE095E734E2CD428F66B5A0F /* Hue-dummy.m */,
+				DB99902A23FDC90A59A306CAEBEF0F24 /* Hue-prefix.pch */,
+				BD55FE44411E29D7F81C7714D163949F /* Hue-umbrella.h */,
+				BA97C27512D3BA8B49CBBA9FAB923955 /* Info.plist */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Hue";
+			sourceTree = "<group>";
+		};
+		B3BFD46E7DC9057F91B7F6F99F290FA4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BD35ECC4482B2D4B47BA81C1897567FE /* Hue */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		BD35ECC4482B2D4B47BA81C1897567FE /* Hue */ = {
+			isa = PBXGroup;
+			children = (
+				A462FF50296DDF57AA922E95215295B4 /* UIColor+Hue.swift */,
+				904C5C286F7827D05D6F8593CFDE437A /* UIImage+Hue.swift */,
+				99BCA580C8C3137C76EED3391D7EB540 /* Support Files */,
+			);
+			name = Hue;
+			path = Hue;
+			sourceTree = "<group>";
+		};
+		CF2CEE5ED4F4D6286051FD7188352EAC /* Pods-Pluto */ = {
+			isa = PBXGroup;
+			children = (
+				1FAC128B808C8EEA416B6F081CEDEDC6 /* Info.plist */,
+				C906D4B11E41854A11039581332F964D /* Pods-Pluto.modulemap */,
+				0B22EE0642962BFB5CFBB9E48AE0E106 /* Pods-Pluto-acknowledgements.markdown */,
+				C0CA39B2A2C13347D7290EE0E3B24530 /* Pods-Pluto-acknowledgements.plist */,
+				674B337DDD6D5733F98F4B8EEA11489B /* Pods-Pluto-dummy.m */,
+				B4BB4120B9972629BA2CB2F1FB439F80 /* Pods-Pluto-frameworks.sh */,
+				3994B185CB2DDD5236D9B043C95F363E /* Pods-Pluto-resources.sh */,
+				939B9C28EC3338B3711789E5812CBCC3 /* Pods-Pluto-umbrella.h */,
+				482D00EC9DE8744737E064D00A3A1EB6 /* Pods-Pluto.debug.xcconfig */,
+				F108FBA05194C94B05A772D37B513727 /* Pods-Pluto.release.xcconfig */,
+			);
+			name = "Pods-Pluto";
+			path = "Target Support Files/Pods-Pluto";
+			sourceTree = "<group>";
+		};
+		E2F4CBDCF4D6DDB08B7938F84353B52B /* Pods-PlutoTests */ = {
+			isa = PBXGroup;
+			children = (
+				3F68FFFD84C64F689239B5A70EBD77C0 /* Info.plist */,
+				F6A626B0347F3C366452391CCC3DDFC8 /* Pods-PlutoTests.modulemap */,
+				E386FB58E6117A2787806C9FDA6DB1E0 /* Pods-PlutoTests-acknowledgements.markdown */,
+				466A5B214335738FB1F1C5C9157EC37F /* Pods-PlutoTests-acknowledgements.plist */,
+				183B3FBA46793FB3FD9EF00F60987CB0 /* Pods-PlutoTests-dummy.m */,
+				1B8FA92982B599BF6B2CFDAAC3554807 /* Pods-PlutoTests-frameworks.sh */,
+				680F2D066BFC79D2F96F3C27AC8FD3FA /* Pods-PlutoTests-resources.sh */,
+				DBB3EF06104B5DFC0CD5BC16C243ADA2 /* Pods-PlutoTests-umbrella.h */,
+				E7667EF056232946FF8074A8C1D41335 /* Pods-PlutoTests.debug.xcconfig */,
+				8FA3CA06B12894818A7C2AD594DEEB61 /* Pods-PlutoTests.release.xcconfig */,
+			);
+			name = "Pods-PlutoTests";
+			path = "Target Support Files/Pods-PlutoTests";
+			sourceTree = "<group>";
+		};
+		E6EE98446B568159EE277B68FD442AF0 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				616BEB51ECCAD129BDBCB7A956B56CC6 /* Foundation.framework */,
+				7EC994CDC2D681BA26389F78A7E4B325 /* UIKit.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		7E0BFEC7828CB8FC7A9743FB31FEE59C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				268C7B7D6DBAC0959418555FABE14969 /* Pods-Pluto-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C0655D4A1A5F0CEEBA95B5F35E674DE6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2AEAFD17BF57CBB3538799FF36509A7 /* Pods-PlutoTests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D30D418B027FD26231C1ECD35E6EC22C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				38763338BDEAA2B9AA52B0FC8FE6BC59 /* Pods-PlutoUITests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7A1A54E14DBFCE33CEEFA24B23A9282 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				20070C9501DA782A1D5EDCB4F75AEDE2 /* Hue-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		06C0B5D768435C7FEE4DFEB00FE7B2A3 /* Pods-PlutoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8D6358E435EE276C87902F1D2729BF66 /* Build configuration list for PBXNativeTarget "Pods-PlutoTests" */;
+			buildPhases = (
+				D6FB069C8A792A90C506BA77762BFCA1 /* Sources */,
+				657E5B18042F229F702FE7E3FAE104CF /* Frameworks */,
+				C0655D4A1A5F0CEEBA95B5F35E674DE6 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-PlutoTests";
+			productName = "Pods-PlutoTests";
+			productReference = 6ACE4AC0AFE35C1DCAAC291078DF21F9 /* Pods_PlutoTests.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		1A1CC34488767FBE30762A0229144558 /* Pods-PlutoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C787EBA449102520D38F7654E071D5FE /* Build configuration list for PBXNativeTarget "Pods-PlutoUITests" */;
+			buildPhases = (
+				5761537E3227AAF0FF132699DA50713C /* Sources */,
+				8C58C675DC092E0CC21B150D38772493 /* Frameworks */,
+				D30D418B027FD26231C1ECD35E6EC22C /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-PlutoUITests";
+			productName = "Pods-PlutoUITests";
+			productReference = 0EE7B2E24F569C0796EC136B60B34BC1 /* Pods_PlutoUITests.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		5B1927CF432743BA36DAC871BD2FC133 /* Pods-Pluto */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 62282369FD3BA7266EB9CA92E1050833 /* Build configuration list for PBXNativeTarget "Pods-Pluto" */;
+			buildPhases = (
+				479463BC7279F25832317FAF1DB61EBE /* Sources */,
+				51AFB755E9F0A80ACD76DDC5C853A95C /* Frameworks */,
+				7E0BFEC7828CB8FC7A9743FB31FEE59C /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BE8B3D4511FC7EB642302E2A01BF329B /* PBXTargetDependency */,
+			);
+			name = "Pods-Pluto";
+			productName = "Pods-Pluto";
+			productReference = C72E2D0CC47EDEF5739310DFD15E689F /* Pods_Pluto.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		B2542602E50EDF091ADB18B4688DF34F /* Hue */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C7517784A4541FCDE27289AB3A48C7E6 /* Build configuration list for PBXNativeTarget "Hue" */;
+			buildPhases = (
+				5447F17F074A6885C2DE5EA00B620E76 /* Sources */,
+				0A325AAFE109272B85689483EA39F9B2 /* Frameworks */,
+				F7A1A54E14DBFCE33CEEFA24B23A9282 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Hue;
+			productName = Hue;
+			productReference = 870E11539D35DEDB8334DEAD4315B787 /* Hue.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0700;
+			};
+			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
+			productRefGroup = 532AB1570A1246EE6CCA380D439A3FBF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B2542602E50EDF091ADB18B4688DF34F /* Hue */,
+				5B1927CF432743BA36DAC871BD2FC133 /* Pods-Pluto */,
+				06C0B5D768435C7FEE4DFEB00FE7B2A3 /* Pods-PlutoTests */,
+				1A1CC34488767FBE30762A0229144558 /* Pods-PlutoUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		479463BC7279F25832317FAF1DB61EBE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57FA0A147CF260A959BBE295250E0897 /* Pods-Pluto-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5447F17F074A6885C2DE5EA00B620E76 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70CBCB67007D356F14B8EC15118BA9E3 /* Hue-dummy.m in Sources */,
+				83790D4473D3F8965A7705C0EE1ADFC6 /* UIColor+Hue.swift in Sources */,
+				F85030977A6D1BAC697812B41A5905C7 /* UIImage+Hue.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5761537E3227AAF0FF132699DA50713C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2C832F5D103A638899EE161352D7699 /* Pods-PlutoUITests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D6FB069C8A792A90C506BA77762BFCA1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DF2E9FB9416E019E7CF7636602F7CF36 /* Pods-PlutoTests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BE8B3D4511FC7EB642302E2A01BF329B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Hue;
+			target = B2542602E50EDF091ADB18B4688DF34F /* Hue */;
+			targetProxy = 0A46A8171CFF0FF3649CB52C9F2716E8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		12914D756594D15C6F2CA12FE5F89F1B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		248ABF1629C76A0BCC668900F62E103C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E7667EF056232946FF8074A8C1D41335 /* Pods-PlutoTests.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PlutoTests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-PlutoTests/Pods-PlutoTests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PlutoTests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		299657DAB70CFAD15BDCDB5274C140DA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 549DE05322B50C781F467E463CBE9C22 /* Pods-PlutoUITests.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PlutoUITests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-PlutoUITests/Pods-PlutoUITests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PlutoUITests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		4EFA22BF168C987FF8EA5F32B99CC520 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 89FE0C5FC226B0194EC53939A633EA93 /* Hue.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Hue/Hue-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Hue/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Hue/Hue.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = Hue;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		5AF915720206EAA06EBC4954F1103359 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8FA3CA06B12894818A7C2AD594DEEB61 /* Pods-PlutoTests.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PlutoTests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-PlutoTests/Pods-PlutoTests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PlutoTests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		5FDC44B494826352ED521D80151B5EEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 482D00EC9DE8744737E064D00A3A1EB6 /* Pods-Pluto.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-Pluto/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-Pluto/Pods-Pluto.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_Pluto;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		645BDD3762DC1A951EBAC6860E08B097 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 89FE0C5FC226B0194EC53939A633EA93 /* Hue.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Hue/Hue-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Hue/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Hue/Hue.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = Hue;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		7B78AC14DE28B73FF4D68E9CA176F063 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 400A86DAC45D9DC92C315477BEF29E65 /* Pods-PlutoUITests.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PlutoUITests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-PlutoUITests/Pods-PlutoUITests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PlutoUITests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		B4CC75BF0DE67110273821EDA5700DE7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F108FBA05194C94B05A772D37B513727 /* Pods-Pluto.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-Pluto/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-Pluto/Pods-Pluto.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_Pluto;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		E72E7977875C2D251FC62736BBDDC389 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				12914D756594D15C6F2CA12FE5F89F1B /* Debug */,
+				E72E7977875C2D251FC62736BBDDC389 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		62282369FD3BA7266EB9CA92E1050833 /* Build configuration list for PBXNativeTarget "Pods-Pluto" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5FDC44B494826352ED521D80151B5EEC /* Debug */,
+				B4CC75BF0DE67110273821EDA5700DE7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8D6358E435EE276C87902F1D2729BF66 /* Build configuration list for PBXNativeTarget "Pods-PlutoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				248ABF1629C76A0BCC668900F62E103C /* Debug */,
+				5AF915720206EAA06EBC4954F1103359 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C7517784A4541FCDE27289AB3A48C7E6 /* Build configuration list for PBXNativeTarget "Hue" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				645BDD3762DC1A951EBAC6860E08B097 /* Debug */,
+				4EFA22BF168C987FF8EA5F32B99CC520 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C787EBA449102520D38F7654E071D5FE /* Build configuration list for PBXNativeTarget "Pods-PlutoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7B78AC14DE28B73FF4D68E9CA176F063 /* Debug */,
+				299657DAB70CFAD15BDCDB5274C140DA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+}
