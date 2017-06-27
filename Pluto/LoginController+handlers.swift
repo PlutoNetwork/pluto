@@ -13,10 +13,9 @@ extension LoginController {
     
     func handleLoginRegisterSegmentChange() {
         
-        // Grab the title of the selected control index and capitalize it.
-        let title = loginRegisterSegmentedControl.titleForSegment(at: loginRegisterSegmentedControl.selectedSegmentIndex)?.uppercased()
-        // Set the title to the button text.
-        loginRegisterButton.setTitle(title, for: .normal)
+        // Change the addProfilePicImageView and modify user interaction ability.
+        addProfilePicImageView.image = loginRegisterSegmentedControl.selectedSegmentIndex == 0 ? UIImage(named: "app_icon_bg_none") : UIImage(named: "add_profile_pic")
+        addProfilePicImageView.isUserInteractionEnabled = loginRegisterSegmentedControl.selectedSegmentIndex == 0 ? false : true
         
         // Change the height of inputsContainerView.
         inputsContainerViewHeightAnchor?.constant = loginRegisterSegmentedControl.selectedSegmentIndex == 0 ? 100 : 150
@@ -38,6 +37,11 @@ extension LoginController {
         passwordTextFieldHeightAnchor?.isActive = false
         passwordTextFieldHeightAnchor = passwordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: loginRegisterSegmentedControl.selectedSegmentIndex == 0 ? 1/2 : 1/3)
         passwordTextFieldHeightAnchor?.isActive = true
+        
+        // Grab the title of the selected control index and capitalize it.
+        let title = loginRegisterSegmentedControl.titleForSegment(at: loginRegisterSegmentedControl.selectedSegmentIndex)?.uppercased()
+        // Set the title to the button text.
+        loginRegisterButton.setTitle(title, for: .normal)
     }
 
     func handleLoginOrRegister() {
@@ -165,6 +169,11 @@ extension LoginController: UIImagePickerControllerDelegate, UINavigationControll
             
             // Set the selected image to the addProfilePicImageView.
             addProfilePicImageView.image = selectedImage
+            
+            // Add a corner radius to the addProfilePicImageView.
+            addProfilePicImageView.layer.cornerRadius = 15
+            // The corner radius will not take effect if the following line is not added:
+            addProfilePicImageView.layer.masksToBounds = true
         }
         
         // Dismiss the image picker.
