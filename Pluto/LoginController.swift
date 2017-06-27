@@ -9,9 +9,10 @@
 import UIKit
 import Firebase
 import FBSDKLoginKit
+import GoogleSignIn
 import Hue
 
-class LoginController: UIViewController, FBSDKLoginButtonDelegate {
+class LoginController: UIViewController, FBSDKLoginButtonDelegate, GIDSignInDelegate, GIDSignInUIDelegate {
 
     // MARK: - UI Components
     
@@ -140,7 +141,6 @@ class LoginController: UIViewController, FBSDKLoginButtonDelegate {
         }
         
         signInUsingFirebaseWithFacebook()
-        
     }
     
     func signInUsingFirebaseWithFacebook() {
@@ -197,6 +197,54 @@ class LoginController: UIViewController, FBSDKLoginButtonDelegate {
         
     }
     
+    let googleLoginButton: GIDSignInButton = {
+       
+        let button = GIDSignInButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        return button
+    }()
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        
+        if error != nil {
+            
+            print("ERROR: failed to log in with Google. Details: \(error)")
+            return
+        }
+        
+        guard let idToken = user.authentication.idToken else { return }
+        guard let accessToken = user.authentication.accessToken else { return }
+        
+        let credentials = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
+        
+        let profileImageUrl = user.profile.imageURL(withDimension: 1000).absoluteString
+        
+        // Create a dictionary of values to add to the database.
+        let values = ["name": user.profile.name,
+                      "email": user.profile.email,
+                      "profileImageUrl": profileImageUrl]
+        
+        // Authenticate with Firebase.
+        Auth.auth().signIn(with: credentials) { (user, error) in
+            
+            if error != nil {
+                
+                print("ERROR: something went wrong authenticating in Firebase with the Google user data. Details: \(error.debugDescription)")
+                return
+            }
+            
+            guard let uid = user?.uid else {
+                
+                print("ERROR: could not get user ID.")
+                return
+            }
+            
+            // Register the user to the Firebase database.
+            self.registerUserToDatabase(withUid: uid, values: values as [String : AnyObject])
+        }
+    }
+    
     // MARK: - View Configuration
     
     override func viewDidLoad() {
@@ -214,6 +262,7 @@ class LoginController: UIViewController, FBSDKLoginButtonDelegate {
         view.addSubview(inputsContainerView)
         view.addSubview(loginRegisterButton)
         view.addSubview(facebookLoginButton)
+        view.addSubview(googleLoginButton)
         
         // Set up the constraints.
         setUpProfileImageView()
@@ -223,6 +272,8 @@ class LoginController: UIViewController, FBSDKLoginButtonDelegate {
         
         // Set any needed delegates.
         facebookLoginButton.delegate = self
+        GIDSignIn.sharedInstance().delegate = self
+        GIDSignIn.sharedInstance().uiDelegate = self
         
         // We need to specifiy read permissions on the facebookLoginButton.
         facebookLoginButton.readPermissions = ["email", "public_profile"]
@@ -309,11 +360,6 @@ class LoginController: UIViewController, FBSDKLoginButtonDelegate {
         passwordTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
         passwordTextFieldHeightAnchor = passwordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3)
         passwordTextFieldHeightAnchor?.isActive = true
-        
-        // Set the delegates of the text fields.
-        nameTextField.delegate = self
-        emailTextField.delegate = self
-        passwordTextField.delegate = self
     }
     
     /**
@@ -332,12 +378,13 @@ class LoginController: UIViewController, FBSDKLoginButtonDelegate {
         facebookLoginButton.topAnchor.constraint(equalTo: loginRegisterButton.bottomAnchor, constant: 24).isActive = true
         facebookLoginButton.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
         facebookLoginButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        // Add X, Y, width, and height constraints to the googleLoginButton.
+        googleLoginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        googleLoginButton.topAnchor.constraint(equalTo: facebookLoginButton.bottomAnchor, constant: 12).isActive = true
+        googleLoginButton.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
+        googleLoginButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
-}
-
-extension LoginController: UITextFieldDelegate {
-    
-    
 }
 
 extension UIColor {
