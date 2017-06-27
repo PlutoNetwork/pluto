@@ -8,11 +8,18 @@
 
 import UIKit
 import Firebase
+import Hue
 
 class MainController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Change the background color of the view using the Hue library.
+        let gradient = [UIColor(red: 255, green: 89, blue: 49), UIColor(red: 240, green: 49, blue: 126)].gradient()
+        gradient.bounds = view.bounds
+        gradient.frame = view.frame
+        view.layer.insertSublayer(gradient, at: 0)
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
         

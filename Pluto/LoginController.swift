@@ -8,11 +8,10 @@
 
 import UIKit
 import Firebase
-import FBSDKLoginKit
 import GoogleSignIn
 import Hue
 
-class LoginController: UIViewController, FBSDKLoginButtonDelegate, GIDSignInDelegate, GIDSignInUIDelegate {
+class LoginController: UIViewController, GIDSignInUIDelegate {
 
     // MARK: - UI Components
     
@@ -112,10 +111,12 @@ class LoginController: UIViewController, FBSDKLoginButtonDelegate, GIDSignInDele
     lazy var loginRegisterButton: UIButton = {
         
         let button = UIButton(type: .system)
-        button.backgroundColor = UIColor.white
+        button.backgroundColor = UIColor.clear
+        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderWidth = 1
         button.setTitle("REGISTER", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        button.setTitleColor(UIColor.black, for: .normal)
+        button.setTitleColor(UIColor.white, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         
         button.addTarget(self, action: #selector(handleLoginOrRegister), for: .touchUpInside)
@@ -123,127 +124,33 @@ class LoginController: UIViewController, FBSDKLoginButtonDelegate, GIDSignInDele
         return button
     }()
     
-    /// This is a custom button provided by Facebook.
-    let facebookLoginButton: FBSDKLoginButton = {
+    lazy var facebookLoginButton: UIButton = {
         
-        let button = FBSDKLoginButton()
+        let button = UIButton(type: .system)
+        button.backgroundColor = UIColor(red: 59, green: 89, blue: 152)
+        button.setTitle("Login with Facebook", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.setTitleColor(UIColor.white, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+        
+        button.addTarget(self, action: #selector(handleFacebookLogin), for: .touchUpInside)
         
         return button
     }()
     
-    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-        
-        if error != nil {
-            
-            print("ERROR: there was an error logging in with Facebook. Details: \(error)")
-            return
-        }
-        
-        signInUsingFirebaseWithFacebook()
-    }
-    
-    func signInUsingFirebaseWithFacebook() {
-        
-        let accessToken = FBSDKAccessToken.current()
-        guard let accessTokenString = accessToken?.tokenString else { return }
-        let credentials = FacebookAuthProvider.credential(withAccessToken: accessTokenString)
-        
-        // Make a request to Facebook to grab the new user's data.
-        FBSDKGraphRequest(graphPath: "/me", parameters: ["fields": "id, name, email, picture.type(large)"]).start { (connection, result, error) in
-            
-            if error != nil {
-                
-                print("ERROR: failed to start graph request. Details: \(error.debugDescription)")
-                return
-            }
-            
-            let userData = result as! NSDictionary
-            
-            // Grab the user's profile picture from Facebook.
-            if let profileImageUrl = ((userData.value(forKey: "picture") as AnyObject).value(forKey: "data") as AnyObject).value(forKey: "url") as? String {
-                
-                // Create a dictionary of values to add to the database.
-                let values = ["name": userData.value(forKey: "name"),
-                              "email": userData.value(forKey: "email"),
-                              "profileImageUrl": profileImageUrl]
-            
-                // Use Firebase to sign the user in.
-                Auth.auth().signIn(with: credentials) { (user, error) in
-                    
-                    if error != nil {
-                        
-                        print("ERROR: something went wrong authenticating in Firebase with the Facebook user data. Details: \(error.debugDescription)")
-                        return
-                    }
-                    
-                    guard let uid = user?.uid else {
-                        
-                        print("ERROR: could not get user ID.")
-                        return
-                    }
-                    
-                    // Register the user to the Firebase database.
-                    self.registerUserToDatabase(withUid: uid, values: values as [String : AnyObject])
-                }
-            }
-        }
-        
-        // Dismiss the login controller.
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
-        
-    }
-    
-    let googleLoginButton: GIDSignInButton = {
+    lazy var googleLoginButton: UIButton = {
        
-        let button = GIDSignInButton()
+        let button = UIButton(type: .system)
+        button.backgroundColor = UIColor.white
+        button.setTitle("Sign in with Google", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.setTitleColor(UIColor.black, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+        
+        button.addTarget(self, action: #selector(handleGoogleSignIn), for: .touchUpInside)
         
         return button
     }()
-    
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
-        
-        if error != nil {
-            
-            print("ERROR: failed to log in with Google. Details: \(error)")
-            return
-        }
-        
-        guard let idToken = user.authentication.idToken else { return }
-        guard let accessToken = user.authentication.accessToken else { return }
-        
-        let credentials = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
-        
-        let profileImageUrl = user.profile.imageURL(withDimension: 1000).absoluteString
-        
-        // Create a dictionary of values to add to the database.
-        let values = ["name": user.profile.name,
-                      "email": user.profile.email,
-                      "profileImageUrl": profileImageUrl]
-        
-        // Authenticate with Firebase.
-        Auth.auth().signIn(with: credentials) { (user, error) in
-            
-            if error != nil {
-                
-                print("ERROR: something went wrong authenticating in Firebase with the Google user data. Details: \(error.debugDescription)")
-                return
-            }
-            
-            guard let uid = user?.uid else {
-                
-                print("ERROR: could not get user ID.")
-                return
-            }
-            
-            // Register the user to the Firebase database.
-            self.registerUserToDatabase(withUid: uid, values: values as [String : AnyObject])
-        }
-    }
     
     // MARK: - View Configuration
     
@@ -271,12 +178,8 @@ class LoginController: UIViewController, FBSDKLoginButtonDelegate, GIDSignInDele
         setUpLoginButtons()
         
         // Set any needed delegates.
-        facebookLoginButton.delegate = self
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().uiDelegate = self
-        
-        // We need to specifiy read permissions on the facebookLoginButton.
-        facebookLoginButton.readPermissions = ["email", "public_profile"]
     }
     
     /**
@@ -360,6 +263,11 @@ class LoginController: UIViewController, FBSDKLoginButtonDelegate, GIDSignInDele
         passwordTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
         passwordTextFieldHeightAnchor = passwordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3)
         passwordTextFieldHeightAnchor?.isActive = true
+        
+        // Set up text field delegates.
+        nameTextField.delegate = self
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
     }
     
     /**
@@ -384,6 +292,17 @@ class LoginController: UIViewController, FBSDKLoginButtonDelegate, GIDSignInDele
         googleLoginButton.topAnchor.constraint(equalTo: facebookLoginButton.bottomAnchor, constant: 12).isActive = true
         googleLoginButton.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
         googleLoginButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+    }
+}
+
+extension LoginController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        // Dismiss the keyboard.
+        textField.resignFirstResponder()
+        
+        return true
     }
 }
 

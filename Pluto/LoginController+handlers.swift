@@ -8,8 +8,10 @@
 
 import UIKit
 import Firebase
+import FBSDKLoginKit
+import GoogleSignIn
 
-extension LoginController {
+extension LoginController: GIDSignInDelegate {
     
     func handleLoginRegisterSegmentChange() {
         
@@ -127,7 +129,113 @@ extension LoginController {
         }
     }
     
-    func registerUserToDatabase(withUid: String, values: [String: AnyObject]) {
+    func handleFacebookLogin() {
+        
+        FBSDKLoginManager().logIn(withReadPermissions: ["email", "public_profile"], from: self) { (result, error) in
+            
+            if error != nil {
+                
+                print("ERROR: could not login with Facebook. Details: \(error.debugDescription)")
+                return
+            }
+            
+            self.signInUsingFirebaseWithFacebook()
+        }
+    }
+    
+    func signInUsingFirebaseWithFacebook() {
+        
+        let accessToken = FBSDKAccessToken.current()
+        guard let accessTokenString = accessToken?.tokenString else { return }
+        let credentials = FacebookAuthProvider.credential(withAccessToken: accessTokenString)
+        
+        // Make a request to Facebook to grab the new user's data.
+        FBSDKGraphRequest(graphPath: "/me", parameters: ["fields": "id, name, email, picture.type(large)"]).start { (connection, result, error) in
+            
+            if error != nil {
+                
+                print("ERROR: failed to start graph request. Details: \(error.debugDescription)")
+                return
+            }
+            
+            let userData = result as! NSDictionary
+            
+            // Grab the user's profile picture from Facebook.
+            if let profileImageUrl = ((userData.value(forKey: "picture") as AnyObject).value(forKey: "data") as AnyObject).value(forKey: "url") as? String {
+                
+                // Create a dictionary of values to add to the database.
+                let values = ["name": userData.value(forKey: "name"),
+                              "email": userData.value(forKey: "email"),
+                              "profileImageUrl": profileImageUrl]
+                
+                // Use Firebase to sign the user in.
+                Auth.auth().signIn(with: credentials) { (user, error) in
+                    
+                    if error != nil {
+                        
+                        print("ERROR: something went wrong authenticating in Firebase with the Facebook user data. Details: \(error.debugDescription)")
+                        return
+                    }
+                    
+                    guard let uid = user?.uid else {
+                        
+                        print("ERROR: could not get user ID.")
+                        return
+                    }
+                    
+                    // Register the user to the Firebase database.
+                    self.registerUserToDatabase(withUid: uid, values: values as [String : AnyObject])
+                }
+            }
+        }
+    }
+    
+    func handleGoogleSignIn() {
+        
+        GIDSignIn.sharedInstance().signIn()
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        
+        if error != nil {
+            
+            print("ERROR: failed to log in with Google. Details: \(error)")
+            return
+        }
+        
+        guard let idToken = user.authentication.idToken else { return }
+        guard let accessToken = user.authentication.accessToken else { return }
+        
+        let credentials = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
+        
+        let profileImageUrl = user.profile.imageURL(withDimension: 1000).absoluteString
+        
+        // Create a dictionary of values to add to the database.
+        let values = ["name": user.profile.name,
+                      "email": user.profile.email,
+                      "profileImageUrl": profileImageUrl]
+        
+        // Authenticate with Firebase.
+        Auth.auth().signIn(with: credentials) { (user, error) in
+            
+            if error != nil {
+                
+                print("ERROR: something went wrong authenticating in Firebase with the Google user data. Details: \(error.debugDescription)")
+                return
+            }
+            
+            guard let uid = user?.uid else {
+                
+                print("ERROR: could not get user ID.")
+                return
+            }
+            
+            // Register the user to the Firebase database.
+            self.registerUserToDatabase(withUid: uid, values: values as [String : AnyObject])
+        }
+    }
+    
+    private func registerUserToDatabase(withUid: String, values: [String: AnyObject]) {
         
         DataService.ds.REF_USERS.child(withUid).updateChildValues(values, withCompletionBlock: { (error, reference) in
             
