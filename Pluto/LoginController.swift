@@ -19,7 +19,7 @@ class LoginController: UIViewController {
         return .lightContent
     }
     
-    let profileImageView: UIImageView = {
+    let addProfilePicImageView: UIImageView = {
         
         let imageView = UIImageView()
         imageView.image = UIImage(named: "add_profile_pic")
@@ -117,7 +117,7 @@ class LoginController: UIViewController {
         // view.backgroundColor = UIColor.black
         
         // Add the UI components.
-        view.addSubview(profileImageView)
+        view.addSubview(addProfilePicImageView)
         view.addSubview(inputsContainerView)
         view.addSubview(loginRegisterButton)
         
@@ -133,10 +133,10 @@ class LoginController: UIViewController {
     func setUpProfileImageView() {
         
         // Add X, Y, width, and height constraints to the profileImageView.
-        profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        profileImageView.bottomAnchor.constraint(equalTo: inputsContainerView.topAnchor, constant: -12).isActive = true
-        profileImageView.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        profileImageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        addProfilePicImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        addProfilePicImageView.bottomAnchor.constraint(equalTo: inputsContainerView.topAnchor, constant: -12).isActive = true
+        addProfilePicImageView.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        addProfilePicImageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
     }
     
     /**

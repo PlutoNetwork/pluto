@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,6 +23,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Initialize a starting point for the app.
         window?.rootViewController = UINavigationController(rootViewController: LoginController())
+        
+        // Add Firebase.
+        FirebaseApp.configure()
         
         return true
     }

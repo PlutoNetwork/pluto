@@ -7,15 +7,8 @@ target 'Pluto' do
 
   # Pods for Pluto
 	pod 'Hue'
-
-  target 'PlutoTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-  target 'PlutoUITests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
+	pod 'Firebase/Core'
+	pod 'Firebase/Auth'
+	pod 'Firebase/Database'
+	pod 'Firebase/Storage'
 end

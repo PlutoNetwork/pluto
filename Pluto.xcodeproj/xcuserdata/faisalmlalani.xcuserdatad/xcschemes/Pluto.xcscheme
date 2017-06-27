@@ -28,26 +28,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "062F07E41F01C8F7008F3014"
-               BuildableName = "PlutoTests.xctest"
-               BlueprintName = "PlutoTests"
-               ReferencedContainer = "container:Pluto.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "062F07EF1F01C8F7008F3014"
-               BuildableName = "PlutoUITests.xctest"
-               BlueprintName = "PlutoUITests"
-               ReferencedContainer = "container:Pluto.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
