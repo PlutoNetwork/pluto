@@ -21,13 +21,13 @@ extension LoginController {
         inputsContainerViewHeightAnchor?.constant = loginRegisterSegmentedControl.selectedSegmentIndex == 0 ? 100 : 150
         
         // Show/hide the usernameTextField by manipulating the height anchor's multiplier.
-        usernameTextFieldHeightAnchor?.isActive = false
-        usernameTextFieldHeightAnchor = usernameTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: loginRegisterSegmentedControl.selectedSegmentIndex == 0 ? 0 : 1/3)
-        usernameTextFieldHeightAnchor?.isActive = true
+        nameTextFieldHeightAnchor?.isActive = false
+        nameTextFieldHeightAnchor = nameTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: loginRegisterSegmentedControl.selectedSegmentIndex == 0 ? 0 : 1/3)
+        nameTextFieldHeightAnchor?.isActive = true
         
-        // We also need to show/hide the placeholder text and the usernameSeperatorView.
-        usernameTextField.placeholder = loginRegisterSegmentedControl.selectedSegmentIndex == 0 ? "" : "@username"
-        usernameSeperatorView.alpha = loginRegisterSegmentedControl.selectedSegmentIndex == 0 ? 0 : 1
+        // We also need to show/hide the placeholder text and the nameSeperatorView.
+        nameTextField.placeholder = loginRegisterSegmentedControl.selectedSegmentIndex == 0 ? "" : "First + Last"
+        nameSeperatorView.alpha = loginRegisterSegmentedControl.selectedSegmentIndex == 0 ? 0 : 1
         
         // Modify the email and password fields so they take up more or less space in inputsContainerView to adjust for the usernameTextField.
         emailTextFieldHeightAnchor?.isActive = false
@@ -80,7 +80,7 @@ extension LoginController {
     
     func handleRegister() {
         
-        guard let email = emailTextField.text, let password = passwordTextField.text, let username = usernameTextField.text else {
+        guard let email = emailTextField.text, let password = passwordTextField.text, let name = nameTextField.text else {
             
             print("ERROR: the text fields are invalid.")
             return
@@ -115,7 +115,7 @@ extension LoginController {
                     if let profileImageUrl = metadata?.downloadURL()?.absoluteString {
                      
                         // Create a dictionary of values to add to the database.
-                        let values = ["username": username,
+                        let values = ["name": name,
                                       "email": email,
                                       "profileImageUrl": profileImageUrl]
                         
@@ -127,7 +127,7 @@ extension LoginController {
         }
     }
     
-    private func registerUserToDatabase(withUid: String, values: [String: AnyObject]) {
+    func registerUserToDatabase(withUid: String, values: [String: AnyObject]) {
         
         DataService.ds.REF_USERS.child(withUid).updateChildValues(values, withCompletionBlock: { (error, reference) in
             

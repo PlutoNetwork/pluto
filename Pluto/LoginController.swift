@@ -59,17 +59,17 @@ class LoginController: UIViewController, FBSDKLoginButtonDelegate {
         return view
     }()
     
-    let usernameTextField: UITextField = {
+    let nameTextField: UITextField = {
         
         let textField = UITextField()
-        textField.placeholder = "@username"
-        textField.autocapitalizationType = .none
+        textField.placeholder = "First + Last"
+        textField.autocapitalizationType = .words
         textField.translatesAutoresizingMaskIntoConstraints = false
         
         return textField
     }()
     
-    let usernameSeperatorView: UIView = {
+    let nameSeperatorView: UIView = {
         
         let view = UIView()
         view.backgroundColor = UIColor.lightGray
@@ -139,6 +139,56 @@ class LoginController: UIViewController, FBSDKLoginButtonDelegate {
             return
         }
         
+        signInUsingFirebaseWithFacebook()
+        
+    }
+    
+    func signInUsingFirebaseWithFacebook() {
+        
+        let accessToken = FBSDKAccessToken.current()
+        guard let accessTokenString = accessToken?.tokenString else { return }
+        let credentials = FacebookAuthProvider.credential(withAccessToken: accessTokenString)
+        
+        // Make a request to Facebook to grab the new user's data.
+        FBSDKGraphRequest(graphPath: "/me", parameters: ["fields": "id, name, email, picture.type(large)"]).start { (connection, result, error) in
+            
+            if error != nil {
+                
+                print("ERROR: failed to start graph request. Details: \(error.debugDescription)")
+                return
+            }
+            
+            let userData = result as! NSDictionary
+            
+            // Grab the user's profile picture from Facebook.
+            if let profileImageUrl = ((userData.value(forKey: "picture") as AnyObject).value(forKey: "data") as AnyObject).value(forKey: "url") as? String {
+                
+                // Create a dictionary of values to add to the database.
+                let values = ["name": userData.value(forKey: "name"),
+                              "email": userData.value(forKey: "email"),
+                              "profileImageUrl": profileImageUrl]
+            
+                // Use Firebase to sign the user in.
+                Auth.auth().signIn(with: credentials) { (user, error) in
+                    
+                    if error != nil {
+                        
+                        print("ERROR: something went wrong authenticating in Firebase with the Facebook user data. Details: \(error.debugDescription)")
+                        return
+                    }
+                    
+                    guard let uid = user?.uid else {
+                        
+                        print("ERROR: could not get user ID.")
+                        return
+                    }
+                    
+                    // Register the user to the Firebase database.
+                    self.registerUserToDatabase(withUid: uid, values: values as [String : AnyObject])
+                }
+            }
+        }
+        
         // Dismiss the login controller.
         self.dismiss(animated: true, completion: nil)
     }
@@ -173,6 +223,9 @@ class LoginController: UIViewController, FBSDKLoginButtonDelegate {
         
         // Set any needed delegates.
         facebookLoginButton.delegate = self
+        
+        // We need to specifiy read permissions on the facebookLoginButton.
+        facebookLoginButton.readPermissions = ["email", "public_profile"]
     }
     
     /**
@@ -201,7 +254,7 @@ class LoginController: UIViewController, FBSDKLoginButtonDelegate {
     
     // These needs to be declared here so we can change them with the segmented control.
     var inputsContainerViewHeightAnchor: NSLayoutConstraint?
-    var usernameTextFieldHeightAnchor: NSLayoutConstraint?
+    var nameTextFieldHeightAnchor: NSLayoutConstraint?
     var emailTextFieldHeightAnchor: NSLayoutConstraint?
     var passwordTextFieldHeightAnchor: NSLayoutConstraint?
     
@@ -218,28 +271,28 @@ class LoginController: UIViewController, FBSDKLoginButtonDelegate {
         inputsContainerViewHeightAnchor?.isActive = true
         
         // Add the username, email, and password fields, along with their seperators, to the view.
-        inputsContainerView.addSubview(usernameTextField)
-        inputsContainerView.addSubview(usernameSeperatorView)
+        inputsContainerView.addSubview(nameTextField)
+        inputsContainerView.addSubview(nameSeperatorView)
         inputsContainerView.addSubview(emailTextField)
         inputsContainerView.addSubview(emailSeperatorView)
         inputsContainerView.addSubview(passwordTextField)
         
-        // Add X, Y, width, and height constraints to the usernameTextField.
-        usernameTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
-        usernameTextField.topAnchor.constraint(equalTo: inputsContainerView.topAnchor).isActive = true
-        usernameTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
-        usernameTextFieldHeightAnchor = usernameTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3)
-        usernameTextFieldHeightAnchor?.isActive = true
+        // Add X, Y, width, and height constraints to the nameTextField.
+        nameTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
+        nameTextField.topAnchor.constraint(equalTo: inputsContainerView.topAnchor).isActive = true
+        nameTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
+        nameTextFieldHeightAnchor = nameTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3)
+        nameTextFieldHeightAnchor?.isActive = true
         
-        // Add X, Y, width, and height constraints to the usernameSeperatorView.
-        usernameSeperatorView.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor).isActive = true
-        usernameSeperatorView.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor).isActive = true
-        usernameSeperatorView.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
-        usernameSeperatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        // Add X, Y, width, and height constraints to the nameSeperatorView.
+        nameSeperatorView.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor).isActive = true
+        nameSeperatorView.topAnchor.constraint(equalTo: nameTextField.bottomAnchor).isActive = true
+        nameSeperatorView.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
+        nameSeperatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
         
         // Add X, Y, width, and height constraints to the emailTextField.
         emailTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
-        emailTextField.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor).isActive = true
+        emailTextField.topAnchor.constraint(equalTo: nameTextField.bottomAnchor).isActive = true
         emailTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
         emailTextFieldHeightAnchor = emailTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3)
         emailTextFieldHeightAnchor?.isActive = true
@@ -258,7 +311,7 @@ class LoginController: UIViewController, FBSDKLoginButtonDelegate {
         passwordTextFieldHeightAnchor?.isActive = true
         
         // Set the delegates of the text fields.
-        usernameTextField.delegate = self
+        nameTextField.delegate = self
         emailTextField.delegate = self
         passwordTextField.delegate = self
     }
@@ -284,14 +337,7 @@ class LoginController: UIViewController, FBSDKLoginButtonDelegate {
 
 extension LoginController: UITextFieldDelegate {
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        
-        if textField == usernameTextField {
-            
-            // Add an @ to the beginning of the username.
-            textField.text = "@"
-        }
-    }
+    
 }
 
 extension UIColor {

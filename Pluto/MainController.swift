@@ -24,11 +24,14 @@ class MainController: UIViewController {
         }
     }
     
+    /**
+        - TODO: check if the user logged in using Facebook, then log out of Facebook.
+    */
     func handleLogout() {
         
-        // Sign out using Firebase.
         do {
             
+            // Sign out using Firebase.
             try Auth.auth().signOut()
             
         } catch let error {
