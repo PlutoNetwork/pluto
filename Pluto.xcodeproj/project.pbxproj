@@ -15,6 +15,8 @@
 		06A2F14D1F01EBF700FCA614 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06A2F14C1F01EBF700FCA614 /* GoogleService-Info.plist */; };
 		06A2F1501F01F24E00FCA614 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F14F1F01F24E00FCA614 /* DataService.swift */; };
 		06A2F1521F02004100FCA614 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1511F02004100FCA614 /* MainController.swift */; };
+		06A2F1541F02216900FCA614 /* LoginController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1531F02216900FCA614 /* LoginController+handlers.swift */; };
+		06A2F1581F0229F500FCA614 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1571F0229F500FCA614 /* User.swift */; };
 		59A92D86D3E4CD59512A36D6 /* Pods_Pluto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF89C375029B119D199AE2CB /* Pods_Pluto.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +32,8 @@
 		06A2F14C1F01EBF700FCA614 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		06A2F14F1F01F24E00FCA614 /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		06A2F1511F02004100FCA614 /* MainController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
+		06A2F1531F02216900FCA614 /* LoginController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LoginController+handlers.swift"; sourceTree = "<group>"; };
+		06A2F1571F0229F500FCA614 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		2E88C97749A68A95B04F28AB /* Pods-Pluto.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pluto.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pluto/Pods-Pluto.debug.xcconfig"; sourceTree = "<group>"; };
 		46ABF12315458623F5736911 /* Pods-Pluto.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pluto.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pluto/Pods-Pluto.release.xcconfig"; sourceTree = "<group>"; };
 		CF89C375029B119D199AE2CB /* Pods_Pluto.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pluto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -74,6 +78,7 @@
 				06A2F14C1F01EBF700FCA614 /* GoogleService-Info.plist */,
 				062F07D11F01C8F6008F3014 /* AppDelegate.swift */,
 				062F08021F01CD0D008F3014 /* Controllers */,
+				06A2F1561F0229E900FCA614 /* Models */,
 				06A2F14E1F01F23400FCA614 /* Services */,
 				062F07DD1F01C8F7008F3014 /* LaunchScreen.storyboard */,
 				062F07D81F01C8F7008F3014 /* Pluto.xcdatamodeld */,
@@ -84,7 +89,7 @@
 		062F08021F01CD0D008F3014 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				062F07D31F01C8F6008F3014 /* LoginController.swift */,
+				06A2F1551F0221C000FCA614 /* LoginController */,
 				06A2F1511F02004100FCA614 /* MainController.swift */,
 			);
 			name = Controllers;
@@ -96,6 +101,23 @@
 				06A2F14F1F01F24E00FCA614 /* DataService.swift */,
 			);
 			name = Services;
+			sourceTree = "<group>";
+		};
+		06A2F1551F0221C000FCA614 /* LoginController */ = {
+			isa = PBXGroup;
+			children = (
+				062F07D31F01C8F6008F3014 /* LoginController.swift */,
+				06A2F1531F02216900FCA614 /* LoginController+handlers.swift */,
+			);
+			name = LoginController;
+			sourceTree = "<group>";
+		};
+		06A2F1561F0229E900FCA614 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				06A2F1571F0229F500FCA614 /* User.swift */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		3D8FD35569022D3F3255DC6C /* Pods */ = {
@@ -243,9 +265,11 @@
 			files = (
 				062F07D41F01C8F6008F3014 /* LoginController.swift in Sources */,
 				062F07D21F01C8F6008F3014 /* AppDelegate.swift in Sources */,
+				06A2F1541F02216900FCA614 /* LoginController+handlers.swift in Sources */,
 				062F07DA1F01C8F7008F3014 /* Pluto.xcdatamodeld in Sources */,
 				06A2F1501F01F24E00FCA614 /* DataService.swift in Sources */,
 				06A2F1521F02004100FCA614 /* MainController.swift in Sources */,
+				06A2F1581F0229F500FCA614 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

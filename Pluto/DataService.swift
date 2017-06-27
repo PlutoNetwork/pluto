@@ -34,7 +34,7 @@ class DataService {
     }
     
     // Storage references
-    private var _REF_PROFILE_PICS = STORAGE_BASE.child("profile_pics")
+    private var _REF_PROFILE_PICS = STORAGE_BASE.child("profile_pics").child("\(NSUUID().uuidString).png")
     
     var REF_PROFILE_PICS: StorageReference {
         
