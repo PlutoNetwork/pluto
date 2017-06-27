@@ -31,8 +31,28 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Pluto needs to access your photo gallery for profile picture selection, event image selection, etc.</string>
 	<key>UISupportedInterfaceOrientations</key>
-	<array>
+    	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>fb452270678470174</string>
+            </array>
+        </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>452270678470174</string>
+    <key>FacebookDisplayName</key>
+    <string>Pluto</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>fbapi</string>
+        <string>fb-messenger-api</string>
+        <string>fbauth2</string>
+        <string>fbshareextension</string>
+    </array>
 </dict>
 </plist>

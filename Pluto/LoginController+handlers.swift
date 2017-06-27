@@ -73,6 +73,7 @@ extension LoginController {
                 return
             }
             
+            // Dismiss the login controller.
             self.dismiss(animated: true, completion: nil)
         }
     }
@@ -135,6 +136,7 @@ extension LoginController {
                 print("ERROR: could not authenticate the user with Firebase. Details: \(error.debugDescription)")
             }
             
+            // Dismiss the login controller.
             self.dismiss(animated: true, completion: nil)
         })
     }

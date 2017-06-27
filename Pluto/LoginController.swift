@@ -8,9 +8,10 @@
 
 import UIKit
 import Firebase
+import FBSDKLoginKit
 import Hue
 
-class LoginController: UIViewController {
+class LoginController: UIViewController, FBSDKLoginButtonDelegate {
 
     // MARK: - UI Components
     
@@ -121,6 +122,31 @@ class LoginController: UIViewController {
         return button
     }()
     
+    /// This is a custom button provided by Facebook.
+    let facebookLoginButton: FBSDKLoginButton = {
+        
+        let button = FBSDKLoginButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        return button
+    }()
+    
+    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+        
+        if error != nil {
+            
+            print("ERROR: there was an error logging in with Facebook. Details: \(error)")
+            return
+        }
+        
+        // Dismiss the login controller.
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+        
+    }
+    
     // MARK: - View Configuration
     
     override func viewDidLoad() {
@@ -132,19 +158,21 @@ class LoginController: UIViewController {
         gradient.frame = view.frame
         view.layer.insertSublayer(gradient, at: 0)
         
-        // view.backgroundColor = UIColor.black
-        
         // Add the UI components.
         view.addSubview(addProfilePicImageView)
         view.addSubview(loginRegisterSegmentedControl)
         view.addSubview(inputsContainerView)
         view.addSubview(loginRegisterButton)
+        view.addSubview(facebookLoginButton)
         
         // Set up the constraints.
         setUpProfileImageView()
         setUpLoginRegisterSegmentedControl()
         setUpInputsContainerView()
-        setUpLoginRegisterButton()
+        setUpLoginButtons()
+        
+        // Set any needed delegates.
+        facebookLoginButton.delegate = self
     }
     
     /**
@@ -236,15 +264,21 @@ class LoginController: UIViewController {
     }
     
     /**
-     Adds constaints to the loginRegisterButton.
+     Adds constaints to the login buttons.
      */
-    func setUpLoginRegisterButton() {
+    func setUpLoginButtons() {
         
         // Add X, Y, width, and height constraints to the loginRegisterButton.
         loginRegisterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         loginRegisterButton.topAnchor.constraint(equalTo: inputsContainerView.bottomAnchor, constant: 12).isActive = true
         loginRegisterButton.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
         loginRegisterButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        // Add X, Y, width, and height constraints to the facebookLoginButton.
+        facebookLoginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        facebookLoginButton.topAnchor.constraint(equalTo: loginRegisterButton.bottomAnchor, constant: 24).isActive = true
+        facebookLoginButton.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
+        facebookLoginButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
 }
 

@@ -34,6 +34,7 @@
 		06A2F1511F02004100FCA614 /* MainController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
 		06A2F1531F02216900FCA614 /* LoginController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LoginController+handlers.swift"; sourceTree = "<group>"; };
 		06A2F1571F0229F500FCA614 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		06A2F1591F02C0B100FCA614 /* Pluto.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pluto.entitlements; sourceTree = "<group>"; };
 		2E88C97749A68A95B04F28AB /* Pods-Pluto.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pluto.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pluto/Pods-Pluto.debug.xcconfig"; sourceTree = "<group>"; };
 		46ABF12315458623F5736911 /* Pods-Pluto.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pluto.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pluto/Pods-Pluto.release.xcconfig"; sourceTree = "<group>"; };
 		CF89C375029B119D199AE2CB /* Pods_Pluto.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pluto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -73,14 +74,15 @@
 		062F07D01F01C8F6008F3014 /* Pluto */ = {
 			isa = PBXGroup;
 			children = (
+				06A2F1591F02C0B100FCA614 /* Pluto.entitlements */,
 				062F07DB1F01C8F7008F3014 /* Assets.xcassets */,
 				062F07E01F01C8F7008F3014 /* Info.plist */,
 				06A2F14C1F01EBF700FCA614 /* GoogleService-Info.plist */,
+				062F07DD1F01C8F7008F3014 /* LaunchScreen.storyboard */,
 				062F07D11F01C8F6008F3014 /* AppDelegate.swift */,
 				062F08021F01CD0D008F3014 /* Controllers */,
 				06A2F1561F0229E900FCA614 /* Models */,
 				06A2F14E1F01F23400FCA614 /* Services */,
-				062F07DD1F01C8F7008F3014 /* LaunchScreen.storyboard */,
 				062F07D81F01C8F7008F3014 /* Pluto.xcdatamodeld */,
 			);
 			path = Pluto;
@@ -176,6 +178,11 @@
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 3KFDZ263TX;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -386,6 +393,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Pluto/Pluto.entitlements;
 				DEVELOPMENT_TEAM = 3KFDZ263TX;
 				INFOPLIST_FILE = Pluto/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -402,6 +410,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Pluto/Pluto.entitlements;
 				DEVELOPMENT_TEAM = 3KFDZ263TX;
 				INFOPLIST_FILE = Pluto/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;

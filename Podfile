@@ -6,9 +6,12 @@ target 'Pluto' do
   use_frameworks!
 
   # Pods for Pluto
-	pod 'Hue'
+    pod 'FBSDKCoreKit'
+    pod 'FBSDKShareKit'
+    pod 'FBSDKLoginKit'
 	pod 'Firebase/Core'
 	pod 'Firebase/Auth'
 	pod 'Firebase/Database'
 	pod 'Firebase/Storage'
+    pod 'Hue'
 end
