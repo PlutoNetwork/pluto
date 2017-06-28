@@ -11,6 +11,14 @@ import Firebase
 
 extension MapController {
     
+    func handleSearch() {
+        
+    }
+    
+    func handleCreate() {
+        
+    }
+    
     func handleLogout() {
         
         do {

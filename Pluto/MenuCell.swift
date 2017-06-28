@@ -15,7 +15,7 @@ class MenuCell: BaseCollectionViewCell {
     let iconImageView: UIImageView = {
         
         let imgView = UIImageView()
-        imgView.image = UIImage(named: "ic_room")
+        imgView.image = UIImage(named: "ic_room_white")
         imgView.translatesAutoresizingMaskIntoConstraints = false
         
         return imgView
@@ -33,7 +33,7 @@ class MenuCell: BaseCollectionViewCell {
         super.setUpViews()
         
         // Change the background color of the cell.
-        backgroundColor = UIColor.white
+        backgroundColor = UIColor.clear
         
         // Add the UI components.
         addSubview(iconImageView)

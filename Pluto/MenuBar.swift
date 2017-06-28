@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Hue
 
 class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
@@ -16,7 +17,7 @@ class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UIC
         
         let layout = UICollectionViewFlowLayout()
         let colView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        colView.backgroundColor = UIColor.white
+        colView.backgroundColor = UIColor.clear
         colView.translatesAutoresizingMaskIntoConstraints = false
         colView.dataSource = self
         colView.delegate = self

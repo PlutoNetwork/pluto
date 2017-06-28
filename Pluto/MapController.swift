@@ -21,6 +21,21 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
         return .lightContent
     }
     
+    lazy var searchBarButtonItem: UIBarButtonItem = {
+        
+        let button = UIBarButtonItem(image: UIImage(named: "ic_search")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleSearch))
+        
+        return button
+    }()
+    
+    lazy var createBarButtonItem: UIBarButtonItem = {
+        
+        let button = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleCreate))
+        button.tintColor = UIColor.black
+        
+        return button
+    }()
+    
     let menuBar: MenuBar = {
         
         let bar = MenuBar()
@@ -65,7 +80,7 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
         super.viewDidLoad()
         
         // Change the background color of the view using the Hue library.
-        let gradient = [UIColor(red: 255, green: 89, blue: 49), UIColor(red: 240, green: 49, blue: 126)].gradient()
+        let gradient = [ORANGE_COLOR, PINK_COLOR].gradient()
         gradient.bounds = view.bounds
         gradient.frame = view.frame
         view.layer.insertSublayer(gradient, at: 0)
@@ -78,6 +93,7 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
         
         // Set up constraints for the UI components.
         setUpMenuBar()
+        setUpNavigationBarButtons()
         setUpMapView()
         
         // Set up any necessary delegates.
@@ -106,6 +122,11 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
         menuBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         menuBar.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         menuBar.heightAnchor.constraint(equalToConstant: 50).isActive = true
+    }
+    
+    func setUpNavigationBarButtons() {
+        
+        navigationItem.rightBarButtonItems = [createBarButtonItem, searchBarButtonItem]
     }
     
     func setUpMapView() {

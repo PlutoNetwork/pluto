@@ -21,6 +21,8 @@
 		06A2F15F1F03127B00FCA614 /* MapController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F15E1F03127B00FCA614 /* MapController+handlers.swift */; };
 		06A2F1631F031A3900FCA614 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1621F031A3900FCA614 /* MenuCell.swift */; };
 		06A2F1651F031AC800FCA614 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1641F031AC800FCA614 /* BaseCollectionViewCell.swift */; };
+		06A2F1681F032E5C00FCA614 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1671F032E5C00FCA614 /* Constants.swift */; };
+		06A2F16A1F03366100FCA614 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1691F03366100FCA614 /* Event.swift */; };
 		59A92D86D3E4CD59512A36D6 /* Pods_Pluto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF89C375029B119D199AE2CB /* Pods_Pluto.framework */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +45,8 @@
 		06A2F15E1F03127B00FCA614 /* MapController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MapController+handlers.swift"; sourceTree = "<group>"; };
 		06A2F1621F031A3900FCA614 /* MenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		06A2F1641F031AC800FCA614 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
+		06A2F1671F032E5C00FCA614 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		06A2F1691F03366100FCA614 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		2E88C97749A68A95B04F28AB /* Pods-Pluto.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pluto.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pluto/Pods-Pluto.debug.xcconfig"; sourceTree = "<group>"; };
 		46ABF12315458623F5736911 /* Pods-Pluto.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pluto.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pluto/Pods-Pluto.release.xcconfig"; sourceTree = "<group>"; };
 		CF89C375029B119D199AE2CB /* Pods_Pluto.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pluto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -91,6 +95,7 @@
 				062F08021F01CD0D008F3014 /* Controllers */,
 				06A2F1561F0229E900FCA614 /* Models */,
 				06A2F14E1F01F23400FCA614 /* Services */,
+				06A2F1661F032E4B00FCA614 /* Utilities */,
 				06A2F15A1F02FBC400FCA614 /* Views */,
 				062F07D81F01C8F7008F3014 /* Pluto.xcdatamodeld */,
 			);
@@ -127,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				06A2F1571F0229F500FCA614 /* User.swift */,
+				06A2F1691F03366100FCA614 /* Event.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -156,6 +162,14 @@
 				06A2F1621F031A3900FCA614 /* MenuCell.swift */,
 			);
 			name = MenuBar;
+			sourceTree = "<group>";
+		};
+		06A2F1661F032E4B00FCA614 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				06A2F1671F032E5C00FCA614 /* Constants.swift */,
+			);
+			name = Utilities;
 			sourceTree = "<group>";
 		};
 		3D8FD35569022D3F3255DC6C /* Pods */ = {
@@ -317,6 +331,8 @@
 				06A2F15F1F03127B00FCA614 /* MapController+handlers.swift in Sources */,
 				06A2F1521F02004100FCA614 /* MapController.swift in Sources */,
 				06A2F1581F0229F500FCA614 /* User.swift in Sources */,
+				06A2F1681F032E5C00FCA614 /* Constants.swift in Sources */,
+				06A2F16A1F03366100FCA614 /* Event.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
