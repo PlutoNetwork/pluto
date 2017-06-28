@@ -1,5 +1,5 @@
 //
-//  MainController+handlers.swift
+//  MapController+handlers.swift
 //  Pluto
 //
 //  Created by Faisal M. Lalani on 6/27/17.
@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-extension MainController {
+extension MapController {
     
     func handleLogout() {
         
