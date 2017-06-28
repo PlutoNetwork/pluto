@@ -59,19 +59,12 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
         return colView
     }()
     
-    let mapView: MKMapView = {
-        
-        let map = MKMapView()
-        map.translatesAutoresizingMaskIntoConstraints = false
-        
-        return map
-    }()
-    
     // MARK: - Global Variables
     
-    let cellId = "sectionCell"
-    let locationManager = CLLocationManager()
-    var mapHasCenteredOnce = false
+    let mapCellId = "mapCell"
+    let chatCellId = "chatCell"
+    let profileCellId = "profileCell"
+    let notificationsCellId = "notificationsCell"
     
     // MARK: - View Configuration
 
@@ -84,12 +77,6 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
         navigationBarTitleLabel.textColor = UIColor.black
         navigationBarTitleLabel.font = UIFont.systemFont(ofSize: 20)
         navigationItem.titleView = navigationBarTitleLabel
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        locationAuthStatus()
     }
     
     override func viewDidLoad() {
@@ -106,22 +93,17 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
         // Add the UI components.
         view.addSubview(menuBar)
         view.addSubview(collectionView)
-        //view.addSubview(mapView)
         
         // Set up constraints for the UI components.
         setUpMenuBar()
         setUpNavigationBarButtons()
         setUpCollectionView()
-        //setUpMapView()
         
         // Register a cell class in the collectionView.
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
-        
-        // Set up any necessary delegates.
-        mapView.delegate = self
-        
-        // The following line will allow the map to follow the user's location.
-        mapView.userTrackingMode = .follow
+        collectionView.register(MapCell.self, forCellWithReuseIdentifier: mapCellId)
+        collectionView.register(ChatCell.self, forCellWithReuseIdentifier: chatCellId)
+        collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: profileCellId)
+        collectionView.register(NotificationsCell.self, forCellWithReuseIdentifier: notificationsCellId)
         
         checkIfUserLoggedIn()
     }
@@ -168,15 +150,6 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
         collectionView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
     }
     
-    func setUpMapView() {
-        
-        // Add X, Y, width, and height constraints to the mapView.
-        mapView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        mapView.topAnchor.constraint(equalTo: menuBar.bottomAnchor).isActive = true
-        mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        mapView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-    }
-    
     func scrollToMenu(index: Int) {
         
         let indexPath = NSIndexPath(item: index, section: 0)
@@ -207,62 +180,29 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
+        if indexPath.item == 0 {
         
-        let colors: [UIColor] = [.green, .blue, .red, .purple]
+            let mapCell = collectionView.dequeueReusableCell(withReuseIdentifier: mapCellId, for: indexPath) as! MapCell
+         
+            return mapCell
         
-        cell.backgroundColor = colors[indexPath.item]
-        
-        return cell
-    }
-    
-    // MARK: - Map View Functions
-    
-    func locationAuthStatus() {
-        
-        // Check if the user has given permission to use their location.
-        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+        } else if indexPath.item == 1 {
             
-            // Show the user's location.
-            mapView.showsUserLocation = true
+            let chatCell = collectionView.dequeueReusableCell(withReuseIdentifier: chatCellId, for: indexPath) as! ChatCell
+            
+            return chatCell
+            
+        } else if indexPath.item == 2 {
+            
+            let profileCell = collectionView.dequeueReusableCell(withReuseIdentifier: profileCellId, for: indexPath) as! ProfileCell
+            
+            return profileCell
             
         } else {
             
-            // Request the user's location.
-            locationManager.requestWhenInUseAuthorization()
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        
-        // Check if the user has given permission to use their location.
-        if status == .authorizedWhenInUse {
+            let notificationsCell = collectionView.dequeueReusableCell(withReuseIdentifier: notificationsCellId, for: indexPath) as! NotificationsCell
             
-            // Show the user's location.
-            mapView.showsUserLocation = true
-        }
-    }
-    
-    func centerMapOnLocation(location: CLLocation) {
-        
-        // Specify a region to show.
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, 2000, 2000)
-        
-        // Show the region.
-        mapView.setRegion(coordinateRegion, animated: false)
-    }
-    
-    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        
-        // We want to zoom to the user's location, but ONLY the first time the map loads.
-        
-        if let loc = userLocation.location {
-            
-            if !mapHasCenteredOnce {
-                
-                centerMapOnLocation(location: loc)
-                mapHasCenteredOnce = true
-            }
+            return notificationsCell
         }
     }
 }
