@@ -21,6 +21,7 @@ class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UIC
         colView.translatesAutoresizingMaskIntoConstraints = false
         colView.dataSource = self
         colView.delegate = self
+        
         return colView
     }()
     
@@ -34,6 +35,8 @@ class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UIC
     }()
     
     // MARK: - Global Variables
+    
+    var mainController: MainController?
     
     let cellId = "menuBarCell"
     let cellIconImageNames = ["ic_room", "ic_forum", "ic_account_circle", "ic_dehaze"]
@@ -115,16 +118,8 @@ class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UIC
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let xValue = CGFloat(indexPath.item) * frame.width/4
-        
-        // Move the horizontalUnderlineBarView to other cells.
-        horizontalUnderlineBarViewLeftAnchor?.constant = xValue
-        
-        // Add an animation to the horizontalUnderlineBarView so it slides over when moved.
-        UIView.animate(withDuration: 0.75, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-            
-            self.layoutIfNeeded()
-            
-        }, completion: nil)
+        // Slide the horizontalUnderlineBar and the collectionView in MainController to the tab selected.
+        // The horizontalUnderlineBar is manipulated in MainController.
+        mainController?.scrollToMenu(index: indexPath.item)
     }
 }

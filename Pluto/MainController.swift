@@ -1,5 +1,5 @@
 //
-//  MapController.swift
+//  MainController.swift
 //  Pluto
 //
 //  Created by Faisal M. Lalani on 6/26/17.
@@ -11,7 +11,7 @@ import Firebase
 import Hue
 import MapKit
 
-class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
+class MainController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MKMapViewDelegate, CLLocationManagerDelegate {
     
     // MARK: - UI Components
     
@@ -36,12 +36,27 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
         return button
     }()
     
-    let menuBar: MenuBar = {
+    lazy var menuBar: MenuBar = {
         
         let bar = MenuBar()
+        bar.mainController = self
         bar.translatesAutoresizingMaskIntoConstraints = false
         
         return bar
+    }()
+    
+    lazy var collectionView: UICollectionView = {
+        
+        let layout = UICollectionViewFlowLayout()
+        let colView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        colView.backgroundColor = UIColor.clear
+        // The following line will allow us to snap the cell into place when scrolling.
+        colView.isPagingEnabled = true
+        colView.translatesAutoresizingMaskIntoConstraints = false
+        colView.dataSource = self
+        colView.delegate = self
+        
+        return colView
     }()
     
     let mapView: MKMapView = {
@@ -54,6 +69,7 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
     
     // MARK: - Global Variables
     
+    let cellId = "sectionCell"
     let locationManager = CLLocationManager()
     var mapHasCenteredOnce = false
     
@@ -89,12 +105,17 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
         
         // Add the UI components.
         view.addSubview(menuBar)
-        view.addSubview(mapView)
+        view.addSubview(collectionView)
+        //view.addSubview(mapView)
         
         // Set up constraints for the UI components.
         setUpMenuBar()
         setUpNavigationBarButtons()
-        setUpMapView()
+        setUpCollectionView()
+        //setUpMapView()
+        
+        // Register a cell class in the collectionView.
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         
         // Set up any necessary delegates.
         mapView.delegate = self
@@ -129,6 +150,24 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
         navigationItem.rightBarButtonItems = [createBarButtonItem, searchBarButtonItem]
     }
     
+    func setUpCollectionView() {
+        
+        if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            
+            // Make the collection view flow horizontally.
+            flowLayout.scrollDirection = .horizontal
+            
+            // Take out the gap between cells.
+            flowLayout.minimumLineSpacing = 0
+        }
+        
+        // Add X, Y, width, and height constraints to the collectionView.
+        collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        collectionView.topAnchor.constraint(equalTo: menuBar.bottomAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        collectionView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+    }
+    
     func setUpMapView() {
         
         // Add X, Y, width, and height constraints to the mapView.
@@ -136,6 +175,45 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
         mapView.topAnchor.constraint(equalTo: menuBar.bottomAnchor).isActive = true
         mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         mapView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+    }
+    
+    func scrollToMenu(index: Int) {
+        
+        let indexPath = NSIndexPath(item: index, section: 0)
+        
+        // Scroll to the given index in the menuBar and the collectionView.
+        collectionView.scrollToItem(at: indexPath as IndexPath, at: [], animated: true)
+    }
+    
+    // MARK: - Collection View Functions
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        // Change the menuBar's underline bar position to match the cell being shown.
+        menuBar.horizontalUnderlineBarViewLeftAnchor?.constant = scrollView.contentOffset.x/4
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        // Return a section for every menu bar tab.
+        return 4
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        // Return a size that covers the view.
+        return CGSize(width: view.frame.width, height: view.frame.height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
+        
+        let colors: [UIColor] = [.green, .blue, .red, .purple]
+        
+        cell.backgroundColor = colors[indexPath.item]
+        
+        return cell
     }
     
     // MARK: - Map View Functions

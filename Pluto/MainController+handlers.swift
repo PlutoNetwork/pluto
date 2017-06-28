@@ -1,5 +1,5 @@
 //
-//  MapController+handlers.swift
+//  MainController+handlers.swift
 //  Pluto
 //
 //  Created by Faisal M. Lalani on 6/27/17.
@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-extension MapController {
+extension MainController {
     
     func handleSearch() {
         

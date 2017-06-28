@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         // Initialize a starting point for the app.
-        window?.rootViewController = UINavigationController(rootViewController: MapController())
+        window?.rootViewController = UINavigationController(rootViewController: MainController())
         
         // Customize the navigation bar.
         UINavigationBar.appearance().barTintColor = UIColor.white
