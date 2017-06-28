@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDelegate {
+class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDelegate, UIGestureRecognizerDelegate {
     
     // MARK: - UI Components
     
@@ -22,7 +22,7 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
     }()
     
     // MARK: - Global Variables
-    
+        
     let locationManager = CLLocationManager()
     var mapHasCenteredOnce = false
     
@@ -47,6 +47,11 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
         
         // The following line will allow the map to follow the user's location.
         mapView.userTrackingMode = .follow
+        
+        // Add a long press gesture to the mapView.
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(mapViewPointLongPressed(gestureRecognizer:)))
+        longPressGesture.delegate = self
+        mapView.addGestureRecognizer(longPressGesture)
     }
     
     func setUpMapView() {
@@ -105,6 +110,26 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
                 centerMapOnLocation(location: loc)
                 mapHasCenteredOnce = true
             }
+        }
+    }
+    
+    func mapViewPointLongPressed(gestureRecognizer: UIGestureRecognizer){
+        
+        // The longPressGestureRecognizer is called twice: when it starts, and when it ends.
+        // We need to seperate these states.
+        
+        if gestureRecognizer.state == .began {
+            
+            // Create a coordinate from the point pressed.
+            let point = gestureRecognizer.location(in: mapView)
+            let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
+            
+            // Pass the coordinate to the EventDetailsController.
+            
+            
+            // Open the EventDetailsController.
+            let eventDetailsController = EventDetailsController()
+            mainController?.navigationController?.pushViewController(eventDetailsController, animated: true)
         }
     }
 }

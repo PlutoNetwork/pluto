@@ -12,6 +12,11 @@ import ImageRow
 import Firebase
 
 class EventDetailsController: FormViewController {
+    
+    // MARK: - Global Variables
+    
+    
+    // MARK: - View Configuration
 
     fileprivate func navigationBarCustomization() {
         

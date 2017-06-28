@@ -22,13 +22,6 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
         return button
     }()
     
-    lazy var createBarButtonItem: UIBarButtonItem = {
-        
-        let button = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleCreate))
-        
-        return button
-    }()
-    
     lazy var menuBar: MenuBar = {
         
         let bar = MenuBar()
@@ -122,7 +115,7 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func setUpNavigationBarButtons() {
         
-        navigationItem.rightBarButtonItems = [createBarButtonItem, searchBarButtonItem]
+        navigationItem.rightBarButtonItems = [searchBarButtonItem]
     }
     
     func setUpCollectionView() {
@@ -177,11 +170,15 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
             let mapCell = collectionView.dequeueReusableCell(withReuseIdentifier: mapCellId, for: indexPath) as! MapCell
          
+            mapCell.mainController = self
+            
             return mapCell
         
         } else if indexPath.item == 1 {
             
             let chatCell = collectionView.dequeueReusableCell(withReuseIdentifier: chatCellId, for: indexPath) as! ChatCell
+            
+            chatCell.mainController = self
             
             return chatCell
             
@@ -189,11 +186,15 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
             
             let profileCell = collectionView.dequeueReusableCell(withReuseIdentifier: profileCellId, for: indexPath) as! ProfileCell
             
+            profileCell.mainController = self
+            
             return profileCell
             
         } else {
             
             let notificationsCell = collectionView.dequeueReusableCell(withReuseIdentifier: notificationsCellId, for: indexPath) as! NotificationsCell
+            
+            notificationsCell.mainController = self
             
             return notificationsCell
         }
