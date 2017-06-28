@@ -13,16 +13,16 @@ class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UIC
     
     // MARK: - UI Components
     
-    lazy var collectionView: UICollectionView = {
+    lazy var tabsCollectionView: UICollectionView = {
         
         let layout = UICollectionViewFlowLayout()
-        let colView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        colView.backgroundColor = UIColor.clear
-        colView.translatesAutoresizingMaskIntoConstraints = false
-        colView.dataSource = self
-        colView.delegate = self
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = UIColor.clear
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.dataSource = self
+        collectionView.delegate = self
         
-        return colView
+        return collectionView
     }()
     
     let horizontalUnderlineBarView: UIView = {
@@ -50,7 +50,7 @@ class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UIC
         backgroundColor = UIColor.white
         
         // Add the UI components to the view.
-        addSubview(collectionView)
+        addSubview(tabsCollectionView)
         addSubview(horizontalUnderlineBarView)
         
         // Set up the constraints for the UI components.
@@ -58,7 +58,7 @@ class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UIC
         setUpHorizontalUnderlineBarView()
         
         // Register the custom MenuCell class for the collection view cells.
-        collectionView.register(MenuCell.self, forCellWithReuseIdentifier: cellId)
+        tabsCollectionView.register(MenuCell.self, forCellWithReuseIdentifier: cellId)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -68,11 +68,11 @@ class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UIC
     
     func setUpCollectionView() {
         
-        // Add X, Y, width, and height constraints to the collectionView.
-        collectionView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        collectionView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
-        collectionView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        // Add X, Y, width, and height constraints to the tabsCollectionView.
+        tabsCollectionView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        tabsCollectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        tabsCollectionView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        tabsCollectionView.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
     // This needs to be declared here so we can change them with when the user selects another tab in the menuBar.

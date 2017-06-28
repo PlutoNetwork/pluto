@@ -26,8 +26,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Initialize a starting point for the app.
         window?.rootViewController = UINavigationController(rootViewController: MainController())
         
+        // Change the status bar color to white.
+        UIApplication.shared.statusBarStyle = .lightContent
+        
         // Customize the navigation bar.
-        UINavigationBar.appearance().barTintColor = UIColor.white
+        UINavigationBar.appearance().barTintColor = ORANGE_COLOR
+        UINavigationBar.appearance().tintColor = UIColor.white
         // The following lines will hide the bottom border of the navigation bar.
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)

@@ -11,19 +11,13 @@ import Firebase
 import Hue
 import MapKit
 
-class MainController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MKMapViewDelegate, CLLocationManagerDelegate {
+class MainController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     // MARK: - UI Components
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        
-        // Turn the status bar white.
-        return .lightContent
-    }
-    
     lazy var searchBarButtonItem: UIBarButtonItem = {
         
-        let button = UIBarButtonItem(image: UIImage(named: "ic_search")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleSearch))
+        let button = UIBarButtonItem(image: UIImage(named: "ic_search_white")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleSearch))
         
         return button
     }()
@@ -31,7 +25,6 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
     lazy var createBarButtonItem: UIBarButtonItem = {
         
         let button = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleCreate))
-        button.tintColor = UIColor.black
         
         return button
     }()
@@ -45,18 +38,18 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
         return bar
     }()
     
-    lazy var collectionView: UICollectionView = {
+    lazy var mainCollectionView: UICollectionView = {
         
         let layout = UICollectionViewFlowLayout()
-        let colView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        colView.backgroundColor = UIColor.clear
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = UIColor.clear
         // The following line will allow us to snap the cell into place when scrolling.
-        colView.isPagingEnabled = true
-        colView.translatesAutoresizingMaskIntoConstraints = false
-        colView.dataSource = self
-        colView.delegate = self
+        collectionView.isPagingEnabled = true
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.dataSource = self
+        collectionView.delegate = self
         
-        return colView
+        return collectionView
     }()
     
     // MARK: - Global Variables
@@ -74,7 +67,7 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
         // Add a custom title view to the navigation bar.
         let navigationBarTitleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width - 32, height: view.frame.height))
         navigationBarTitleLabel.text = "  Pluto"
-        navigationBarTitleLabel.textColor = UIColor.black
+        navigationBarTitleLabel.textColor = UIColor.white
         navigationBarTitleLabel.font = UIFont.systemFont(ofSize: 20)
         navigationItem.titleView = navigationBarTitleLabel
     }
@@ -92,18 +85,18 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         // Add the UI components.
         view.addSubview(menuBar)
-        view.addSubview(collectionView)
+        view.addSubview(mainCollectionView)
         
         // Set up constraints for the UI components.
         setUpMenuBar()
         setUpNavigationBarButtons()
         setUpCollectionView()
         
-        // Register a cell class in the collectionView.
-        collectionView.register(MapCell.self, forCellWithReuseIdentifier: mapCellId)
-        collectionView.register(ChatCell.self, forCellWithReuseIdentifier: chatCellId)
-        collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: profileCellId)
-        collectionView.register(NotificationsCell.self, forCellWithReuseIdentifier: notificationsCellId)
+        // Register a cell class in the mainCollectionView.
+        mainCollectionView.register(MapCell.self, forCellWithReuseIdentifier: mapCellId)
+        mainCollectionView.register(ChatCell.self, forCellWithReuseIdentifier: chatCellId)
+        mainCollectionView.register(ProfileCell.self, forCellWithReuseIdentifier: profileCellId)
+        mainCollectionView.register(NotificationsCell.self, forCellWithReuseIdentifier: notificationsCellId)
         
         checkIfUserLoggedIn()
     }
@@ -134,28 +127,28 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func setUpCollectionView() {
         
-        if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+        if let flowLayout = mainCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             
-            // Make the collection view flow horizontally.
+            // Make the mainCollectionView flow horizontally.
             flowLayout.scrollDirection = .horizontal
             
             // Take out the gap between cells.
             flowLayout.minimumLineSpacing = 0
         }
         
-        // Add X, Y, width, and height constraints to the collectionView.
-        collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        collectionView.topAnchor.constraint(equalTo: menuBar.bottomAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        collectionView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        // Add X, Y, width, and height constraints to the mainCollectionView.
+        mainCollectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        mainCollectionView.topAnchor.constraint(equalTo: menuBar.bottomAnchor).isActive = true
+        mainCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        mainCollectionView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
     }
     
     func scrollToMenu(index: Int) {
         
         let indexPath = NSIndexPath(item: index, section: 0)
         
-        // Scroll to the given index in the menuBar and the collectionView.
-        collectionView.scrollToItem(at: indexPath as IndexPath, at: [], animated: true)
+        // Scroll to the given index in the menuBar and the mainCollectionView.
+        mainCollectionView.scrollToItem(at: indexPath as IndexPath, at: [], animated: true)
     }
     
     // MARK: - Collection View Functions

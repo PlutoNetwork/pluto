@@ -33,6 +33,19 @@ class DataService {
         return _REF_USERS
     }
     
+    var REF_CURRENT_USER: DatabaseReference {
+        
+        guard let uid = Auth.auth().currentUser?.uid else {
+            
+            print("ERROR: could not get user ID.")
+            return DatabaseReference()
+        }
+        
+        let user = REF_USERS.child(uid)
+        
+        return user
+    }
+    
     // Storage references
     private var _REF_PROFILE_PICS = STORAGE_BASE.child("profile_pics").child("\(NSUUID().uuidString).png")
     

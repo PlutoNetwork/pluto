@@ -17,6 +17,10 @@ extension MainController {
     
     func handleCreate() {
         
+        let eventDetailsController = EventDetailsController()
+        
+        // Transition to the EventDetailsController.
+        navigationController?.pushViewController(eventDetailsController, animated: true)
     }
     
     func handleLogout() {

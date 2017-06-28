@@ -15,12 +15,6 @@ class LoginController: UIViewController, GIDSignInUIDelegate {
 
     // MARK: - UI Components
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        
-        // Turn the status bar white.
-        return .lightContent
-    }
-    
     lazy var addProfilePicImageView: UIImageView = {
         
         let imageView = UIImageView()

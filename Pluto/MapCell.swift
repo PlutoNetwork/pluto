@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class MapCell: BaseCollectionViewCell, MKMapViewDelegate {
+class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDelegate {
     
     // MARK: - UI Components
     

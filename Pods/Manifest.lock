@@ -5,6 +5,7 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
+  - Eureka (3.0.0)
   - FBSDKCoreKit (4.23.0):
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.23.0):
@@ -64,8 +65,11 @@ PODS:
   - GTMSessionFetcher/Full (1.1.10):
     - GTMSessionFetcher/Core (= 1.1.10)
   - Hue (2.0.1)
+  - ImageRow (2.0.0):
+    - Eureka (= 3.0)
 
 DEPENDENCIES:
+  - Eureka (~> 3.0.0)
   - FBSDKCoreKit
   - FBSDKLoginKit
   - FBSDKShareKit
@@ -75,9 +79,11 @@ DEPENDENCIES:
   - Firebase/Storage
   - GoogleSignIn
   - Hue
+  - ImageRow
 
 SPEC CHECKSUMS:
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  Eureka: f36fd440c3ebb7bfea0a4fbe6f16a05f1cb35906
   FBSDKCoreKit: d7829f5a69901cd7296105328e4c3c3fc7da6518
   FBSDKLoginKit: 6b92bd65f319d669d2b0730e49db495ef1660566
   FBSDKShareKit: 65751c3b9937ab9d594e6c37611ecc115ceeb448
@@ -93,7 +99,8 @@ SPEC CHECKSUMS:
   GTMOAuth2: 7fc9c10f5c745f4d9850419ea88889fe3baa6b7d
   GTMSessionFetcher: 30d874b96d0d76028f61fbd122801e3f030d47db
   Hue: 354caec055fdc9d38b5ef33ca2e7224721843baf
+  ImageRow: 9dfbfa38c1e62c25d638bc40e97a48c1809443c4
 
-PODFILE CHECKSUM: 3a271312f267b8d000ccec74f0820a6dd07c556e
+PODFILE CHECKSUM: 85a95332d97d2dc2da1e3dfe6e62667400e356f7
 
 COCOAPODS: 1.1.1

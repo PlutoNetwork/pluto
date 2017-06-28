@@ -15,4 +15,6 @@ target 'Pluto' do
 	pod 'Firebase/Storage'
     pod 'GoogleSignIn'
     pod 'Hue'
+    pod 'Eureka', '~> 3.0.0'
+    pod 'ImageRow'
 end
