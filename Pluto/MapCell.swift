@@ -8,6 +8,8 @@
 
 import UIKit
 import MapKit
+import FirebaseDatabase
+import Kingfisher
 
 class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDelegate, UIGestureRecognizerDelegate {
     
@@ -25,6 +27,8 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
         
     let locationManager = CLLocationManager()
     var mapHasCenteredOnce = false
+    
+    var geoFire: GeoFire!
     
     // MARK: - View Configuration
     
@@ -52,6 +56,9 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(mapViewPointLongPressed(gestureRecognizer:)))
         longPressGesture.delegate = self
         mapView.addGestureRecognizer(longPressGesture)
+        
+        // Set up GeoFire.
+        geoFire = GeoFire(firebaseRef: DataService.ds.REF_EVENT_LOCATIONS)
     }
     
     func setUpMapView() {
@@ -61,6 +68,29 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
         mapView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         mapView.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
         mapView.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
+    }
+    
+    func showEventsOnMap(location: CLLocation) {
+        
+        // Create a query that shows events within a given radius.
+        let circleQuery = geoFire.query(at: location, withRadius: 2.5)
+        
+        // Whenever a key is found, show an event.
+        _ = circleQuery?.observe(.keyEntered, with: { (key, location) in
+            
+            // First check if the key and location exist, because the query may not find anything.
+            if let key = key, let location = location {
+                
+                EventService.sharedInstance.fetchEvents(withKey: key, completion: { (event) in
+                    
+                    // Create an annotation with the event's data.
+                    let eventAnnotation = EventAnnotation(coordinate: location.coordinate, title: event.title, imageUrl: event.imageUrl)
+                    
+                    // Add the eventAnnotation to the mapView.
+                    self.mapView.addAnnotation(eventAnnotation)
+                })
+            }
+        })
     }
     
     // MARK: - Map View Functions
@@ -111,6 +141,84 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
                 mapHasCenteredOnce = true
             }
         }
+    }
+    
+    func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+        
+        let currentLoc = CLLocation(latitude: mapView.centerCoordinate.latitude, longitude: mapView.centerCoordinate.longitude)
+        showEventsOnMap(location: currentLoc)
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        let eventAnnotationIdentifier = "event"
+        var eventAnnotationView: MKAnnotationView?
+        
+        // Create an imageView to show instead of the annotation pin.
+        let eventImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        eventImageView.contentMode = .scaleAspectFill
+        
+        eventImageView.layer.masksToBounds = true
+        
+        if annotation.isKind(of: MKUserLocation.self) {
+            
+            // This annotationView specficially refers to the user's current location.
+            eventAnnotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "User")
+            
+            // We need the user's profile picture.
+            UserService.sharedInstance.fetchUserData(completion: { (name, profileImageUrl) in
+                
+                // Set the eventAnnotationView (really the userAnnotationView)'s image to the user's profile picture.
+                // Use the Kingfisher library.
+                let url = URL(string: profileImageUrl)
+                eventImageView.kf.setImage(with: url)
+                
+                // Make the eventImageView bigger to assert the user's dominance.
+                eventImageView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+                
+                // Add the eventImageView to the eventAnnotationView.
+                eventAnnotationView?.addSubview(eventImageView)
+                
+                // Round the eventImageView with the new frame.
+                eventImageView.layer.cornerRadius = eventImageView.layer.frame.size.width/2
+                
+            })
+        } else if let deqAnnotation = mapView.dequeueReusableAnnotationView(withIdentifier: eventAnnotationIdentifier) {
+            
+            eventAnnotationView = deqAnnotation
+            eventAnnotationView?.annotation = annotation
+            
+        } else {
+            
+            let defaultAnnotation = MKAnnotationView(annotation: annotation, reuseIdentifier: eventAnnotationIdentifier)
+            defaultAnnotation.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+            eventAnnotationView = defaultAnnotation
+        }
+        
+        if let eventAnnotationView = eventAnnotationView, let eventAnnotation = annotation as? EventAnnotation {
+            
+            eventAnnotationView.canShowCallout = true
+            
+            // Create a button for directions that shows when the user taps on the annotation.
+            let mapButton = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+            mapButton.setImage(UIImage(named: "map_icon"), for: .normal)
+            eventAnnotationView.rightCalloutAccessoryView = mapButton
+            
+            // Round the eventImageView.
+            eventImageView.layer.cornerRadius = eventImageView.layer.frame.size.width / 2
+            
+            // Download each event's image using the Kingfisher library.
+            let url = URL(string: eventAnnotation.imageUrl)
+            eventImageView.kf.setImage(with: url)
+            
+            // Add the eventImageView to the eventAnnotationView.
+            eventAnnotationView.addSubview(eventImageView)
+            
+            // We can't click on the annotation anymore because the eventAnnotationView is too small, so change its size to match the eventImageView's size.
+            eventAnnotationView.frame = eventImageView.frame
+        }
+        
+        return eventAnnotationView
     }
     
     func mapViewPointLongPressed(gestureRecognizer: UIGestureRecognizer){

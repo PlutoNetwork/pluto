@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import Kingfisher
 
 class ProfileCell: BaseCollectionViewCell {
     
@@ -17,6 +18,9 @@ class ProfileCell: BaseCollectionViewCell {
         
         let imageView = UIImageView()
         imageView.image = UIImage(named: "app_icon_bg_none")
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = imageView.layer.frame.width/2
+        imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView
@@ -48,7 +52,14 @@ class ProfileCell: BaseCollectionViewCell {
         setUpProfileImageView()
         setUpNameLabel()
         
-        grabUserDataFromFirebase()
+        UserService.sharedInstance.fetchUserData(completion: { (name, profileImageUrl) in
+            
+            self.nameLabel.text = name
+            
+            // Use the Kingfisher library.
+            let url = URL(string: profileImageUrl)
+            self.profileImageView.kf.setImage(with: url)
+        })
     }
     
     func setUpProfileImageView() {
@@ -65,20 +76,5 @@ class ProfileCell: BaseCollectionViewCell {
         // Add X and Y constraints to the nameLabel.
         nameLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 12).isActive = true
-    }
-    
-    // MARK: - Data
-    
-    func grabUserDataFromFirebase() {
-        
-        // Go into the Firebase database and retrieve the current user's data.
-        DataService.ds.REF_CURRENT_USER.observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            if let user = snapshot.value as? [String: AnyObject] {
-                
-                // Set the nameLabel to the user's name.
-                self.nameLabel.text = user["name"] as? String
-            }
-        })
     }
 }

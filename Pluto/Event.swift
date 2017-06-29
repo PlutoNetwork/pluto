@@ -10,15 +10,15 @@ import Foundation
 
 class Event: NSObject {
     
-    private var _eventKey: String!
+    private var _key: String!
     private var _count: Int!
     private var _creator: String!
     private var _title: String!
-    private var _eventImageUrl: String!
+    private var _imageUrl: String!
     
-    var eventKey: String {
+    var key: String {
         
-        return _eventKey
+        return _key
     }
     
     var count: Int {
@@ -36,22 +36,22 @@ class Event: NSObject {
         return _title
     }
     
-    var eventImageUrl: String {
+    var imageUrl: String {
         
-        return _eventImageUrl
+        return _imageUrl
     }
     
-    init(count: Int, creator: String, title: String, eventImageUrl: String) {
+    init(count: Int, creator: String, title: String, imageUrl: String) {
         
         self._count = count
         self._creator = creator
         self._title = title
-        self._eventImageUrl = eventImageUrl
+        self._imageUrl = imageUrl
     }
     
     init(eventKey: String, eventData: Dictionary<String, AnyObject>) {
         
-        self._eventKey = eventKey
+        self._key = eventKey
         
         if let count = eventData["count"] as? Int {
             
@@ -68,9 +68,9 @@ class Event: NSObject {
             self._title = title
         }
         
-        if let eventImageUrl = eventData["eventImageUrl"] as? String {
+        if let imageUrl = eventData["eventImageUrl"] as? String {
             
-            self._eventImageUrl = eventImageUrl
+            self._imageUrl = imageUrl
         }
     }
 }

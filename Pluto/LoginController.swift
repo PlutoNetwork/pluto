@@ -152,7 +152,7 @@ class LoginController: UIViewController, GIDSignInUIDelegate {
         super.viewDidLoad()
         
         // Change the background color of the view using the Hue library.
-        let gradient = [UIColor(red: 255, green: 89, blue: 49), UIColor(red: 240, green: 49, blue: 126)].gradient()
+        let gradient = [ORANGE_COLOR, PINK_COLOR].gradient()
         gradient.bounds = view.bounds
         gradient.frame = view.frame
         view.layer.insertSublayer(gradient, at: 0)

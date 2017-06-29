@@ -1,19 +1,39 @@
 //
-//  UploadService.swift
+//  EventService.swift
 //  Pluto
 //
 //  Created by Faisal M. Lalani on 6/28/17.
 //  Copyright © 2017 Faisal M. Lalani. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import Firebase
 
-struct UploadService {
+struct EventService {
     
-    static let sharedInstance = UploadService()
+    static let sharedInstance = EventService()
     
-    let uid = Auth.auth().currentUser?.uid
+    func fetchEvents(withKey: String, completion: @escaping (Event) -> ()) {
+        
+        DataService.ds.REF_EVENTS.observe(.childAdded, with: { (snapshot) in
+            
+            if let eventData = snapshot.value as? [String: AnyObject] {
+                
+                let key = snapshot.key
+                
+                // Check if the key matches the parameter.
+                // We need to do this so we only download events that are in the query radius.
+                if key == withKey {
+                    
+                    // Use the data received from Firebase to create a new Event object.
+                    let event = Event(eventKey: snapshot.key, eventData: eventData)
+                    
+                    // Return the event with completion of the block.
+                    completion(event)
+                }
+            }
+        })
+    }
     
     func uploadEventImageAndCreateEvent(eventTitle: String, eventImage: UIImage, eventLocationCoordinate: CLLocationCoordinate2D) {
                 
@@ -32,7 +52,7 @@ struct UploadService {
                     
                     // Create the event.
                     self.createEvent(eventTitle: eventTitle, eventImageUrl: eventImageUrl, eventLocationCoordinate: eventLocationCoordinate)
-                }                
+                }
             })
         }
     }

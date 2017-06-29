@@ -31,7 +31,7 @@ class EventDetailsController: FormViewController, NVActivityIndicatorViewable {
         if form.validate().isEmpty {
             
             // Create the event.
-            UploadService.sharedInstance.uploadEventImageAndCreateEvent(eventTitle: eventTitle!, eventImage: eventImage!, eventLocationCoordinate: coordinate!)
+            EventService.sharedInstance.uploadEventImageAndCreateEvent(eventTitle: eventTitle!, eventImage: eventImage!, eventLocationCoordinate: coordinate!)
             
             navigationController?.popViewController(animated: true)
         }
