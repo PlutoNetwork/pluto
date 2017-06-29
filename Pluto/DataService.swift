@@ -22,6 +22,8 @@ class DataService {
     // Database references
     private var _REF_BASE = DB_BASE
     private var _REF_USERS = DB_BASE.child("users")
+    private var _REF_EVENTS = DB_BASE.child("events")
+    private var _REF_EVENT_LOCATIONS = DB_BASE.child("event_locations")
     
     var REF_BASE: DatabaseReference {
         
@@ -46,11 +48,28 @@ class DataService {
         return user
     }
     
+    var REF_EVENTS: DatabaseReference {
+        
+        return _REF_EVENTS
+    }
+    
+    var REF_EVENT_LOCATIONS: DatabaseReference {
+        
+        return _REF_EVENT_LOCATIONS
+    }
+    
     // Storage references
     private var _REF_PROFILE_PICS = STORAGE_BASE.child("profile_pics").child("\(NSUUID().uuidString).png")
     
     var REF_PROFILE_PICS: StorageReference {
         
         return _REF_PROFILE_PICS
+    }
+    
+    private var _REF_EVENT_PICS = STORAGE_BASE.child("event_pics").child("\(NSUUID().uuidString).png")
+    
+    var REF_EVENT_PICS: StorageReference {
+        
+        return _REF_EVENT_PICS
     }
 }

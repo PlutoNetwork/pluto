@@ -31,7 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Customize the navigation bar.
         UINavigationBar.appearance().barTintColor = ORANGE_COLOR
-        UINavigationBar.appearance().tintColor = UIColor.white
         // The following lines will hide the bottom border of the navigation bar.
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)

@@ -14,7 +14,7 @@ import Hue
 class LoginController: UIViewController, GIDSignInUIDelegate {
 
     // MARK: - UI Components
-    
+        
     lazy var addProfilePicImageView: UIImageView = {
         
         let imageView = UIImageView()

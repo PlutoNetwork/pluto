@@ -125,10 +125,10 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
             let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
             
             // Pass the coordinate to the EventDetailsController.
-            
+            let eventDetailsController = EventDetailsController()
+            eventDetailsController.coordinate = coordinate
             
             // Open the EventDetailsController.
-            let eventDetailsController = EventDetailsController()
             mainController?.navigationController?.pushViewController(eventDetailsController, animated: true)
         }
     }

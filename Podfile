@@ -17,4 +17,5 @@ target 'Pluto' do
     pod 'Hue'
     pod 'Eureka', '~> 3.0.0'
     pod 'ImageRow'
+    pod 'NVActivityIndicatorView'
 end

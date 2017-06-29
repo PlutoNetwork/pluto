@@ -57,6 +57,7 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
     fileprivate func navigationBarCustomization() {
         
         navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.tintColor = UIColor.white
         // Add a custom title view to the navigation bar.
         let navigationBarTitleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width - 32, height: view.frame.height))
         navigationBarTitleLabel.text = "  Pluto"
@@ -65,8 +66,15 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
         navigationItem.titleView = navigationBarTitleLabel
     }
     
+    func setUpNavigationBarButtons() {
+        
+        navigationItem.rightBarButtonItems = [searchBarButtonItem]
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setUpNavigationBarButtons()
         
         // Change the background color of the view using the Hue library.
         let gradient = [ORANGE_COLOR, PINK_COLOR].gradient()
@@ -82,7 +90,6 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         // Set up constraints for the UI components.
         setUpMenuBar()
-        setUpNavigationBarButtons()
         setUpCollectionView()
         
         // Register a cell class in the mainCollectionView.
@@ -111,11 +118,6 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
         menuBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         menuBar.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         menuBar.heightAnchor.constraint(equalToConstant: 50).isActive = true
-    }
-    
-    func setUpNavigationBarButtons() {
-        
-        navigationItem.rightBarButtonItems = [searchBarButtonItem]
     }
     
     func setUpCollectionView() {
