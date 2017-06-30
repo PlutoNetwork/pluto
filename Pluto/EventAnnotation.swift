@@ -13,11 +13,15 @@ class EventAnnotation: NSObject, MKAnnotation {
     var coordinate = CLLocationCoordinate2D()
     var title: String?
     var imageUrl: String
+    var count: Int
+    var subtitle: String?
     
-    init(coordinate: CLLocationCoordinate2D, title: String, imageUrl: String) {
+    init(coordinate: CLLocationCoordinate2D, title: String, imageUrl: String, count: Int) {
         
         self.coordinate = coordinate
         self.title = title
         self.imageUrl = imageUrl
+        self.count = count
+        self.subtitle = "\(self.count) people going"
     }
 }

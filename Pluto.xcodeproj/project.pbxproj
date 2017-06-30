@@ -36,6 +36,10 @@
 		06A2F18F1F045C4E00FCA614 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F18E1F045C4E00FCA614 /* EventService.swift */; };
 		06A2F1911F04B6A300FCA614 /* EventAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1901F04B6A300FCA614 /* EventAnnotation.swift */; };
 		06A2F1931F04BAAB00FCA614 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1921F04BAAB00FCA614 /* UserService.swift */; };
+		06A2F1951F055DEA00FCA614 /* MessagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1941F055DEA00FCA614 /* MessagesController.swift */; };
+		06A2F1981F0583C300FCA614 /* EventChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1971F0583C300FCA614 /* EventChatCell.swift */; };
+		06A2F19A1F058FF300FCA614 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1991F058FF300FCA614 /* Message.swift */; };
+		06A2F19C1F05915000FCA614 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F19B1F05915000FCA614 /* MessageService.swift */; };
 		59A92D86D3E4CD59512A36D6 /* Pods_Pluto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF89C375029B119D199AE2CB /* Pods_Pluto.framework */; };
 /* End PBXBuildFile section */
 
@@ -84,6 +88,10 @@
 		06A2F18E1F045C4E00FCA614 /* EventService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
 		06A2F1901F04B6A300FCA614 /* EventAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventAnnotation.swift; sourceTree = "<group>"; };
 		06A2F1921F04BAAB00FCA614 /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		06A2F1941F055DEA00FCA614 /* MessagesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesController.swift; sourceTree = "<group>"; };
+		06A2F1971F0583C300FCA614 /* EventChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventChatCell.swift; sourceTree = "<group>"; };
+		06A2F1991F058FF300FCA614 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		06A2F19B1F05915000FCA614 /* MessageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
 		2E88C97749A68A95B04F28AB /* Pods-Pluto.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pluto.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pluto/Pods-Pluto.debug.xcconfig"; sourceTree = "<group>"; };
 		46ABF12315458623F5736911 /* Pods-Pluto.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pluto.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pluto/Pods-Pluto.release.xcconfig"; sourceTree = "<group>"; };
 		CF89C375029B119D199AE2CB /* Pods_Pluto.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pluto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,6 +155,7 @@
 				06A2F1551F0221C000FCA614 /* LoginController */,
 				06A2F15D1F02FCBD00FCA614 /* MainController */,
 				06A2F1731F04089D00FCA614 /* EventDetailsController.swift */,
+				06A2F1941F055DEA00FCA614 /* MessagesController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -157,6 +166,7 @@
 				06A2F14F1F01F24E00FCA614 /* DataService.swift */,
 				06A2F18E1F045C4E00FCA614 /* EventService.swift */,
 				06A2F1921F04BAAB00FCA614 /* UserService.swift */,
+				06A2F19B1F05915000FCA614 /* MessageService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -176,6 +186,7 @@
 				06A2F1571F0229F500FCA614 /* User.swift */,
 				06A2F1691F03366100FCA614 /* Event.swift */,
 				06A2F1901F04B6A300FCA614 /* EventAnnotation.swift */,
+				06A2F1991F058FF300FCA614 /* Message.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -186,7 +197,7 @@
 				06A2F1641F031AC800FCA614 /* BaseCollectionViewCell.swift */,
 				06A2F1611F031A1E00FCA614 /* MenuBar */,
 				06A2F16B1F03721C00FCA614 /* MapCell.swift */,
-				06A2F16D1F037BB500FCA614 /* ChatCell.swift */,
+				06A2F1961F05839E00FCA614 /* ChatCell */,
 				06A2F16F1F037BC400FCA614 /* ProfileCell.swift */,
 				06A2F1711F037BDA00FCA614 /* NotificationsCell.swift */,
 			);
@@ -263,6 +274,15 @@
 				06A2F1871F041CAA00FCA614 /* GFQuery.m */,
 			);
 			path = Implementation;
+			sourceTree = "<group>";
+		};
+		06A2F1961F05839E00FCA614 /* ChatCell */ = {
+			isa = PBXGroup;
+			children = (
+				06A2F16D1F037BB500FCA614 /* ChatCell.swift */,
+				06A2F1971F0583C300FCA614 /* EventChatCell.swift */,
+			);
+			name = ChatCell;
 			sourceTree = "<group>";
 		};
 		3D8FD35569022D3F3255DC6C /* Pods */ = {
@@ -417,6 +437,7 @@
 				062F07D21F01C8F6008F3014 /* AppDelegate.swift in Sources */,
 				06A2F15C1F02FBD200FCA614 /* MenuBar.swift in Sources */,
 				06A2F1541F02216900FCA614 /* LoginController+handlers.swift in Sources */,
+				06A2F19A1F058FF300FCA614 /* Message.swift in Sources */,
 				06A2F1651F031AC800FCA614 /* BaseCollectionViewCell.swift in Sources */,
 				062F07DA1F01C8F7008F3014 /* Pluto.xcdatamodeld in Sources */,
 				06A2F1931F04BAAB00FCA614 /* UserService.swift in Sources */,
@@ -430,11 +451,14 @@
 				06A2F1911F04B6A300FCA614 /* EventAnnotation.swift in Sources */,
 				06A2F1631F031A3900FCA614 /* MenuCell.swift in Sources */,
 				06A2F1721F037BDA00FCA614 /* NotificationsCell.swift in Sources */,
+				06A2F1951F055DEA00FCA614 /* MessagesController.swift in Sources */,
 				06A2F15F1F03127B00FCA614 /* MainController+handlers.swift in Sources */,
 				06A2F1521F02004100FCA614 /* MainController.swift in Sources */,
+				06A2F1981F0583C300FCA614 /* EventChatCell.swift in Sources */,
 				06A2F1581F0229F500FCA614 /* User.swift in Sources */,
 				06A2F1891F041CAA00FCA614 /* GFBase32Utils.m in Sources */,
 				06A2F1701F037BC400FCA614 /* ProfileCell.swift in Sources */,
+				06A2F19C1F05915000FCA614 /* MessageService.swift in Sources */,
 				06A2F18F1F045C4E00FCA614 /* EventService.swift in Sources */,
 				06A2F1681F032E5C00FCA614 /* Constants.swift in Sources */,
 				06A2F18A1F041CAA00FCA614 /* GFGeoHash.m in Sources */,

@@ -66,7 +66,7 @@ struct EventService {
         }
         
         // Create a dictionary of values to add to the database.
-        let values = ["count": 0,
+        let values = ["count": 1,
                       "creator": uid,
                       "title": eventTitle as Any,
                       "eventImageUrl": eventImageUrl] as [String: Any]

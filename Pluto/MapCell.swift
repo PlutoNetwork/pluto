@@ -15,10 +15,11 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
     
     // MARK: - UI Components
     
-    let mapView: MKMapView = {
+    lazy var mapView: MKMapView = {
         
         let map = MKMapView()
         map.translatesAutoresizingMaskIntoConstraints = false
+        map.delegate = self
         
         return map
     }()
@@ -45,9 +46,6 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
         
         // Set up constraints for the UI components.
         setUpMapView()
-        
-        // Set up any necessary delegates.
-        mapView.delegate = self
         
         // The following line will allow the map to follow the user's location.
         mapView.userTrackingMode = .follow
@@ -84,7 +82,7 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
                 EventService.sharedInstance.fetchEvents(withKey: key, completion: { (event) in
                     
                     // Create an annotation with the event's data.
-                    let eventAnnotation = EventAnnotation(coordinate: location.coordinate, title: event.title, imageUrl: event.imageUrl)
+                    let eventAnnotation = EventAnnotation(coordinate: location.coordinate, title: event.title, imageUrl: event.imageUrl, count: event.count)
                     
                     // Add the eventAnnotation to the mapView.
                     self.mapView.addAnnotation(eventAnnotation)

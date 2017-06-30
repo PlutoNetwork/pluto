@@ -24,6 +24,8 @@ class DataService {
     private var _REF_USERS = DB_BASE.child("users")
     private var _REF_EVENTS = DB_BASE.child("events")
     private var _REF_EVENT_LOCATIONS = DB_BASE.child("event_locations")
+    private var _REF_MESSAGES = DB_BASE.child("messages")
+    private var _REF_EVENT_MESSAGES = DB_BASE.child("event_messages")
     
     var REF_BASE: DatabaseReference {
         
@@ -48,6 +50,11 @@ class DataService {
         return user
     }
     
+    var REF_CURRENT_USER_EVENTS: DatabaseReference {
+        
+        return REF_CURRENT_USER.child("events")
+    }
+    
     var REF_EVENTS: DatabaseReference {
         
         return _REF_EVENTS
@@ -56,6 +63,16 @@ class DataService {
     var REF_EVENT_LOCATIONS: DatabaseReference {
         
         return _REF_EVENT_LOCATIONS
+    }
+    
+    var REF_MESSAGES: DatabaseReference {
+        
+        return _REF_MESSAGES
+    }
+
+    var REF_EVENT_MESSAGES: DatabaseReference {
+        
+        return _REF_EVENT_MESSAGES
     }
     
     // Storage references

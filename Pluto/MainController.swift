@@ -17,7 +17,7 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     lazy var searchBarButtonItem: UIBarButtonItem = {
         
-        let button = UIBarButtonItem(image: UIImage(named: "ic_search_white")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleSearch))
+        let button = UIBarButtonItem(image: UIImage(named: "ic_search_white")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleLogout))
         
         return button
     }()
@@ -90,19 +90,13 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         // Set up constraints for the UI components.
         setUpMenuBar()
-        setUpCollectionView()
-        
-        // Register a cell class in the mainCollectionView.
-        mainCollectionView.register(MapCell.self, forCellWithReuseIdentifier: mapCellId)
-        mainCollectionView.register(ChatCell.self, forCellWithReuseIdentifier: chatCellId)
-        mainCollectionView.register(ProfileCell.self, forCellWithReuseIdentifier: profileCellId)
-        mainCollectionView.register(NotificationsCell.self, forCellWithReuseIdentifier: notificationsCellId)
+        setUpMainCollectionView()
         
         checkIfUserLoggedIn()
     }
     
     func checkIfUserLoggedIn() {
-        
+                
         // If a user is not logged in, get the hell outta here.
         if Auth.auth().currentUser?.uid == nil {
             
@@ -120,7 +114,7 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
         menuBar.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
-    func setUpCollectionView() {
+    func setUpMainCollectionView() {
         
         if let flowLayout = mainCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             
@@ -136,6 +130,17 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
         mainCollectionView.topAnchor.constraint(equalTo: menuBar.bottomAnchor).isActive = true
         mainCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         mainCollectionView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        
+        // Register cell classes in the mainCollectionView.
+        mainCollectionView.register(MapCell.self, forCellWithReuseIdentifier: mapCellId)
+        mainCollectionView.register(ChatCell.self, forCellWithReuseIdentifier: chatCellId)
+        mainCollectionView.register(ProfileCell.self, forCellWithReuseIdentifier: profileCellId)
+        mainCollectionView.register(NotificationsCell.self, forCellWithReuseIdentifier: notificationsCellId)
+        
+        // The top of each section is hidden by the menuBar. So adjust the content and the scroll.
+        let contentInset = UIEdgeInsetsMake(50, 0, 0, 0)
+        mainCollectionView.contentInset = contentInset
+        mainCollectionView.scrollIndicatorInsets = contentInset
     }
     
     func scrollToMenu(index: Int) {
