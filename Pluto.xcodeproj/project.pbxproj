@@ -40,6 +40,7 @@
 		06A2F1981F0583C300FCA614 /* EventChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1971F0583C300FCA614 /* EventChatCell.swift */; };
 		06A2F19A1F058FF300FCA614 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1991F058FF300FCA614 /* Message.swift */; };
 		06A2F19C1F05915000FCA614 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F19B1F05915000FCA614 /* MessageService.swift */; };
+		06A2F19E1F06275D00FCA614 /* MessageBubbleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F19D1F06275D00FCA614 /* MessageBubbleCell.swift */; };
 		59A92D86D3E4CD59512A36D6 /* Pods_Pluto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF89C375029B119D199AE2CB /* Pods_Pluto.framework */; };
 /* End PBXBuildFile section */
 
@@ -92,6 +93,7 @@
 		06A2F1971F0583C300FCA614 /* EventChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventChatCell.swift; sourceTree = "<group>"; };
 		06A2F1991F058FF300FCA614 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		06A2F19B1F05915000FCA614 /* MessageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
+		06A2F19D1F06275D00FCA614 /* MessageBubbleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageBubbleCell.swift; sourceTree = "<group>"; };
 		2E88C97749A68A95B04F28AB /* Pods-Pluto.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pluto.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pluto/Pods-Pluto.debug.xcconfig"; sourceTree = "<group>"; };
 		46ABF12315458623F5736911 /* Pods-Pluto.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pluto.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pluto/Pods-Pluto.release.xcconfig"; sourceTree = "<group>"; };
 		CF89C375029B119D199AE2CB /* Pods_Pluto.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pluto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -281,6 +283,7 @@
 			children = (
 				06A2F16D1F037BB500FCA614 /* ChatCell.swift */,
 				06A2F1971F0583C300FCA614 /* EventChatCell.swift */,
+				06A2F19D1F06275D00FCA614 /* MessageBubbleCell.swift */,
 			);
 			name = ChatCell;
 			sourceTree = "<group>";
@@ -444,6 +447,7 @@
 				06A2F1881F041CAA00FCA614 /* GeoFire.m in Sources */,
 				06A2F1501F01F24E00FCA614 /* DataService.swift in Sources */,
 				06A2F1741F04089D00FCA614 /* EventDetailsController.swift in Sources */,
+				06A2F19E1F06275D00FCA614 /* MessageBubbleCell.swift in Sources */,
 				06A2F18B1F041CAA00FCA614 /* GFGeoHashQuery.m in Sources */,
 				06A2F16C1F03721C00FCA614 /* MapCell.swift in Sources */,
 				06A2F16E1F037BB500FCA614 /* ChatCell.swift in Sources */,

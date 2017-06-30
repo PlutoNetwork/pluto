@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import Kingfisher
 
-class MessagesController: UICollectionViewController {
+class MessagesController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     // MARK: - UI Components
     
@@ -23,16 +23,9 @@ class MessagesController: UICollectionViewController {
         return view
     }()
     
-    let inputContainerView: UIView = {
-        
-        let view = UIView()
-        view.backgroundColor = UIColor.white
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        return view
-    }()
-    
     lazy var sendButton: UIButton = {
+        
+        // - TODO: Set the button color to gray and un-interactable when the field is blank.
         
         let button = UIButton(type: .system)
         button.setTitle("Send", for: .normal)
@@ -79,6 +72,9 @@ class MessagesController: UICollectionViewController {
                         return
                     }
                     
+                    // Clear the inputTextField.
+                    self.inputTextField.text = nil
+                    
                     // Add data to the event messages node as well. 
                     // See "fanning-out."
                     let messageId = messageChildRef.key
@@ -104,6 +100,8 @@ class MessagesController: UICollectionViewController {
     // MARK: - Global Variables
     
     var event: Event?
+    var messages = [Message]()
+    let messageCellId = "messageCellId"
     
     // MARK: - View Configuration
     
@@ -177,43 +175,140 @@ class MessagesController: UICollectionViewController {
         // Change the background color of the background.
         collectionView?.backgroundColor = UIColor.white
         
-        // Add the UI components.
-        view.addSubview(inputContainerView)
+        // Register a cell class for the collectionView.
+        collectionView?.register(MessageBubbleCell.self, forCellWithReuseIdentifier: messageCellId)
         
-        // Set up the constraints for the UI components.
-        setUpInputContainerView()
+        // Make the collectionView draggable.
+        collectionView?.alwaysBounceVertical = true
+        
+        // Add some space to the top and bottom of the collectionView.
+        collectionView?.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+        
+        // The following line will allow the user to interact with the keyboard.
+        collectionView?.keyboardDismissMode = .interactive
+        
+        DispatchQueue.global(qos: .background).async {
+        
+            MessageService.sharedInstance.observeMessages(event: self.event!) { (messages) in
+                
+                self.messages = messages
+                
+                DispatchQueue.main.async {
+                    
+                    self.collectionView?.reloadData()
+                }
+            }
+        }
     }
     
-    func setUpInputContainerView() {
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         
-        // Add X, Y, width, and height constraints to the inputContainerView.
-        inputContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        inputContainerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        inputContainerView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        inputContainerView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        // Fixes the layout and corrects it when the user rotates the device.
+        // Doesn't really matter because the app is Portrait-only, but... y'know.
+        collectionView?.collectionViewLayout.invalidateLayout()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // Not having the following line will result in a memory leak.
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    lazy var messageInputAccessoryView: UIView = {
+        
+        let inputContainerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
+        inputContainerView.translatesAutoresizingMaskIntoConstraints = false
         
         // Add UI components to the inputContainerView.
-        inputContainerView.addSubview(seperatorLineView)
-        inputContainerView.addSubview(sendButton)
-        inputContainerView.addSubview(inputTextField)
+        inputContainerView.addSubview(self.seperatorLineView)
+        inputContainerView.addSubview(self.sendButton)
+        inputContainerView.addSubview(self.inputTextField)
         
         // Add X, Y, width, and height constraints to the seperatorLineView.
-        seperatorLineView.topAnchor.constraint(equalTo: inputContainerView.topAnchor).isActive = true
-        seperatorLineView.leftAnchor.constraint(equalTo: inputContainerView.leftAnchor).isActive = true
-        seperatorLineView.widthAnchor.constraint(equalTo: inputContainerView.widthAnchor).isActive = true
-        seperatorLineView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        self.seperatorLineView.topAnchor.constraint(equalTo: inputContainerView.topAnchor).isActive = true
+        self.seperatorLineView.leftAnchor.constraint(equalTo: inputContainerView.leftAnchor).isActive = true
+        self.seperatorLineView.widthAnchor.constraint(equalTo: inputContainerView.widthAnchor).isActive = true
+        self.seperatorLineView.heightAnchor.constraint(equalToConstant: 1).isActive = true
         
         // Add X, Y, width, and height constraints to the sendButton.
-        sendButton.centerYAnchor.constraint(equalTo: inputContainerView.centerYAnchor).isActive = true
-        sendButton.rightAnchor.constraint(equalTo: inputContainerView.rightAnchor).isActive = true
-        sendButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        sendButton.heightAnchor.constraint(equalTo: inputContainerView.heightAnchor).isActive = true
+        self.sendButton.centerYAnchor.constraint(equalTo: inputContainerView.centerYAnchor).isActive = true
+        self.sendButton.rightAnchor.constraint(equalTo: inputContainerView.rightAnchor).isActive = true
+        self.sendButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        self.sendButton.heightAnchor.constraint(equalTo: inputContainerView.heightAnchor).isActive = true
         
         // Add X, Y, width, and height constraints to the inputTextField.
-        inputTextField.centerYAnchor.constraint(equalTo: inputContainerView.centerYAnchor).isActive = true
-        inputTextField.leftAnchor.constraint(equalTo: inputContainerView.leftAnchor, constant: 8).isActive = true
-        inputTextField.rightAnchor.constraint(equalTo: sendButton.leftAnchor).isActive = true
-        inputTextField.heightAnchor.constraint(equalTo: inputContainerView.heightAnchor).isActive = true
+        self.inputTextField.centerYAnchor.constraint(equalTo: inputContainerView.centerYAnchor).isActive = true
+        self.inputTextField.leftAnchor.constraint(equalTo: inputContainerView.leftAnchor, constant: 8).isActive = true
+        self.inputTextField.rightAnchor.constraint(equalTo: self.sendButton.leftAnchor).isActive = true
+        self.inputTextField.heightAnchor.constraint(equalTo: inputContainerView.heightAnchor).isActive = true
+        
+        return inputContainerView
+    }()
+    
+    // The following overrides will allow us to move the inputContainerView with the keyboard.
+    
+    override var inputAccessoryView: UIView? {
+        get {
+            
+            return messageInputAccessoryView
+        }
+    }
+    
+    override var canBecomeFirstResponder: Bool {
+        get {
+            
+            return true
+        }
+    }
+    
+    // MARK: - Collection View Functions
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        return messages.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        // Provide a default height value.
+        var height: CGFloat = 80
+        
+        // We need the height of each cell matching the text content size.
+        if let text = messages[indexPath.item].text {
+            
+            height = estimateFrameForText(text: text).height + 20 // Added 20 for padding on the bottom.
+        }
+        
+        let width = UIScreen.main.bounds.width
+        return CGSize(width: width, height: height)
+    }
+    
+    private func estimateFrameForText(text: String) -> CGRect {
+        
+        let size = CGSize(width: 200, height: 1000)
+        
+        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+        
+        return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 16)], context: nil)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let messageBubbleCell = collectionView.dequeueReusableCell(withReuseIdentifier: messageCellId, for: indexPath) as! MessageBubbleCell
+        
+        let message = messages[indexPath.item]
+        
+        // Set the messageBubbleCell's textView text as the message content.
+        messageBubbleCell.messageTextView.text = message.text
+        
+        // Set the width of the bubbleView to match the text content width.
+        if let text = message.text {
+            
+            messageBubbleCell.bubbleWidthAnchor?.constant = estimateFrameForText(text: text).width + 32 // Added the extra space b/c of cut off text problem
+        }
+        
+        return messageBubbleCell
     }
 }
 
@@ -221,7 +316,8 @@ extension MessagesController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
-        handleSend()
+        // Dismiss the keyboard.
+        textField.resignFirstResponder()
         
         return true
     }

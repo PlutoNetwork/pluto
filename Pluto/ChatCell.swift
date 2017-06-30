@@ -47,10 +47,17 @@ class ChatCell: BaseCollectionViewCell, UITableViewDelegate, UITableViewDataSour
         // Set up constraints for the UI components.
         setUpChatsTableView()
         
-        UserService.sharedInstance.fetchUserEvents { (userEvents) in
+        DispatchQueue.global(qos: .background).async {
             
-            self.userEvents = userEvents
-            self.chatsTableView.reloadData()
+            UserService.sharedInstance.fetchUserEvents { (userEvents) in
+                
+                self.userEvents = userEvents
+                
+                DispatchQueue.main.async {
+                 
+                    self.chatsTableView.reloadData()
+                }
+            }
         }
     }
     

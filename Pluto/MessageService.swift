@@ -22,6 +22,7 @@ struct MessageService {
             
             let messageId = snapshot.key
             
+            // Find all the messages under the current event.
             DataService.ds.REF_MESSAGES.child(messageId).observeSingleEvent(of: .value, with: { (snapshot) in
                 
                 if let messageData = snapshot.value as? [String: AnyObject] {
@@ -44,6 +45,30 @@ struct MessageService {
                     }
                     
                     completion(messages[0])
+                }
+            })
+        })
+    }
+    
+    func observeMessages(event: Event, completion: @escaping ([Message]) -> ()) {
+        
+        var messages = [Message]()
+        
+        DataService.ds.REF_EVENT_MESSAGES.child(event.key).observe(.childAdded, with: { (snapshot) in
+            
+            let messageId = snapshot.key
+            
+            // Find all the messages under the current event.
+            DataService.ds.REF_MESSAGES.child(messageId).observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                if let messageData = snapshot.value as? [String: AnyObject] {
+                    
+                    let message = Message(messageData: messageData)
+                    
+                    // Add the message to the array of messages to send back.
+                    messages.append(message)
+                    
+                    completion(messages)
                 }
             })
         })
