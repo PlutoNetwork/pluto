@@ -73,4 +73,28 @@ struct MessageService {
             })
         })
     }
+    
+    func updateMessages(toId: String, fromId: String, values: [String: Any], completion: @escaping () -> ()) {
+        
+        let messageChildRef = DataService.ds.REF_MESSAGES.childByAutoId()
+        
+        messageChildRef.updateChildValues(values, withCompletionBlock: { (error, reference) in
+            
+            if error != nil {
+                
+                print("ERROR: there was an error saving the message to Firebase. Details: \(error.debugDescription)")
+                return
+            }
+            
+            // Add data to the event messages node as well.
+            // See "fanning-out."
+            let messageId = messageChildRef.key
+            DataService.ds.REF_EVENT_MESSAGES.child(fromId).updateChildValues([messageId: 1])
+            
+            // We need to save the same values for the user sending the message.
+            DataService.ds.REF_EVENT_MESSAGES.child(toId).updateChildValues([messageId: 1])
+            
+            completion()
+        })
+    }
 }

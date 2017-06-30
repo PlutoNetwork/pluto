@@ -11,3 +11,4 @@ import UIKit
 // Colors
 let ORANGE_COLOR = UIColor(red: 255, green: 89, blue: 49)
 let PINK_COLOR = UIColor(red: 240, green: 49, blue: 126)
+let GRAY_COLOR = UIColor(red: 240, green: 240, blue: 240)

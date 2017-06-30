@@ -52,7 +52,7 @@ class ProfileCell: BaseCollectionViewCell {
         setUpProfileImageView()
         setUpNameLabel()
         
-        UserService.sharedInstance.fetchUserData(completion: { (name, profileImageUrl) in
+        UserService.sharedInstance.fetchCurrentUserData(completion: { (name, profileImageUrl) in
             
             self.nameLabel.text = name
             

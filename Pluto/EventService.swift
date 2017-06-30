@@ -26,7 +26,7 @@ struct EventService {
                 if key == withKey {
                     
                     // Use the data received from Firebase to create a new Event object.
-                    let event = Event(eventKey: snapshot.key, eventData: eventData)
+                    let event = Event(eventKey: key, eventData: eventData)
                     
                     // Return the event with completion of the block.
                     completion(event)
@@ -34,6 +34,63 @@ struct EventService {
             }
         })
     }
+    
+    func fetchSingleEvent(withKey: String, completion: @escaping (Event) -> ()) {
+        
+        DataService.ds.REF_EVENTS.child(withKey).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            if let eventData = snapshot.value as? [String: AnyObject] {
+                
+                let key = snapshot.key
+                
+                // Use the data received from Firebase to create a new Event object.
+                let event = Event(eventKey: key, eventData: eventData)
+                
+                // Return the event with completion of the block.
+                completion(event)
+            }
+        })
+    }
+    
+    func changeEventCount(event: Event, completion: @escaping () -> ()) {
+        
+        let eventKey = event.key
+        
+        let eventRef = DataService.ds.REF_EVENTS.child(eventKey)
+        let userEventRef = DataService.ds.REF_CURRENT_USER_EVENTS.child(eventKey)
+        
+        guard let uid = Auth.auth().currentUser?.uid else {
+            
+            print("ERROR: could not get user ID.")
+            return
+        }
+        
+        // Adjust the UI and the database to reflect whether or not the user is going to the event.
+        userEventRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            if let _ = snapshot.value as? NSNull {
+                
+                // Update the count.
+                event.adjustCount(addToCount: true)
+                
+                // Update the database.
+                userEventRef.setValue(true)
+                eventRef.child("users").child(uid).setValue(true)
+                
+            } else {
+                
+                // Update the count.
+                event.adjustCount(addToCount: false)
+                
+                // Remove the values from the database.
+                userEventRef.removeValue()
+                eventRef.child("users").child(uid).removeValue()
+            }
+            
+            completion()
+        })
+    }
+    
     
     func uploadEventImageAndCreateEvent(eventTitle: String, eventImage: UIImage, eventLocationCoordinate: CLLocationCoordinate2D) {
                 

@@ -60,29 +60,20 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
                 // We should get a timestamp too, so we know when the message was sent out.
                 let timeStamp: NSNumber = NSNumber(value: Int(Date().timeIntervalSince1970))
                 
-                let values = ["text": messageText, "toId": toId!, "fromId": fromId, "timeStamp": timeStamp] as [String : Any]
+                let values = ["text": messageText, "toId": toId!, "fromId": fromId, "timeStamp": timeStamp] as [String: Any]
                 
-                let messageChildRef = DataService.ds.REF_MESSAGES.childByAutoId()
                 
-                messageChildRef.updateChildValues(values, withCompletionBlock: { (error, reference) in
+                DispatchQueue.global(qos: .background).async {
                     
-                    if error != nil {
+                    MessageService.sharedInstance.updateMessages(toId: toId!, fromId: fromId, values: values, completion: { 
                         
-                        print("ERROR: there was an error saving the message to Firebase. Details: \(error.debugDescription)")
-                        return
-                    }
-                    
-                    // Clear the inputTextField.
-                    self.inputTextField.text = nil
-                    
-                    // Add data to the event messages node as well. 
-                    // See "fanning-out."
-                    let messageId = messageChildRef.key
-                    DataService.ds.REF_EVENT_MESSAGES.child(fromId).updateChildValues([messageId: 1])
-                    
-                    // We need to save the same values for the user sending the message.
-                    DataService.ds.REF_EVENT_MESSAGES.child(toId!).updateChildValues([messageId: 1])
-                })
+                        DispatchQueue.main.async {
+                            
+                            // Clear the inputTextField.
+                            self.inputTextField.text = nil
+                        }
+                    })
+                }
             }
         }
     }
@@ -101,6 +92,7 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
     
     var event: Event?
     var messages = [Message]()
+    var userProfileImageUrls = [String]()
     let messageCellId = "messageCellId"
     
     // MARK: - View Configuration
@@ -218,6 +210,7 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
     lazy var messageInputAccessoryView: UIView = {
         
         let inputContainerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
+        inputContainerView.backgroundColor = UIColor.white
         inputContainerView.translatesAutoresizingMaskIntoConstraints = false
         
         // Add UI components to the inputContainerView.
@@ -299,17 +292,16 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
         
         let message = messages[indexPath.item]
         
-        // Set the messageBubbleCell's textView text as the message content.
-        messageBubbleCell.messageTextView.text = message.text
-        
         // Set the width of the bubbleView to match the text content width.
         if let text = message.text {
             
             messageBubbleCell.bubbleWidthAnchor?.constant = estimateFrameForText(text: text).width + 32 // Added the extra space b/c of cut off text problem
         }
         
+        messageBubbleCell.configureCell(message: message)
+        
         return messageBubbleCell
-    }
+    }    
 }
 
 extension MessagesController: UITextFieldDelegate {

@@ -8,7 +8,7 @@
 
 import UIKit
 import MapKit
-import FirebaseDatabase
+import Firebase
 import Kingfisher
 
 class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDelegate, UIGestureRecognizerDelegate {
@@ -79,14 +79,20 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
             // First check if the key and location exist, because the query may not find anything.
             if let key = key, let location = location {
                 
-                EventService.sharedInstance.fetchEvents(withKey: key, completion: { (event) in
+                DispatchQueue.global(qos: .background).async {
                     
-                    // Create an annotation with the event's data.
-                    let eventAnnotation = EventAnnotation(coordinate: location.coordinate, title: event.title, imageUrl: event.imageUrl, count: event.count)
-                    
-                    // Add the eventAnnotation to the mapView.
-                    self.mapView.addAnnotation(eventAnnotation)
-                })
+                    EventService.sharedInstance.fetchEvents(withKey: key, completion: { (event) in
+                        
+                        DispatchQueue.main.async {
+                            
+                            // Create an annotation with the event's data.
+                            let eventAnnotation = EventAnnotation(coordinate: location.coordinate, eventKey: event.key, title: event.title, imageUrl: event.imageUrl, count: event.count)
+                            
+                            // Add the eventAnnotation to the mapView.
+                            self.mapView.addAnnotation(eventAnnotation)
+                        }
+                    })
+                }
             }
         })
     }
@@ -121,7 +127,7 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
     func centerMapOnLocation(location: CLLocation) {
         
         // Specify a region to show.
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, 2000, 2000)
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, 1500, 1500)
         
         // Show the region.
         mapView.setRegion(coordinateRegion, animated: false)
@@ -164,7 +170,7 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
             eventAnnotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "User")
             
             // We need the user's profile picture.
-            UserService.sharedInstance.fetchUserData(completion: { (name, profileImageUrl) in
+            UserService.sharedInstance.fetchCurrentUserData(completion: { (name, profileImageUrl) in
                 
                 // Set the eventAnnotationView (really the userAnnotationView)'s image to the user's profile picture.
                 // Use the Kingfisher library.
@@ -217,6 +223,31 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
         }
         
         return eventAnnotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
+        if let eventAnnotation = view.annotation as? EventAnnotation {
+            
+            let eventKey = eventAnnotation.eventKey
+            
+            DispatchQueue.global(qos: .background).async {
+                
+                // Download the event data from Firebase so we can adjust the count.
+                EventService.sharedInstance.fetchSingleEvent(withKey: eventKey) { (event) in
+                    
+                    EventService.sharedInstance.changeEventCount(event: event) {
+                        
+                        // Refresh the annotations on the map.
+                        DispatchQueue.main.async {
+                            
+                            self.mapView.removeAnnotation(eventAnnotation)
+                            self.mapView.addAnnotation(eventAnnotation)
+                        }
+                    }
+                }
+            }
+        }
     }
     
     func mapViewPointLongPressed(gestureRecognizer: UIGestureRecognizer){

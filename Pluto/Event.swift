@@ -7,8 +7,11 @@
 //
 
 import Foundation
+import Firebase
 
 class Event: NSObject {
+    
+    private var _eventRef: DatabaseReference!
     
     private var _key: String!
     private var _count: Int!
@@ -72,5 +75,22 @@ class Event: NSObject {
             
             self._imageUrl = imageUrl
         }
+        
+        _eventRef = DataService.ds.REF_EVENTS.child(_key)
+    }
+    
+    func adjustCount(addToCount: Bool) {
+        
+        if addToCount {
+            
+            _count = _count + 1
+            
+        } else {
+            
+            _count = _count - 1
+        }
+        
+        // Update the database to reflect the count change.
+        _eventRef.child("count").setValue(_count)
     }
 }

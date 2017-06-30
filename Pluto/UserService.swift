@@ -13,7 +13,7 @@ struct UserService {
     
     static let sharedInstance = UserService()
     
-    func fetchUserData(completion: @escaping (String, String) -> ()) {
+    func fetchCurrentUserData(completion: @escaping (String, String) -> ()) {
                 
         // Go into the Firebase database and retrieve the current user's data.
         DataService.ds.REF_CURRENT_USER.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -24,6 +24,23 @@ struct UserService {
                     
                     // Return the name and profileImageUrl with the completion of the block.
                     completion(name, profileImageUrl)
+                }
+            }
+        })
+    }
+    
+    func fetchUserProfileImage(withKey: String, completion: @escaping (String) -> ()) {
+    
+        let userRef = DataService.ds.REF_USERS.child(withKey)
+        
+        userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            if let user = snapshot.value as? [String: AnyObject] {
+                
+                if let profileImageUrl = user["profileImageUrl"] as? String {
+                    
+                    // Return the profileImageUrl with the completion of the block.
+                    completion(profileImageUrl)
                 }
             }
         })
