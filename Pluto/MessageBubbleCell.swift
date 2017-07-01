@@ -15,7 +15,7 @@ class MessageBubbleCell: BaseCollectionViewCell {
     let bubbleView: UIView = {
         
         let view = UIView()
-        view.backgroundColor = ORANGE_COLOR
+        view.backgroundColor = HIGHLIGHT_COLOR
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -28,7 +28,7 @@ class MessageBubbleCell: BaseCollectionViewCell {
         let textView = UITextView()
         textView.text = "Message goes here."
         textView.font = UIFont.systemFont(ofSize: 16)
-        textView.textColor = UIColor.white
+        textView.textColor = WHITE_COLOR
         textView.backgroundColor = UIColor.clear // Need this so we can see the bubble view.
         textView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -114,8 +114,7 @@ class MessageBubbleCell: BaseCollectionViewCell {
             if messageFromId == uid {
                 
                 // Since the message is from the user, make the bubbleView orange and the text white.
-                bubbleView.backgroundColor = ORANGE_COLOR
-                messageTextView.textColor = UIColor.white
+                bubbleView.backgroundColor = DARK_BLUE_COLOR
                 
                 // Move the bubble to the right.
                 bubbleRightAnchor?.isActive = true
@@ -143,8 +142,7 @@ class MessageBubbleCell: BaseCollectionViewCell {
                 }
                 
                 // Since the message is from someone else, make the bubbleView gray and the text black.
-                bubbleView.backgroundColor = GRAY_COLOR
-                messageTextView.textColor = UIColor.black
+                bubbleView.backgroundColor = LIGHT_BLUE_COLOR
                 
                 // Move the bubble to the left.
                 bubbleRightAnchor?.isActive = false

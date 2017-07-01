@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Hue
 
 class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
@@ -28,7 +27,7 @@ class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UIC
     let horizontalUnderlineBarView: UIView = {
         
         let horizontalBarView = UIView()
-        horizontalBarView.backgroundColor = UIColor.black
+        horizontalBarView.backgroundColor = LIGHT_BLUE_COLOR
         horizontalBarView.translatesAutoresizingMaskIntoConstraints = false
         
         return horizontalBarView
@@ -39,7 +38,7 @@ class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UIC
     var mainController: MainController?
     
     let cellId = "menuBarCell"
-    let cellIconImageNames = ["ic_room", "ic_forum", "ic_account_circle", "ic_dehaze"]
+    let cellIconImageNames = ["ic_room_white", "ic_forum_white"]
     
     // MARK: - View Configuration
     
@@ -47,7 +46,7 @@ class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UIC
         super.init(frame: frame)
         
         // Change the background color of the bar.
-        backgroundColor = UIColor.white
+        backgroundColor = DARK_BLUE_COLOR
         
         // Add the UI components to the view.
         addSubview(tabsCollectionView)
@@ -84,7 +83,7 @@ class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UIC
         horizontalUnderlineBarViewLeftAnchor = horizontalUnderlineBarView.leftAnchor.constraint(equalTo: self.leftAnchor)
         horizontalUnderlineBarViewLeftAnchor?.isActive = true
         horizontalUnderlineBarView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        horizontalUnderlineBarView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1/4).isActive = true
+        horizontalUnderlineBarView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1/2).isActive = true
         horizontalUnderlineBarView.heightAnchor.constraint(equalToConstant: 4).isActive = true
     }
     
@@ -92,12 +91,12 @@ class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UIC
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 4
+        return 2
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: frame.width/4, height: frame.height)
+        return CGSize(width: frame.width/2, height: frame.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

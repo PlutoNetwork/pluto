@@ -17,7 +17,7 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
     let seperatorLineView: UIView = {
         
         let view = UIView()
-        view.backgroundColor = UIColor.lightGray
+        view.backgroundColor = LIGHT_BLUE_COLOR
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
@@ -29,7 +29,7 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
         
         let button = UIButton(type: .system)
         button.setTitle("Send", for: .normal)
-        button.setTitleColor(ORANGE_COLOR, for: .normal)
+        button.setTitleColor(LIGHT_BLUE_COLOR, for: .normal)
         button.addTarget(self, action: #selector(handleSend), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         
@@ -62,6 +62,8 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
                 
                 let values = ["text": messageText, "toId": toId!, "fromId": fromId, "timeStamp": timeStamp] as [String: Any]
                 
+                // Dismiss the keyboard.
+                self.inputTextField.resignFirstResponder()
                 
                 DispatchQueue.global(qos: .background).async {
                     
@@ -81,7 +83,9 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
     lazy var inputTextField: UITextField = {
         
         let textField = UITextField()
-        textField.placeholder = "Enter message"
+        textField.attributedPlaceholder = NSAttributedString(string: "Enter message...",
+                                                               attributes: [NSForegroundColorAttributeName: LIGHT_BLUE_COLOR])
+        textField.textColor = WHITE_COLOR
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.delegate = self
        
@@ -165,7 +169,7 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
         navigationBarCustomization()
         
         // Change the background color of the background.
-        collectionView?.backgroundColor = UIColor.white
+        collectionView?.backgroundColor = HIGHLIGHT_COLOR
         
         // Register a cell class for the collectionView.
         collectionView?.register(MessageBubbleCell.self, forCellWithReuseIdentifier: messageCellId)
@@ -210,7 +214,7 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
     lazy var messageInputAccessoryView: UIView = {
         
         let inputContainerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
-        inputContainerView.backgroundColor = UIColor.white
+        inputContainerView.backgroundColor = DARK_BLUE_COLOR
         inputContainerView.translatesAutoresizingMaskIntoConstraints = false
         
         // Add UI components to the inputContainerView.

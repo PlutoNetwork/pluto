@@ -17,7 +17,7 @@ class ChatCell: BaseCollectionViewCell, UITableViewDelegate, UITableViewDataSour
     lazy var chatsTableView: UITableView = {
         
         let tableView = UITableView()
-        tableView.backgroundColor = UIColor.white
+        tableView.backgroundColor = DARK_BLUE_COLOR
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.delegate = self
         tableView.dataSource = self
@@ -74,6 +74,9 @@ class ChatCell: BaseCollectionViewCell, UITableViewDelegate, UITableViewDataSour
         
         // Hide empty cells in the chatsTableView.
         chatsTableView.tableFooterView = UIView()
+        
+        // Change the color of the seperators.
+        chatsTableView.separatorColor = LIGHT_BLUE_COLOR
     }
     
     // MARK: - Table View Functions

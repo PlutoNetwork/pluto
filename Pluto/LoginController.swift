@@ -9,7 +9,6 @@
 import UIKit
 import Firebase
 import GoogleSignIn
-import Hue
 
 class LoginController: UIViewController, GIDSignInUIDelegate {
 
@@ -151,11 +150,8 @@ class LoginController: UIViewController, GIDSignInUIDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Change the background color of the view using the Hue library.
-        let gradient = [ORANGE_COLOR, PINK_COLOR].gradient()
-        gradient.bounds = view.bounds
-        gradient.frame = view.frame
-        view.layer.insertSublayer(gradient, at: 0)
+        // Change the background color of the view.
+        view.backgroundColor = DARK_BLUE_COLOR
         
         // Add the UI components.
         view.addSubview(addProfilePicImageView)

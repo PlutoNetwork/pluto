@@ -29,7 +29,7 @@ class EventChatCell: UITableViewCell {
         let label = UILabel()
         label.text = ""
         label.font = UIFont.systemFont(ofSize: 13)
-        label.textColor = UIColor.darkGray
+        label.textColor = LIGHT_BLUE_COLOR
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -43,10 +43,16 @@ class EventChatCell: UITableViewCell {
         textLabel?.frame = CGRect(x: 64, y: textLabel!.frame.origin.y - 2, width: textLabel!.frame.width, height: textLabel!.frame.height)
         
         detailTextLabel?.frame = CGRect(x: 64, y: detailTextLabel!.frame.origin.y + 2, width: detailTextLabel!.frame.width, height: detailTextLabel!.frame.height)
+        
+        textLabel?.textColor = WHITE_COLOR
+        detailTextLabel?.textColor = WHITE_COLOR
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+        
+        // Change the background color of the cell.
+        backgroundColor = DARK_BLUE_COLOR
         
         // Add the UI components to the cell.
         addSubview(eventImageView)

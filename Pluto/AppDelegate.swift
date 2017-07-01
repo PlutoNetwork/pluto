@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.shared.statusBarStyle = .lightContent
         
         // Customize the navigation bar.
-        UINavigationBar.appearance().barTintColor = ORANGE_COLOR
+        UINavigationBar.appearance().barTintColor = DARK_BLUE_COLOR
         // The following lines will hide the bottom border of the navigation bar.
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)

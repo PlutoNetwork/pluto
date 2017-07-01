@@ -8,16 +8,15 @@
 
 import UIKit
 import Firebase
-import Hue
 import MapKit
 
 class MainController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     // MARK: - UI Components
     
-    lazy var searchBarButtonItem: UIBarButtonItem = {
+    lazy var logoutButtonItem: UIBarButtonItem = {
         
-        let button = UIBarButtonItem(image: UIImage(named: "ic_search_white")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleLogout))
+        let button = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
         
         return button
     }()
@@ -57,18 +56,18 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
     fileprivate func navigationBarCustomization() {
         
         navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.tintColor = UIColor.white
+        navigationController?.navigationBar.tintColor = WHITE_COLOR
         // Add a custom title view to the navigation bar.
         let navigationBarTitleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width - 32, height: view.frame.height))
         navigationBarTitleLabel.text = "  Pluto"
-        navigationBarTitleLabel.textColor = UIColor.white
+        navigationBarTitleLabel.textColor = WHITE_COLOR
         navigationBarTitleLabel.font = UIFont.systemFont(ofSize: 20)
         navigationItem.titleView = navigationBarTitleLabel
     }
     
     func setUpNavigationBarButtons() {
         
-        navigationItem.rightBarButtonItems = [searchBarButtonItem]
+        navigationItem.rightBarButtonItems = [logoutButtonItem]
     }
     
     override func viewDidLoad() {
@@ -76,11 +75,8 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         setUpNavigationBarButtons()
         
-        // Change the background color of the view using the Hue library.
-        let gradient = [ORANGE_COLOR, PINK_COLOR].gradient()
-        gradient.bounds = view.bounds
-        gradient.frame = view.frame
-        view.layer.insertSublayer(gradient, at: 0)
+        // Change the background color of the view.
+        view.backgroundColor = DARK_BLUE_COLOR
 
         navigationBarCustomization()
         
@@ -134,8 +130,6 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
         // Register cell classes in the mainCollectionView.
         mainCollectionView.register(MapCell.self, forCellWithReuseIdentifier: mapCellId)
         mainCollectionView.register(ChatCell.self, forCellWithReuseIdentifier: chatCellId)
-        mainCollectionView.register(ProfileCell.self, forCellWithReuseIdentifier: profileCellId)
-        mainCollectionView.register(NotificationsCell.self, forCellWithReuseIdentifier: notificationsCellId)
         
         // The top of each section is hidden by the menuBar. So adjust the content and the scroll.
         let contentInset = UIEdgeInsetsMake(50, 0, 0, 0)
@@ -156,13 +150,13 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         // Change the menuBar's underline bar position to match the cell being shown.
-        menuBar.horizontalUnderlineBarViewLeftAnchor?.constant = scrollView.contentOffset.x/4
+        menuBar.horizontalUnderlineBarViewLeftAnchor?.constant = scrollView.contentOffset.x/2
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         // Return a section for every menu bar tab.
-        return 4
+        return 2
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -188,22 +182,8 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
             chatCell.mainController = self
             
             return chatCell
-            
-        } else if indexPath.item == 2 {
-            
-            let profileCell = collectionView.dequeueReusableCell(withReuseIdentifier: profileCellId, for: indexPath) as! ProfileCell
-            
-            profileCell.mainController = self
-            
-            return profileCell
-            
-        } else {
-            
-            let notificationsCell = collectionView.dequeueReusableCell(withReuseIdentifier: notificationsCellId, for: indexPath) as! NotificationsCell
-            
-            notificationsCell.mainController = self
-            
-            return notificationsCell
         }
+        
+        return UICollectionViewCell()
     }
 }
