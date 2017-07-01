@@ -51,6 +51,8 @@ class ChatCell: BaseCollectionViewCell, UITableViewDelegate, UITableViewDataSour
             
             UserService.sharedInstance.fetchUserEvents { (userEvents) in
                 
+                self.userEvents.removeAll()
+                
                 self.userEvents = userEvents
                 
                 DispatchQueue.main.async {
@@ -128,6 +130,7 @@ class ChatCell: BaseCollectionViewCell, UITableViewDelegate, UITableViewDataSour
                         
                         eventChatCell.timeLabel.text = dateFormatter.string(from: timeStampDate)
                     }
+                    
                 }
             }
         }
@@ -145,5 +148,17 @@ class ChatCell: BaseCollectionViewCell, UITableViewDelegate, UITableViewDataSour
         
         // Open the MessagesController.
         mainController?.navigationController?.pushViewController(messagesController, animated: true)
+    }
+}
+
+extension Array where Element: Equatable {
+    
+    // Remove first collection element that is equal to the given `object`:
+    mutating func remove(object: Element) {
+        
+        if let index = index(of: object) {
+            
+            remove(at: index)
+        }
     }
 }

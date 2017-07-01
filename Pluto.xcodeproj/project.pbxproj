@@ -15,6 +15,7 @@
 		062F07DA1F01C8F7008F3014 /* Pluto.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 062F07D81F01C8F7008F3014 /* Pluto.xcdatamodeld */; };
 		062F07DC1F01C8F7008F3014 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 062F07DB1F01C8F7008F3014 /* Assets.xcassets */; };
 		062F07DF1F01C8F7008F3014 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 062F07DD1F01C8F7008F3014 /* LaunchScreen.storyboard */; };
+		064AC71E1F0843C6009B7FE0 /* ChatInputContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064AC71D1F0843C6009B7FE0 /* ChatInputContainerView.swift */; };
 		06A2F14D1F01EBF700FCA614 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06A2F14C1F01EBF700FCA614 /* GoogleService-Info.plist */; };
 		06A2F1501F01F24E00FCA614 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F14F1F01F24E00FCA614 /* DataService.swift */; };
 		06A2F1521F02004100FCA614 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1511F02004100FCA614 /* MainController.swift */; };
@@ -59,6 +60,7 @@
 		062F07DB1F01C8F7008F3014 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		062F07DE1F01C8F7008F3014 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		062F07E01F01C8F7008F3014 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		064AC71D1F0843C6009B7FE0 /* ChatInputContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInputContainerView.swift; sourceTree = "<group>"; };
 		06A2F14C1F01EBF700FCA614 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		06A2F14F1F01F24E00FCA614 /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		06A2F1511F02004100FCA614 /* MainController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
@@ -301,6 +303,7 @@
 				06A2F16D1F037BB500FCA614 /* ChatCell.swift */,
 				06A2F1971F0583C300FCA614 /* EventChatCell.swift */,
 				06A2F19D1F06275D00FCA614 /* MessageBubbleCell.swift */,
+				064AC71D1F0843C6009B7FE0 /* ChatInputContainerView.swift */,
 			);
 			name = ChatCell;
 			sourceTree = "<group>";
@@ -490,6 +493,7 @@
 				06A2F1681F032E5C00FCA614 /* Constants.swift in Sources */,
 				06A2F18A1F041CAA00FCA614 /* GFGeoHash.m in Sources */,
 				06A2F16A1F03366100FCA614 /* Event.swift in Sources */,
+				064AC71E1F0843C6009B7FE0 /* ChatInputContainerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

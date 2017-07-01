@@ -59,7 +59,7 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
         navigationController?.navigationBar.tintColor = WHITE_COLOR
         // Add a custom title view to the navigation bar.
         let navigationBarTitleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width - 32, height: view.frame.height))
-        navigationBarTitleLabel.text = "Pluto Beta - Version 0.1"
+        navigationBarTitleLabel.text = "Pluto - Beta"
         navigationBarTitleLabel.textColor = WHITE_COLOR
         navigationBarTitleLabel.font = UIFont.systemFont(ofSize: 20)
         navigationItem.titleView = navigationBarTitleLabel

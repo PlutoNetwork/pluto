@@ -1,61 +1,63 @@
-let functions = require('firebase-functions');
-let admin = require('firebase-admin');
-admin.initializeApp(functions.config().firebase);
+// let functions = require('firebase-functions');
+// let admin = require('firebase-admin');
+// admin.initializeApp(functions.config().firebase);
 
-exports.sendPush = functions.database.ref('/messages/{messageId}').onWrite(event => {
+// let userEventsRef = functions.database.ref('/users/{userId}/events')
 
-    let messageStateChanged = false;
-    let messageCreated = false;
-    let messageData = event.data.val();
+// exports.sendPush = functions.database.ref('/event_messages/{eventId}').onWrite(event => {
 
-    if (!event.data.previous.exists()) {
+//     let messageStateChanged = false;
+//     let messageCreated = false;
+//     let messageData = event.data.val();
 
-        messageCreated = true;
-    }
-    if (!messageCreated && event.data.changed()) {
+//     if (!event.data.previous.exists()) {
 
-        messageStateChanged = true;
-    }
+//         messageCreated = true;
+//     }
+//     if (!messageCreated && event.data.changed()) {
 
-    let msg = 'You have received a message.';
+//         messageStateChanged = true;
+//     }
 
-		if (messageCreated) {
+//     let msg = 'You have received a message.';
 
-			msg = `${messageData.text}`;
-		}
+// 		if (messageCreated) {
 
-    return loadUsers().then(users => {
+// 			msg = `${messageData.text}`;
+// 		}
 
-        let tokens = [];
-        for (let user of users) {
-            tokens.push(user.pushToken);
-        }
-        let payload = {
-            notification: {
-                title: 'New Event Message',
-                body: msg,
-                sound: 'default',
-                badge: '1'
-            }
-        };
-        return admin.messaging().sendToDevice(tokens, payload);
-    });
-});
+//     return loadUsers().then(users => {
 
-function loadUsers() {
+//         let tokens = [];
+//         for (let user of users) {
+//             tokens.push(user.pushToken);
+//         }
+//         let payload = {
+//             notification: {
+//                 title: 'New Event Message',
+//                 body: msg,
+//                 sound: 'default',
+//                 badge: '1'
+//             }
+//         };
+//         return admin.messaging().sendToDevice(tokens, payload);
+//     });
+// });
 
-    let dbRef = admin.database().ref('/users');
-    let defer = new Promise((resolve, reject) => {
-        dbRef.once('value', (snap) => {
-            let data = snap.val();
-            let users = [];
-            for (var property in data) {
-                users.push(data[property]);
-            }
-            resolve(users);
-        }, (err) => {
-            reject(err);
-        });
-    });
-    return defer;
-}
+// function loadUsers() {
+
+//     let dbRef = admin.database().ref('/users');
+//     let defer = new Promise((resolve, reject) => {
+//         dbRef.once('value', (snap) => {
+//             let data = snap.val();
+//             let users = [];
+//             for (var property in data) {
+//                 users.push(data[property]);
+//             }
+//             resolve(users);
+//         }, (err) => {
+//             reject(err);
+//         });
+//     });
+//     return defer;
+// }

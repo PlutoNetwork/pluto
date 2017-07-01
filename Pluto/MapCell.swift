@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 import Firebase
 import Kingfisher
+import BadgeSwift
 
 class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDelegate, UIGestureRecognizerDelegate {
     
@@ -25,8 +26,8 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
     }()
     
     // MARK: - Global Variables
-        
-    let locationManager = CLLocationManager()
+    
+    var locationManager = CLLocationManager()
     var mapHasCenteredOnce = false
     
     var geoFire: GeoFire!
@@ -40,6 +41,9 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
         backgroundColor = .clear
         
         locationAuthStatus()
+        
+        // Set up the location manager.
+        setUpLocationManager()
         
         // Add the UI components.
         addSubview(mapView)
@@ -68,8 +72,18 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
         mapView.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
     }
     
-    func showEventsOnMap(location: CLLocation) {
+    func setUpLocationManager() {
         
+        locationManager = CLLocationManager()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
+        locationManager.distanceFilter = 50
+        locationManager.startUpdatingLocation()
+        locationManager.delegate = self
+    }
+    
+    func showEventsOnMap(location: CLLocation) {
+    
         // Create a query that shows events within a given radius.
         let circleQuery = geoFire.query(at: location, withRadius: 2.5)
         
@@ -83,14 +97,18 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
                     
                     EventService.sharedInstance.fetchEvents(withKey: key, completion: { (event) in
                         
-                        DispatchQueue.main.async {
+                        // Check if the user is the event creator.
+                        EventService.sharedInstance.checkIfUserIsGoingToEvent(withKey: key, completion: { (isUserGoing) in
                             
-                            // Create an annotation with the event's data.
-                            let eventAnnotation = EventAnnotation(coordinate: location.coordinate, eventKey: event.key, title: event.title, image: event.image, count: event.count)
-                            
-                            // Add the eventAnnotation to the mapView.
-                            self.mapView.addAnnotation(eventAnnotation)
-                        }
+                            DispatchQueue.main.async {
+                                
+                                // Create an annotation with the event's data.
+                                let eventAnnotation = EventAnnotation(coordinate: location.coordinate, eventKey: event.key, title: event.title, image: event.image, count: event.count, isUserGoing: isUserGoing)
+                                
+                                // Add the eventAnnotation to the mapView.
+                                self.mapView.addAnnotation(eventAnnotation)
+                            }
+                        })
                     })
                 }
             }
@@ -116,18 +134,46 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         
-        // Check if the user has given permission to use their location.
-        if status == .authorizedWhenInUse {
+        // Handle authorization for the location manager.
+        
+        switch status {
+            
+        case .restricted:
+            
+            print("INFO: Location access was restricted.")
+            
+        case .denied:
+            
+            print("INFO: User denied access to location.")
+            SCLAlertView().showWarning("Hey!", subTitle: "You denied permission to use your location, which destroys the purpose of Pluto. Don't worry - we aren't using your location in the background or showing it to others. Please fix this in your Settings.")
+            
+        case .notDetermined:
+            
+            print("INFO: Location status not determined.")
+            
+        case .authorizedAlways: fallthrough
+            
+        case .authorizedWhenInUse:
             
             // Show the user's location.
             mapView.showsUserLocation = true
         }
     }
     
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        
+        // Handle location manager errors.
+        
+        locationManager.stopUpdatingLocation()
+        
+        print("ERROR: there was an error updating the location \(error)")
+    }
+    
     func centerMapOnLocation(location: CLLocation) {
         
         // Specify a region to show.
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, 1500, 1500)
+        let span = MKCoordinateSpanMake(0.025, 0.005)
+        let coordinateRegion = MKCoordinateRegionMake(location.coordinate, span)
         
         // Show the region.
         mapView.setRegion(coordinateRegion, animated: false)
@@ -142,6 +188,7 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
             if !mapHasCenteredOnce {
                 
                 centerMapOnLocation(location: loc)
+                showEventsOnMap(location: loc)
                 mapHasCenteredOnce = true
             }
         }
@@ -180,6 +227,10 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
                 // Make the eventImageView bigger to assert the user's dominance.
                 eventImageView.frame = CGRect(x: 0, y: 0, width: 75, height: 75)
                 
+                // Add a border around the image.
+                eventImageView.layer.borderWidth = 5
+                eventImageView.layer.borderColor = LIGHT_BLUE_COLOR.cgColor
+                
                 // Add the eventImageView to the eventAnnotationView.
                 eventAnnotationView?.addSubview(eventImageView)
                 
@@ -204,13 +255,34 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
             eventAnnotationView.canShowCallout = true
             
             // Create a button for directions that shows when the user taps on the annotation.
-            let mapButton = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-            mapButton.setImage(UIImage(named: "map_icon"), for: .normal)
-            eventAnnotationView.rightCalloutAccessoryView = mapButton
+    
+            // Change the calloutButton accordingly.
+            if eventAnnotation.isUserGoing {
+                
+                eventAnnotationView.rightCalloutAccessoryView = self.annotationCalloutButton(image: UIImage(named: "ic_done")!)
+                
+            } else {
+                
+                eventAnnotationView.rightCalloutAccessoryView = self.annotationCalloutButton(image: UIImage(named: "ic_add")!)
+            }
             
             // Set the image.
             let image = eventAnnotation.image
             eventAnnotationView.image = UIImage(named: image)
+            
+            // Add a badge that shows the number of people going using the BadgeSwift library.
+            let eventCountBadge = BadgeSwift()
+            eventCountBadge.text = "\(eventAnnotation.count)"
+            eventCountBadge.textColor = WHITE_COLOR
+            eventCountBadge.badgeColor = LIGHT_BLUE_COLOR
+            eventCountBadge.translatesAutoresizingMaskIntoConstraints = false
+            eventAnnotationView.addSubview(eventCountBadge)
+            
+            // Add X, Y, width, and height constraints to the eventCountBadge.
+            eventCountBadge.centerXAnchor.constraint(equalTo: eventAnnotationView.centerXAnchor).isActive = true
+            eventCountBadge.centerYAnchor.constraint(equalTo: eventAnnotationView.centerYAnchor, constant: eventAnnotationView.frame.height/2).isActive = true
+            eventCountBadge.widthAnchor.constraint(equalToConstant: 25).isActive = true
+            eventCountBadge.heightAnchor.constraint(equalToConstant: 25).isActive = true
         }
         
         return eventAnnotationView
@@ -219,6 +291,9 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         
         if let eventAnnotation = view.annotation as? EventAnnotation {
+            
+            // Change the eventAnnotation information.
+            eventAnnotation.isUserGoing = !eventAnnotation.isUserGoing
             
             let eventKey = eventAnnotation.eventKey
             
@@ -231,14 +306,31 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
                         
                         // Refresh the annotations on the map.
                         DispatchQueue.main.async {
-                            
-                            self.mapView.removeAnnotation(eventAnnotation)
-                            self.mapView.addAnnotation(eventAnnotation)
+                                                        
+                            // Change the calloutButton accordingly.
+                            if eventAnnotation.isUserGoing {
+                                
+                                view.rightCalloutAccessoryView = self.annotationCalloutButton(image: UIImage(named: "ic_done")!)
+                                eventAnnotation.count = eventAnnotation.count+1
+                                
+                            } else {
+                                
+                                view.rightCalloutAccessoryView = self.annotationCalloutButton(image: UIImage(named: "ic_add")!)
+                                eventAnnotation.count = eventAnnotation.count-1
+                            }
                         }
                     }
                 }
             }
         }
+    }
+    
+    func annotationCalloutButton(image: UIImage) -> UIButton {
+        
+        let calloutButton = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        calloutButton.setImage(image, for: .normal)
+        
+        return calloutButton
     }
     
     func mapViewPointLongPressed(gestureRecognizer: UIGestureRecognizer){

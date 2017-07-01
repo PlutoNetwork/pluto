@@ -15,15 +15,15 @@ class EventAnnotation: NSObject, MKAnnotation {
     var title: String?
     var image: String
     var count: Int
-    var subtitle: String?
+    var isUserGoing: Bool
     
-    init(coordinate: CLLocationCoordinate2D, eventKey: String, title: String, image: String, count: Int) {
+    init(coordinate: CLLocationCoordinate2D, eventKey: String, title: String, image: String, count: Int, isUserGoing: Bool) {
         
         self.coordinate = coordinate
         self.eventKey = eventKey
         self.title = title
         self.image = image
         self.count = count
-        self.subtitle = "\(self.count) going"
+        self.isUserGoing = isUserGoing
     }
 }

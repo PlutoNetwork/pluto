@@ -180,6 +180,8 @@ extension LoginController: GIDSignInDelegate, NVActivityIndicatorViewable {
     
     func handleFacebookLogin() {
         
+        startAnimating()
+        
         FBSDKLoginManager().logIn(withReadPermissions: ["email", "public_profile"], from: self) { (result, error) in
             
             if error != nil {
@@ -213,11 +215,15 @@ extension LoginController: GIDSignInDelegate, NVActivityIndicatorViewable {
             if let profileImageUrl = ((userData.value(forKey: "picture") as AnyObject).value(forKey: "data") as AnyObject).value(forKey: "url") as? String {
                 
                 self.firebaseAuthSignIn(withCredentials: credentials, name: userData.value(forKey: "name") as! String, email: userData.value(forKey: "email") as! String, profileImageUrl: profileImageUrl)
+                
+                self.stopAnimating()
             }
         }
     }
     
     func handleGoogleSignIn() {
+        
+        startAnimating()
         
         GIDSignIn.sharedInstance().signIn()
     }
@@ -237,6 +243,8 @@ extension LoginController: GIDSignInDelegate, NVActivityIndicatorViewable {
         let profileImageUrl = user.profile.imageURL(withDimension: 1000).absoluteString
         
         self.firebaseAuthSignIn(withCredentials: credentials, name: user.profile.name, email: user.profile.email, profileImageUrl: profileImageUrl)
+        
+        stopAnimating()
     }
     
     private func firebaseAuthSignIn(withCredentials: AuthCredential, name: String, email: String, profileImageUrl: String) {

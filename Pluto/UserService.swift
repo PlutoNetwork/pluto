@@ -55,7 +55,7 @@ struct UserService {
             let key = snapshot.key
             
             EventService.sharedInstance.fetchEvents(withKey: key, completion: { (event) in
-                
+            
                 userEvents.append(event)
                 completion(userEvents)
             })

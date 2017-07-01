@@ -18,4 +18,5 @@ target 'Pluto' do
     pod 'Eureka', '~> 3.0.0'
     pod 'NVActivityIndicatorView'
     pod 'Kingfisher', '~> 3.0'
+    pod 'BadgeSwift', '~> 5.0'
 end

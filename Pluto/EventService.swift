@@ -52,6 +52,30 @@ struct EventService {
         })
     }
     
+    func checkIfUserIsGoingToEvent(withKey: String, completion: @escaping (Bool) -> ()) {
+        
+        guard let uid = Auth.auth().currentUser?.uid else {
+            
+            print("ERROR: could not get user ID.")
+            return
+        }
+        
+        DataService.ds.REF_EVENTS.child(withKey).child("users").observe(.childAdded, with: { (snapshot) in
+            
+            let key = snapshot.key
+            
+            // Check if the key matches the user's Id.
+            // This indicates the user is going to the event.
+            if key == uid {
+                
+                // Return true with completion of the block.
+                completion(true)
+            }
+        })
+        
+        completion(false)
+    }
+    
     func changeEventCount(event: Event, completion: @escaping () -> ()) {
         
         let eventKey = event.key

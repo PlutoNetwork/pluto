@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '681BE6E3D02A43F9BA63777AC435C8FD'
-               BlueprintName = 'GTMSessionFetcher'
+               BlueprintIdentifier = '2BB3C7A0D901BA50C22490631DD34A01'
+               BlueprintName = 'BadgeSwift'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'GTMSessionFetcher.framework'>
+               BuildableName = 'BadgeSwift.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

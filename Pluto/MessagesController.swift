@@ -14,85 +14,6 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
     
     // MARK: - UI Components
     
-    let seperatorLineView: UIView = {
-        
-        let view = UIView()
-        view.backgroundColor = LIGHT_BLUE_COLOR
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        return view
-    }()
-    
-    lazy var sendButton: UIButton = {
-        
-        // - TODO: Set the button color to gray and un-interactable when the field is blank.
-        
-        let button = UIButton(type: .system)
-        button.setTitle("Send", for: .normal)
-        button.setTitleColor(LIGHT_BLUE_COLOR, for: .normal)
-        button.addTarget(self, action: #selector(handleSend), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
-        return button
-    }()
-    
-    func handleSend() {
-        
-        // We need to generate a list of items in the Firebase database so we can have multiple messages.
-        // We can do this by creating a new childRef every time the send button is tapped.
-        
-        if let messageText = inputTextField.text {
-            
-            if messageText != "" {
-                
-                // We need to send the message to the event.
-                let toId = event?.key
-                
-                // Use the current user's id as the fromId to show the message sender.
-                guard let uid = Auth.auth().currentUser?.uid else {
-                    
-                    print("ERROR: could not get user ID.")
-                    return
-                }
-                
-                let fromId = uid
-                
-                // We should get a timestamp too, so we know when the message was sent out.
-                let timeStamp: NSNumber = NSNumber(value: Int(Date().timeIntervalSince1970))
-                
-                let values = ["text": messageText, "toId": toId!, "fromId": fromId, "timeStamp": timeStamp] as [String: Any]
-                
-                // Dismiss the keyboard.
-                self.inputTextField.resignFirstResponder()
-                
-                DispatchQueue.global(qos: .background).async {
-                    
-                    MessageService.sharedInstance.updateMessages(toId: toId!, fromId: fromId, values: values, completion: { 
-                        
-                        DispatchQueue.main.async {
-                            
-                            // Clear the inputTextField.
-                            self.inputTextField.text = nil
-                        }
-                    })
-                }
-            }
-        }
-    }
-    
-    lazy var inputTextField: UITextField = {
-        
-        let textField = UITextField()
-        textField.attributedPlaceholder = NSAttributedString(string: "Enter message...",
-                                                               attributes: [NSForegroundColorAttributeName: LIGHT_BLUE_COLOR])
-        textField.textColor = WHITE_COLOR
-        textField.tintColor = WHITE_COLOR
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.delegate = self
-       
-        return textField
-    }()
-    
     // MARK: - Global Variables
     
     var event: Event?
@@ -188,6 +109,53 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
                 DispatchQueue.main.async {
                     
                     self.collectionView?.reloadData()
+                    
+                    // Move the messages up so the user can see the latest ones.
+                    self.moveMessagesUp()
+                }
+            }
+        }
+        
+        // Set up the keyboard voodoo.
+        setUpKeyboardObservers()
+    }
+    
+    func handleSend() {
+        
+        // We need to generate a list of items in the Firebase database so we can have multiple messages.
+        // We can do this by creating a new childRef every time the send button is tapped.
+        
+        if let messageText = messageInputAccessoryView.inputTextField.text {
+            
+            if messageText != "" {
+                
+                // We need to send the message to the event.
+                let toId = event?.key
+                
+                // Use the current user's id as the fromId to show the message sender.
+                guard let uid = Auth.auth().currentUser?.uid else {
+                    
+                    print("ERROR: could not get user ID.")
+                    return
+                }
+                
+                let fromId = uid
+                
+                // We should get a timestamp too, so we know when the message was sent out.
+                let timeStamp: NSNumber = NSNumber(value: Int(Date().timeIntervalSince1970))
+                
+                let values = ["text": messageText, "toId": toId!, "fromId": fromId, "timeStamp": timeStamp] as [String: Any]
+                
+                DispatchQueue.global(qos: .background).async {
+                    
+                    MessageService.sharedInstance.updateMessages(toId: toId!, fromId: fromId, values: values, completion: {
+                        
+                        DispatchQueue.main.async {
+                            
+                            // Clear the inputTextField in the inputView.
+                            self.messageInputAccessoryView.inputTextField.text = nil
+                        }
+                    })
                 }
             }
         }
@@ -207,36 +175,12 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
         NotificationCenter.default.removeObserver(self)
     }
     
-    lazy var messageInputAccessoryView: UIView = {
+    lazy var messageInputAccessoryView: ChatInputContainerView = {
         
-        let inputContainerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
-        inputContainerView.backgroundColor = DARK_BLUE_COLOR
-        inputContainerView.translatesAutoresizingMaskIntoConstraints = false
+        let chatInputContainerView = ChatInputContainerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
+        chatInputContainerView.messagesController = self
         
-        // Add UI components to the inputContainerView.
-        inputContainerView.addSubview(self.seperatorLineView)
-        inputContainerView.addSubview(self.sendButton)
-        inputContainerView.addSubview(self.inputTextField)
-        
-        // Add X, Y, width, and height constraints to the seperatorLineView.
-        self.seperatorLineView.topAnchor.constraint(equalTo: inputContainerView.topAnchor).isActive = true
-        self.seperatorLineView.leftAnchor.constraint(equalTo: inputContainerView.leftAnchor).isActive = true
-        self.seperatorLineView.widthAnchor.constraint(equalTo: inputContainerView.widthAnchor).isActive = true
-        self.seperatorLineView.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        
-        // Add X, Y, width, and height constraints to the sendButton.
-        self.sendButton.centerYAnchor.constraint(equalTo: inputContainerView.centerYAnchor).isActive = true
-        self.sendButton.rightAnchor.constraint(equalTo: inputContainerView.rightAnchor).isActive = true
-        self.sendButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        self.sendButton.heightAnchor.constraint(equalTo: inputContainerView.heightAnchor).isActive = true
-        
-        // Add X, Y, width, and height constraints to the inputTextField.
-        self.inputTextField.centerYAnchor.constraint(equalTo: inputContainerView.centerYAnchor).isActive = true
-        self.inputTextField.leftAnchor.constraint(equalTo: inputContainerView.leftAnchor, constant: 8).isActive = true
-        self.inputTextField.rightAnchor.constraint(equalTo: self.sendButton.leftAnchor).isActive = true
-        self.inputTextField.heightAnchor.constraint(equalTo: inputContainerView.heightAnchor).isActive = true
-        
-        return inputContainerView
+        return chatInputContainerView
     }()
     
     // The following overrides will allow us to move the inputContainerView with the keyboard.
@@ -252,6 +196,21 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
         get {
             
             return true
+        }
+    }
+    
+    func setUpKeyboardObservers() {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(moveMessagesUp), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+    }
+    
+    func moveMessagesUp() {
+        
+        // Move the latest up to show it above the keyboard.
+        if messages.count > 0 {
+            
+            let indexPath = IndexPath(item: messages.count - 1, section: 0)
+            collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
         }
     }
     
@@ -302,15 +261,4 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
         
         return messageBubbleCell
     }    
-}
-
-extension MessagesController: UITextFieldDelegate {
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
-        // Dismiss the keyboard.
-        textField.resignFirstResponder()
-        
-        return true
-    }
 }
