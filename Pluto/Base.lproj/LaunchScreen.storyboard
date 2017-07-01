@@ -20,7 +20,20 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app_icon" translatesAutoresizingMaskIntoConstraints="NO" id="foL-QM-LWX">
+                                <rect key="frame" x="87" y="233" width="200" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="jbd-y9-G3T"/>
+                                    <constraint firstAttribute="width" constant="200" id="peQ-C8-cxt"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" red="0.043137254901960784" green="0.086274509803921567" blue="0.11372549019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="foL-QM-LWX" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="UPg-pV-LE1"/>
+                            <constraint firstItem="foL-QM-LWX" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="hNe-BW-T5V"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -28,4 +41,7 @@
             <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="app_icon" width="300" height="300"/>
+    </resources>
 </document>

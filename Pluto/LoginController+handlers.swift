@@ -10,8 +10,9 @@ import UIKit
 import Firebase
 import FBSDKLoginKit
 import GoogleSignIn
+import NVActivityIndicatorView
 
-extension LoginController: GIDSignInDelegate {
+extension LoginController: GIDSignInDelegate, NVActivityIndicatorViewable {
     
     func handleLoginRegisterSegmentChange() {
         
@@ -27,8 +28,11 @@ extension LoginController: GIDSignInDelegate {
         nameTextFieldHeightAnchor = nameTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: loginRegisterSegmentedControl.selectedSegmentIndex == 0 ? 0 : 1/3)
         nameTextFieldHeightAnchor?.isActive = true
         
+        // Clear any text that the user may have typed.
+        nameTextField.text = ""
+        
         // We also need to show/hide the placeholder text and the nameSeperatorView.
-        nameTextField.placeholder = loginRegisterSegmentedControl.selectedSegmentIndex == 0 ? "" : "First + Last"
+        nameTextField.attributedPlaceholder = loginRegisterSegmentedControl.selectedSegmentIndex == 0 ? NSAttributedString(string: "", attributes: [NSForegroundColorAttributeName: LIGHT_BLUE_COLOR]) : NSAttributedString(string: "First + Last", attributes: [NSForegroundColorAttributeName: LIGHT_BLUE_COLOR])
         nameSeperatorView.alpha = loginRegisterSegmentedControl.selectedSegmentIndex == 0 ? 0 : 1
         
         // Modify the email and password fields so they take up more or less space in inputsContainerView to adjust for the usernameTextField.
@@ -61,6 +65,8 @@ extension LoginController: GIDSignInDelegate {
     
     func handleLogin() {
         
+        startAnimating()
+        
         guard let email = emailTextField.text, let password = passwordTextField.text else {
             
             print("ERROR: the text fields are invalid.")
@@ -69,9 +75,20 @@ extension LoginController: GIDSignInDelegate {
         
         Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
             
+            self.stopAnimating()
+            
             if error != nil {
                 
                 print("ERROR: there was an error logging in. Details: \(error.debugDescription)")
+                
+                switch (error?._code)! {
+                    
+                    case ERROR_WRONG_PASSWORD:
+                        SCLAlertView().showError("Whoops!", subTitle: "The password is wrong or nonexistent.")
+                    default:
+                        SCLAlertView().showError("Whoops!", subTitle: "Pluto couldn't log you in. Try again.")
+                }
+                
                 return
             }
             
@@ -82,49 +99,78 @@ extension LoginController: GIDSignInDelegate {
     
     func handleRegister() {
         
+        startAnimating()
+        
         guard let email = emailTextField.text, let password = passwordTextField.text, let name = nameTextField.text else {
             
             print("ERROR: the text fields are invalid.")
             return
         }
         
-        // Authenticate the new user using Firebase.
-        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+        if name == "" || !imageSelected {
             
-            if error != nil {
-                
-                print("ERROR: something went wrong while creating the account. Details: \(error.debugDescription)")
-                return
-            }
+            stopAnimating()
             
-            guard let uid = user?.uid else {
-                
-                print("ERROR: could not get user ID.")
-                return
-            }
+            SCLAlertView().showError("Whoops!", subTitle: "You forgot to pick a profile picture or you didn't enter your name.")
             
-            // Upload the selected profile pic to Firebase.
-            if let uploadData = UIImagePNGRepresentation(self.addProfilePicImageView.image!) {
+        } else {
+        
+            // Authenticate the new user using Firebase.
+            Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
                 
-                DataService.ds.REF_PROFILE_PICS.putData(uploadData, metadata: nil, completion: { (metadata, error) in
+                if error != nil {
                     
-                    if error != nil {
+                    self.stopAnimating()
+                    
+                    print("ERROR: something went wrong while creating the account. Details: \(error.debugDescription)")
+                    
+                    switch (error?._code)! {
                         
-                        print("ERROR: could not upload profile pic to Firebase. Details: \(error.debugDescription)")
-                        return
+                    case ERROR_WEAK_PASSWORD:
+                        SCLAlertView().showError("Whoops!", subTitle: "Your password is weak. Make it longer.")
+                    case ERROR_NO_EMAIL:
+                        SCLAlertView().showError("Whoops!", subTitle: "Your email is invalid. Make it exist.")
+                    case ERROR_ACCOUNT_EXISTS:
+                        SCLAlertView().showError("Whoops!", subTitle: "There's already an account with this email.")
+                    default:
+                        SCLAlertView().showError("Whoops!", subTitle: "Pluto could not create your account. Try again.")
                     }
                     
-                    if let profileImageUrl = metadata?.downloadURL()?.absoluteString {
-                     
-                        // Create a dictionary of values to add to the database.
-                        let values = ["name": name,
-                                      "email": email,
-                                      "profileImageUrl": profileImageUrl]
+                    return
+                }
+                
+                guard let uid = user?.uid else {
+                    
+                    print("ERROR: could not get user ID.")
+                    return
+                }
+                
+                // Upload the selected profile pic to Firebase.
+                if let uploadData = UIImagePNGRepresentation(self.addProfilePicImageView.image!) {
+                    
+                    DataService.ds.REF_PROFILE_PICS.putData(uploadData, metadata: nil, completion: { (metadata, error) in
                         
-                        // Once the profile pic has been uploaded, register the user to Firebase.
-                        self.registerUserToDatabase(withUid: uid, values: values as [String : AnyObject])
-                    }
-                })
+                        if error != nil {
+                            
+                            print("ERROR: could not upload profile pic to Firebase. Details: \(error.debugDescription)")
+                            
+                            SCLAlertView().showError("Whoops!", subTitle: "Pluto couldn't upload your profile picture. Try again later.")
+                            
+                            return
+                        }
+                        
+                        if let profileImageUrl = metadata?.downloadURL()?.absoluteString {
+                         
+                            // Create a dictionary of values to add to the database.
+                            let values = ["name": name,
+                                          "email": email,
+                                          "profileImageUrl": profileImageUrl]
+                            
+                            // Once the profile pic has been uploaded, register the user to Firebase.
+                            self.registerUserToDatabase(withUid: uid, values: values as [String : AnyObject])
+                        }
+                    })
+                }
             }
         }
     }
@@ -221,6 +267,8 @@ extension LoginController: GIDSignInDelegate {
         
         DataService.ds.REF_USERS.child(withUid).updateChildValues(values, withCompletionBlock: { (error, reference) in
             
+            self.stopAnimating()
+            
             if error != nil {
                 
                 print("ERROR: could not authenticate the user with Firebase. Details: \(error.debugDescription)")
@@ -267,6 +315,9 @@ extension LoginController: UIImagePickerControllerDelegate, UINavigationControll
             // The corner radius will not take effect if the following line is not added:
             addProfilePicImageView.layer.masksToBounds = true
         }
+        
+        // Indicate that a profile image has been selected.
+        imageSelected = true
         
         // Dismiss the image picker.
         dismiss(animated: true, completion: nil)

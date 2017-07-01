@@ -44,11 +44,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Hue.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>ImageRow.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -97,6 +92,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>56ABB2D774B25F002B6E053F70B3BF05</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>675A114988AE198732ED4AD726408964</key>
 		<dict>
 			<key>primary</key>
@@ -107,17 +107,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8C51F9DE3E146A390B095780F432ED6C</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>B1C4AAFAF49036C7007633DAA3C806AD</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B2542602E50EDF091ADB18B4688DF34F</key>
 		<dict>
 			<key>primary</key>
 			<true/>

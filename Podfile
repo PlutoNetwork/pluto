@@ -14,7 +14,6 @@ target 'Pluto' do
 	pod 'Firebase/Database'
 	pod 'Firebase/Storage'
     pod 'GoogleSignIn'
-    pod 'Hue'
     pod 'Eureka', '~> 3.0.0'
     pod 'ImageRow'
     pod 'NVActivityIndicatorView'

@@ -178,7 +178,7 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
                 eventImageView.kf.setImage(with: url)
                 
                 // Make the eventImageView bigger to assert the user's dominance.
-                eventImageView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+                eventImageView.frame = CGRect(x: 0, y: 0, width: 75, height: 75)
                 
                 // Add the eventImageView to the eventAnnotationView.
                 eventAnnotationView?.addSubview(eventImageView)

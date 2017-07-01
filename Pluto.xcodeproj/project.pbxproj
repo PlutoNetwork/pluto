@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		062B03041F075673006B5C5B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 062B03011F075673006B5C5B /* Info.plist */; };
+		062B03051F075673006B5C5B /* SCLAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062B03021F075673006B5C5B /* SCLAlertView.swift */; };
+		062B03061F075673006B5C5B /* SCLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062B03031F075673006B5C5B /* SCLExtensions.swift */; };
 		062F07D21F01C8F6008F3014 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062F07D11F01C8F6008F3014 /* AppDelegate.swift */; };
 		062F07D41F01C8F6008F3014 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062F07D31F01C8F6008F3014 /* LoginController.swift */; };
 		062F07DA1F01C8F7008F3014 /* Pluto.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 062F07D81F01C8F7008F3014 /* Pluto.xcdatamodeld */; };
@@ -46,6 +49,9 @@
 
 /* Begin PBXFileReference section */
 		00B237370D2F0E28D0100195 /* Pods_PlutoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlutoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		062B03011F075673006B5C5B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		062B03021F075673006B5C5B /* SCLAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCLAlertView.swift; sourceTree = "<group>"; };
+		062B03031F075673006B5C5B /* SCLExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCLExtensions.swift; sourceTree = "<group>"; };
 		062F07CE1F01C8F6008F3014 /* Pluto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pluto.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		062F07D11F01C8F6008F3014 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		062F07D31F01C8F6008F3014 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
@@ -112,6 +118,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		062B03001F075673006B5C5B /* SCLAlertView */ = {
+			isa = PBXGroup;
+			children = (
+				062B03011F075673006B5C5B /* Info.plist */,
+				062B03021F075673006B5C5B /* SCLAlertView.swift */,
+				062B03031F075673006B5C5B /* SCLExtensions.swift */,
+			);
+			path = SCLAlertView;
+			sourceTree = "<group>";
+		};
 		062F07C51F01C8F6008F3014 = {
 			isa = PBXGroup;
 			children = (
@@ -236,6 +252,7 @@
 			isa = PBXGroup;
 			children = (
 				06A2F1761F041CAA00FCA614 /* GeoFire */,
+				062B03001F075673006B5C5B /* SCLAlertView */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -375,6 +392,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				062B03041F075673006B5C5B /* Info.plist in Resources */,
 				062F07DF1F01C8F7008F3014 /* LaunchScreen.storyboard in Resources */,
 				062F07DC1F01C8F7008F3014 /* Assets.xcassets in Resources */,
 				06A2F14D1F01EBF700FCA614 /* GoogleService-Info.plist in Resources */,
@@ -436,8 +454,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				062B03061F075673006B5C5B /* SCLExtensions.swift in Sources */,
 				062F07D41F01C8F6008F3014 /* LoginController.swift in Sources */,
 				062F07D21F01C8F6008F3014 /* AppDelegate.swift in Sources */,
+				062B03051F075673006B5C5B /* SCLAlertView.swift in Sources */,
 				06A2F15C1F02FBD200FCA614 /* MenuBar.swift in Sources */,
 				06A2F1541F02216900FCA614 /* LoginController+handlers.swift in Sources */,
 				06A2F19A1F058FF300FCA614 /* Message.swift in Sources */,

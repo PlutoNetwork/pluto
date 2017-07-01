@@ -30,7 +30,7 @@ class LoginController: UIViewController, GIDSignInUIDelegate {
     lazy var loginRegisterSegmentedControl: UISegmentedControl = {
         
         let segmentedControl = UISegmentedControl(items: ["Login", "Register"])
-        segmentedControl.tintColor = UIColor.white
+        segmentedControl.tintColor = LIGHT_BLUE_COLOR
         // Start the control with the "Register" item highlighted.
         segmentedControl.selectedSegmentIndex = 1
         segmentedControl.addTarget(self, action: #selector(handleLoginRegisterSegmentChange), for: .valueChanged)
@@ -43,7 +43,7 @@ class LoginController: UIViewController, GIDSignInUIDelegate {
     let inputsContainerView: UIView = {
         
         let view = UIView()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = DARK_BLUE_COLOR
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 5
         // The corner radius will not take effect if the following line is not added:
@@ -55,7 +55,10 @@ class LoginController: UIViewController, GIDSignInUIDelegate {
     let nameTextField: UITextField = {
         
         let textField = UITextField()
-        textField.placeholder = "First + Last"
+        textField.attributedPlaceholder = NSAttributedString(string: "First + Last",
+                                                             attributes: [NSForegroundColorAttributeName: LIGHT_BLUE_COLOR])
+        textField.textColor = WHITE_COLOR
+        textField.tintColor = WHITE_COLOR
         textField.autocapitalizationType = .words
         textField.translatesAutoresizingMaskIntoConstraints = false
         
@@ -65,7 +68,7 @@ class LoginController: UIViewController, GIDSignInUIDelegate {
     let nameSeperatorView: UIView = {
         
         let view = UIView()
-        view.backgroundColor = UIColor.lightGray
+        view.backgroundColor = LIGHT_BLUE_COLOR
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
@@ -74,7 +77,10 @@ class LoginController: UIViewController, GIDSignInUIDelegate {
     let emailTextField: UITextField = {
         
         let textField = UITextField()
-        textField.placeholder = "email@something.com"
+        textField.attributedPlaceholder = NSAttributedString(string: "email@something.com",
+                                                             attributes: [NSForegroundColorAttributeName: LIGHT_BLUE_COLOR])
+        textField.textColor = WHITE_COLOR
+        textField.tintColor = WHITE_COLOR
         textField.autocapitalizationType = .none
         textField.translatesAutoresizingMaskIntoConstraints = false
         
@@ -84,7 +90,7 @@ class LoginController: UIViewController, GIDSignInUIDelegate {
     let emailSeperatorView: UIView = {
         
         let view = UIView()
-        view.backgroundColor = UIColor.lightGray
+        view.backgroundColor = LIGHT_BLUE_COLOR
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
@@ -93,7 +99,10 @@ class LoginController: UIViewController, GIDSignInUIDelegate {
     let passwordTextField: UITextField = {
         
         let textField = UITextField()
-        textField.placeholder = "password"
+        textField.attributedPlaceholder = NSAttributedString(string: "Password",
+                                                             attributes: [NSForegroundColorAttributeName: LIGHT_BLUE_COLOR])
+        textField.textColor = WHITE_COLOR
+        textField.tintColor = WHITE_COLOR
         textField.translatesAutoresizingMaskIntoConstraints = false
         // Hide the text in the field.
         textField.isSecureTextEntry = true
@@ -105,11 +114,11 @@ class LoginController: UIViewController, GIDSignInUIDelegate {
         
         let button = UIButton(type: .system)
         button.backgroundColor = UIColor.clear
-        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderColor = LIGHT_BLUE_COLOR.cgColor
         button.layer.borderWidth = 1
         button.setTitle("REGISTER", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitleColor(LIGHT_BLUE_COLOR, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         
         button.addTarget(self, action: #selector(handleLoginOrRegister), for: .touchUpInside)
@@ -144,6 +153,10 @@ class LoginController: UIViewController, GIDSignInUIDelegate {
         
         return button
     }()
+    
+    // MARK: - Global Variables
+    
+    var imageSelected = false
     
     // MARK: - View Configuration
     
