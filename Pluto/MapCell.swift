@@ -86,7 +86,7 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
                         DispatchQueue.main.async {
                             
                             // Create an annotation with the event's data.
-                            let eventAnnotation = EventAnnotation(coordinate: location.coordinate, eventKey: event.key, title: event.title, imageUrl: event.imageUrl, count: event.count)
+                            let eventAnnotation = EventAnnotation(coordinate: location.coordinate, eventKey: event.key, title: event.title, image: event.image, count: event.count)
                             
                             // Add the eventAnnotation to the mapView.
                             self.mapView.addAnnotation(eventAnnotation)
@@ -208,18 +208,9 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
             mapButton.setImage(UIImage(named: "map_icon"), for: .normal)
             eventAnnotationView.rightCalloutAccessoryView = mapButton
             
-            // Round the eventImageView.
-            eventImageView.layer.cornerRadius = eventImageView.layer.frame.size.width / 2
-            
-            // Download each event's image using the Kingfisher library.
-            let url = URL(string: eventAnnotation.imageUrl)
-            eventImageView.kf.setImage(with: url)
-            
-            // Add the eventImageView to the eventAnnotationView.
-            eventAnnotationView.addSubview(eventImageView)
-            
-            // We can't click on the annotation anymore because the eventAnnotationView is too small, so change its size to match the eventImageView's size.
-            eventAnnotationView.frame = eventImageView.frame
+            // Set the image.
+            let image = eventAnnotation.image
+            eventAnnotationView.image = UIImage(named: image)
         }
         
         return eventAnnotationView
@@ -261,12 +252,12 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
             let point = gestureRecognizer.location(in: mapView)
             let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
             
-            // Pass the coordinate to the EventDetailsController.
-            let eventDetailsController = EventDetailsController()
-            eventDetailsController.coordinate = coordinate
+            // Pass the coordinate to the CreateEventController.
+            let createEventController = CreateEventController()
+            createEventController.coordinate = coordinate
             
             // Open the EventDetailsController.
-            mainController?.navigationController?.pushViewController(eventDetailsController, animated: true)
+            mainController?.navigationController?.pushViewController(createEventController, animated: true)
         }
     }
 }

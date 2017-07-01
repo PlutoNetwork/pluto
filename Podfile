@@ -13,9 +13,9 @@ target 'Pluto' do
 	pod 'Firebase/Auth'
 	pod 'Firebase/Database'
 	pod 'Firebase/Storage'
+    pod 'Firebase/Messaging'
     pod 'GoogleSignIn'
     pod 'Eureka', '~> 3.0.0'
-    pod 'ImageRow'
     pod 'NVActivityIndicatorView'
     pod 'Kingfisher', '~> 3.0'
 end

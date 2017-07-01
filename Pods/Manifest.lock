@@ -21,6 +21,9 @@ PODS:
   - Firebase/Database (4.0.2):
     - Firebase/Core
     - FirebaseDatabase (= 4.0.0)
+  - Firebase/Messaging (4.0.2):
+    - Firebase/Core
+    - FirebaseMessaging (= 2.0.0)
   - Firebase/Storage (4.0.2):
     - Firebase/Core
     - FirebaseStorage (= 2.0.0)
@@ -38,6 +41,12 @@ PODS:
     - FirebaseAnalytics (~> 4.0)
   - FirebaseInstanceID (2.0.0):
     - FirebaseCore (~> 4.0)
+  - FirebaseMessaging (2.0.0):
+    - FirebaseAnalytics (~> 4.0)
+    - FirebaseCore (~> 4.0)
+    - FirebaseInstanceID (~> 2.0)
+    - GoogleToolboxForMac/Logger (~> 2.1)
+    - Protobuf (~> 3.1)
   - FirebaseStorage (2.0.0):
     - FirebaseAnalytics (~> 4.0)
     - FirebaseCore (~> 4.0)
@@ -50,6 +59,8 @@ PODS:
   - GoogleToolboxForMac/DebugUtils (2.1.1):
     - GoogleToolboxForMac/Defines (= 2.1.1)
   - GoogleToolboxForMac/Defines (2.1.1)
+  - GoogleToolboxForMac/Logger (2.1.1):
+    - GoogleToolboxForMac/Defines (= 2.1.1)
   - GoogleToolboxForMac/NSData+zlib (2.1.1):
     - GoogleToolboxForMac/Defines (= 2.1.1)
   - GoogleToolboxForMac/NSDictionary+URLArguments (2.1.1):
@@ -64,10 +75,9 @@ PODS:
   - GTMSessionFetcher/Core (1.1.10)
   - GTMSessionFetcher/Full (1.1.10):
     - GTMSessionFetcher/Core (= 1.1.10)
-  - ImageRow (2.0.0):
-    - Eureka (= 3.0)
   - Kingfisher (3.10.2)
   - NVActivityIndicatorView (3.6.1)
+  - Protobuf (3.3.0)
 
 DEPENDENCIES:
   - Eureka (~> 3.0.0)
@@ -77,9 +87,9 @@ DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
+  - Firebase/Messaging
   - Firebase/Storage
   - GoogleSignIn
-  - ImageRow
   - Kingfisher (~> 3.0)
   - NVActivityIndicatorView
 
@@ -95,15 +105,16 @@ SPEC CHECKSUMS:
   FirebaseCore: 1a8bf6c795ad07d2918278657954ffd2552e9c17
   FirebaseDatabase: d829b3a8c3e2ac7a16773c5df226966b0805dfc2
   FirebaseInstanceID: 9fbf536668f4d3f0880e7438456dabd1376e294b
+  FirebaseMessaging: 227406c05b0dc9290702d2e9f18ab5528f0c2cf2
   FirebaseStorage: 8110a1ed2034c8fbfd83890d2acc9cdbbd99afec
   GoogleSignIn: d7ad83f13480e1f30453471d00d19b5293ac46af
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GTMOAuth2: 7fc9c10f5c745f4d9850419ea88889fe3baa6b7d
   GTMSessionFetcher: 30d874b96d0d76028f61fbd122801e3f030d47db
-  ImageRow: 9dfbfa38c1e62c25d638bc40e97a48c1809443c4
   Kingfisher: 7297492bf8cec9b2e2dee3519f2219948580d98e
   NVActivityIndicatorView: 9f52a7f84bf5c6a798722c450fe3c198e01c56ed
+  Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
 
-PODFILE CHECKSUM: f46cb96afa4a169dc494801931ac6b2e3d170bd0
+PODFILE CHECKSUM: 6ff7230be88058e9ebfdcda2de2e9dc89b8a3986
 
 COCOAPODS: 1.1.1

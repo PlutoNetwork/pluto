@@ -17,7 +17,7 @@ class Event: NSObject {
     private var _count: Int!
     private var _creator: String!
     private var _title: String!
-    private var _imageUrl: String!
+    private var _image: String!
     
     var key: String {
         
@@ -39,17 +39,17 @@ class Event: NSObject {
         return _title
     }
     
-    var imageUrl: String {
+    var image: String {
         
-        return _imageUrl
+        return _image
     }
     
-    init(count: Int, creator: String, title: String, imageUrl: String) {
+    init(count: Int, creator: String, title: String, image: String) {
         
         self._count = count
         self._creator = creator
         self._title = title
-        self._imageUrl = imageUrl
+        self._image = image
     }
     
     init(eventKey: String, eventData: Dictionary<String, AnyObject>) {
@@ -71,9 +71,9 @@ class Event: NSObject {
             self._title = title
         }
         
-        if let imageUrl = eventData["eventImageUrl"] as? String {
+        if let image = eventData["eventImage"] as? String {
             
-            self._imageUrl = imageUrl
+            self._image = image
         }
         
         _eventRef = DataService.ds.REF_EVENTS.child(_key)

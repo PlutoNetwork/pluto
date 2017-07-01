@@ -8,12 +8,13 @@
 
 import UIKit
 import CoreData
+import UserNotifications
 import Firebase
 import FBSDKCoreKit
 import GoogleSignIn
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
 
@@ -34,6 +35,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // The following lines will hide the bottom border of the navigation bar.
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+        
+        // Set up notifications.
+        if #available(iOS 10.0, *) {
+            
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self
+            
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
+        } else {
+            
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+        }
+        
+        application.registerForRemoteNotifications()
         
         // Add Firebase.
         FirebaseApp.configure()
@@ -56,6 +76,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GIDSignIn.sharedInstance().handle(url, sourceApplication:options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
         
         return handled
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        
+        Messaging.messaging().apnsToken = deviceToken
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        completionHandler(.alert)
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+                
+        completionHandler(.newData)
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        
+        connectToFirebaseMessaging()
+    }
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        
+        Messaging.messaging().shouldEstablishDirectChannel = false
+    }
+    
+    func tokenRefreshNotification(notification: NSNotification) {
+        
+        let refreshedToken = InstanceID.instanceID().token()!
+        print(refreshedToken)
+        
+        connectToFirebaseMessaging()
+    }
+    
+    func connectToFirebaseMessaging() {
+        
+        Messaging.messaging().shouldEstablishDirectChannel = true
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

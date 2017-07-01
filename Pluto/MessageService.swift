@@ -38,9 +38,7 @@ struct MessageService {
                         // Sort the messages array so the latest will be on top.
                         messages.sort(by: { (message1, message2) -> Bool in
                             
-                            
                             return (message1.timeStamp?.intValue)! > (message2.timeStamp?.intValue)!
-                            
                         })
                     }
                     

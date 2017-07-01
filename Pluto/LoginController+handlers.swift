@@ -145,6 +145,8 @@ extension LoginController: GIDSignInDelegate, NVActivityIndicatorViewable {
                     return
                 }
                 
+                let token = Messaging.messaging().fcmToken
+                
                 // Upload the selected profile pic to Firebase.
                 if let uploadData = UIImagePNGRepresentation(self.addProfilePicImageView.image!) {
                     
@@ -164,7 +166,8 @@ extension LoginController: GIDSignInDelegate, NVActivityIndicatorViewable {
                             // Create a dictionary of values to add to the database.
                             let values = ["name": name,
                                           "email": email,
-                                          "profileImageUrl": profileImageUrl]
+                                          "profileImageUrl": profileImageUrl,
+                                          "pushToken": token]
                             
                             // Once the profile pic has been uploaded, register the user to Firebase.
                             self.registerUserToDatabase(withUid: uid, values: values as [String : AnyObject])
@@ -238,10 +241,13 @@ extension LoginController: GIDSignInDelegate, NVActivityIndicatorViewable {
     
     private func firebaseAuthSignIn(withCredentials: AuthCredential, name: String, email: String, profileImageUrl: String) {
         
+        let token = Messaging.messaging().fcmToken
+        
         // Create a dictionary of values to add to the database.
         let values = ["name": name,
                       "email": email,
-                      "profileImageUrl": profileImageUrl]
+                      "profileImageUrl": profileImageUrl,
+                      "pushToken": token]
         
         // Authenticate with Firebase.
         Auth.auth().signIn(with: withCredentials) { (user, error) in

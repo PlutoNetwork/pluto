@@ -86,6 +86,7 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
         textField.attributedPlaceholder = NSAttributedString(string: "Enter message...",
                                                                attributes: [NSForegroundColorAttributeName: LIGHT_BLUE_COLOR])
         textField.textColor = WHITE_COLOR
+        textField.tintColor = WHITE_COLOR
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.delegate = self
        
@@ -116,17 +117,12 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
         let eventImageView = UIImageView()
         eventImageView.contentMode = .scaleAspectFill
         
-        // Round the eventImageView.
-        eventImageView.layer.cornerRadius = 20
-        eventImageView.layer.masksToBounds = true
-        
         eventImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        // Set the image using the Kingfisher library.
-        if let eventImageUrl = event?.imageUrl {
+        // Set the image.
+        if let eventImage = event?.image {
             
-            let url = URL(string: eventImageUrl)
-            eventImageView.kf.setImage(with: url)
+            eventImageView.image = UIImage(named: eventImage)
             containerView.addSubview(eventImageView)
         }
         

@@ -30,7 +30,7 @@
 		06A2F16E1F037BB500FCA614 /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F16D1F037BB500FCA614 /* ChatCell.swift */; };
 		06A2F1701F037BC400FCA614 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F16F1F037BC400FCA614 /* ProfileCell.swift */; };
 		06A2F1721F037BDA00FCA614 /* NotificationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1711F037BDA00FCA614 /* NotificationsCell.swift */; };
-		06A2F1741F04089D00FCA614 /* EventDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1731F04089D00FCA614 /* EventDetailsController.swift */; };
+		06A2F1741F04089D00FCA614 /* CreateEventController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1731F04089D00FCA614 /* CreateEventController.swift */; };
 		06A2F1881F041CAA00FCA614 /* GeoFire.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F17F1F041CAA00FCA614 /* GeoFire.m */; };
 		06A2F1891F041CAA00FCA614 /* GFBase32Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1811F041CAA00FCA614 /* GFBase32Utils.m */; };
 		06A2F18A1F041CAA00FCA614 /* GFGeoHash.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1831F041CAA00FCA614 /* GFGeoHash.m */; };
@@ -75,7 +75,7 @@
 		06A2F16D1F037BB500FCA614 /* ChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
 		06A2F16F1F037BC400FCA614 /* ProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		06A2F1711F037BDA00FCA614 /* NotificationsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsCell.swift; sourceTree = "<group>"; };
-		06A2F1731F04089D00FCA614 /* EventDetailsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailsController.swift; sourceTree = "<group>"; };
+		06A2F1731F04089D00FCA614 /* CreateEventController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEventController.swift; sourceTree = "<group>"; };
 		06A2F1781F041CAA00FCA614 /* GeoFire.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoFire.h; sourceTree = "<group>"; };
 		06A2F1791F041CAA00FCA614 /* GFCircleQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GFCircleQuery.h; sourceTree = "<group>"; };
 		06A2F17A1F041CAA00FCA614 /* GFQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GFQuery.h; sourceTree = "<group>"; };
@@ -172,7 +172,7 @@
 			children = (
 				06A2F1551F0221C000FCA614 /* LoginController */,
 				06A2F15D1F02FCBD00FCA614 /* MainController */,
-				06A2F1731F04089D00FCA614 /* EventDetailsController.swift */,
+				06A2F1731F04089D00FCA614 /* CreateEventController.swift */,
 				06A2F1941F055DEA00FCA614 /* MessagesController.swift */,
 			);
 			name = Controllers;
@@ -365,6 +365,9 @@
 							com.apple.Keychain = {
 								enabled = 1;
 							};
+							com.apple.Push = {
+								enabled = 1;
+							};
 						};
 					};
 				};
@@ -466,7 +469,7 @@
 				06A2F1931F04BAAB00FCA614 /* UserService.swift in Sources */,
 				06A2F1881F041CAA00FCA614 /* GeoFire.m in Sources */,
 				06A2F1501F01F24E00FCA614 /* DataService.swift in Sources */,
-				06A2F1741F04089D00FCA614 /* EventDetailsController.swift in Sources */,
+				06A2F1741F04089D00FCA614 /* CreateEventController.swift in Sources */,
 				06A2F19E1F06275D00FCA614 /* MessageBubbleCell.swift in Sources */,
 				06A2F18B1F041CAA00FCA614 /* GFGeoHashQuery.m in Sources */,
 				06A2F16C1F03721C00FCA614 /* MapCell.swift in Sources */,

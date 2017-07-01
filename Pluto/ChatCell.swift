@@ -104,25 +104,31 @@ class ChatCell: BaseCollectionViewCell, UITableViewDelegate, UITableViewDataSour
         // Set the eventChatCell's text label to the event's title.
         eventChatCell.textLabel?.text = event.title
         
-        // Set the cell's imageView using the Kingfisher library.
-        let url = URL(string: event.imageUrl)
-        eventChatCell.eventImageView.kf.setImage(with: url)
+        // Set the cell's image.
+        let image = event.image
+        eventChatCell.eventImageView.image = UIImage(named: image)
         
-        MessageService.sharedInstance.observeEventMessages(event: event) { (message) in
-        
-            // Set the eventChatCell's detail text label to the latest message.
-            eventChatCell.detailTextLabel?.text = message.text
+        DispatchQueue.global(qos: .background).async {
             
-            // Set the eventChatCell's time label to the latest message's timeStamp.
-            if let seconds = message.timeStamp?.doubleValue {
+            MessageService.sharedInstance.observeEventMessages(event: event) { (message) in
                 
-                let timeStampDate = Date(timeIntervalSince1970: seconds)
-                
-                // Format the time stamp.
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "hh:mm a"
-                
-                eventChatCell.timeLabel.text = dateFormatter.string(from: timeStampDate)
+                DispatchQueue.main.async {
+                    
+                    // Set the eventChatCell's detail text label to the latest message.
+                    eventChatCell.detailTextLabel?.text = message.text
+                    
+                    // Set the eventChatCell's time label to the latest message's timeStamp.
+                    if let seconds = message.timeStamp?.doubleValue {
+                        
+                        let timeStampDate = Date(timeIntervalSince1970: seconds)
+                        
+                        // Format the time stamp.
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat = "hh:mm a"
+                        
+                        eventChatCell.timeLabel.text = dateFormatter.string(from: timeStampDate)
+                    }
+                }
             }
         }
     

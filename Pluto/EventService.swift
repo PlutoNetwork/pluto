@@ -91,30 +91,7 @@ struct EventService {
         })
     }
     
-    
-    func uploadEventImageAndCreateEvent(eventTitle: String, eventImage: UIImage, eventLocationCoordinate: CLLocationCoordinate2D) {
-                
-        // Upload the eventImage to the Firebase Storage.
-        if let uploadData = UIImagePNGRepresentation(eventImage) {
-            
-            DataService.ds.REF_EVENT_PICS.putData(uploadData, metadata: nil, completion: { (metadata, error) in
-                
-                if error != nil {
-                    
-                    print("ERROR: could not upload event pic to Firebase. Details: \(error.debugDescription)")
-                    return
-                }
-                
-                if let eventImageUrl = metadata?.downloadURL()?.absoluteString {
-                    
-                    // Create the event.
-                    self.createEvent(eventTitle: eventTitle, eventImageUrl: eventImageUrl, eventLocationCoordinate: eventLocationCoordinate)
-                }
-            })
-        }
-    }
-    
-    func createEvent(eventTitle: String, eventImageUrl: String, eventLocationCoordinate: CLLocationCoordinate2D) {
+    func createEvent(eventTitle: String, eventImage: String, eventLocationCoordinate: CLLocationCoordinate2D) {
         
         guard let uid = Auth.auth().currentUser?.uid else {
             
@@ -126,7 +103,7 @@ struct EventService {
         let values = ["count": 1,
                       "creator": uid,
                       "title": eventTitle as Any,
-                      "eventImageUrl": eventImageUrl] as [String: Any]
+                      "eventImage": eventImage] as [String: Any]
         
         /// An event created on Firebase with a random key.
         let newEvent = DataService.ds.REF_EVENTS.childByAutoId()
