@@ -63,7 +63,10 @@ class MessageBubbleCell: BaseCollectionViewCell {
     }()
     
     func handleImageZoomInTap(tapGesture: UITapGestureRecognizer) {
-                
+        
+        // Dismiss the keyboard.
+        messagesController?.messageInputAccessoryView.inputTextField.resignFirstResponder()
+        
         if let tappedImageView = tapGesture.view as? UIImageView {
         
             messagesController?.performZoomInForStartingImageView(startingImageView: tappedImageView)
@@ -128,7 +131,7 @@ class MessageBubbleCell: BaseCollectionViewCell {
         profileImageView.heightAnchor.constraint(equalToConstant: 32).isActive = true
     }
     
-    func configureCell(message: Message) {
+    func configureCell(message: Message, isSameSender: Bool) {
         
         // Set the messageBubbleCell's textView text as the message content.
         messageTextView.text = message.text
@@ -157,19 +160,22 @@ class MessageBubbleCell: BaseCollectionViewCell {
                 
             } else {
                 
-                // Set the profile images of the fromUsers.
-                DispatchQueue.global(qos: .background).async {
-                    
-                    if let messageFromId = message.fromId {
-                        
-                        UserService.sharedInstance.fetchUserProfileImage(withKey: messageFromId, completion: { (profileImageUrl) in
-                            
-                            DispatchQueue.main.async {
+                if !isSameSender {
                                 
-                                let url = URL(string: profileImageUrl)
-                                self.profileImageView.kf.setImage(with: url)
-                            }
-                        })
+                    // Set the profile images of the fromUsers.
+                    DispatchQueue.global(qos: .background).async {
+                        
+                        if let messageFromId = message.fromId {
+                            
+                            UserService.sharedInstance.fetchUserProfileImage(withKey: messageFromId, completion: { (profileImageUrl) in
+                                
+                                DispatchQueue.main.async {
+                                    
+                                    let url = URL(string: profileImageUrl)
+                                    self.profileImageView.kf.setImage(with: url)
+                                }
+                            })
+                        }
                     }
                 }
                 

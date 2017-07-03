@@ -55,7 +55,7 @@ struct MessageService {
         DataService.ds.REF_EVENT_MESSAGES.child(event.key).observe(.childAdded, with: { (snapshot) in
             
             let messageId = snapshot.key
-                        
+                                    
             // Find all the messages under the current event.
             DataService.ds.REF_MESSAGES.child(messageId).observeSingleEvent(of: .value, with: { (snapshot) in
                 

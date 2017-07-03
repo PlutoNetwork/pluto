@@ -173,7 +173,7 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
     func centerMapOnLocation(location: CLLocation) {
         
         // Specify a region to show.
-        let span = MKCoordinateSpanMake(0.025, 0.005)
+        let span = MKCoordinateSpanMake(0.003, 0.003)
         let coordinateRegion = MKCoordinateRegionMake(location.coordinate, span)
         
         // Show the region.

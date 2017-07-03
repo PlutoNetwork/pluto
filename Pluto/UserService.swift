@@ -29,6 +29,22 @@ struct UserService {
         })
     }
     
+    func fetchUserData(withKey: String, completion: @escaping (String) -> ()) {
+        
+        // Go into the Firebase database and retrieve the given user's data.
+        DataService.ds.REF_USERS.child(withKey).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            if let user = snapshot.value as? [String: AnyObject] {
+                
+                if let name = user["name"] as? String {
+                    
+                    // Return the name with the completion of the block.
+                    completion(name)
+                }
+            }
+        })
+    }
+    
     func fetchUserProfileImage(withKey: String, completion: @escaping (String) -> ()) {
     
         let userRef = DataService.ds.REF_USERS.child(withKey)

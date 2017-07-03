@@ -33,6 +33,8 @@ class ChatCell: BaseCollectionViewCell, UITableViewDelegate, UITableViewDataSour
     
     let chatCellId = "chatCell"
     
+    var timer: Timer?
+    
     // MARK: - View Configuration
     
     override func setUpViews() {
@@ -55,12 +57,24 @@ class ChatCell: BaseCollectionViewCell, UITableViewDelegate, UITableViewDataSour
                 
                 self.userEvents = userEvents
                 
-                DispatchQueue.main.async {
-                 
-                    self.chatsTableView.reloadData()
-                }
+                self.attemptReloadOfTable()
             }
         }
+    }
+    
+    fileprivate func attemptReloadOfTable() {
+        
+        timer?.invalidate()
+        
+        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
+    }
+    
+    func handleReloadTable() {
+        
+        DispatchQueue.main.async(execute: {
+            
+            self.chatsTableView.reloadData()
+        })
     }
     
     func setUpChatsTableView() {
@@ -116,8 +130,22 @@ class ChatCell: BaseCollectionViewCell, UITableViewDelegate, UITableViewDataSour
                 
                 DispatchQueue.main.async {
                     
-                    // Set the eventChatCell's detail text label to the latest message.
-                    eventChatCell.detailTextLabel?.text = message.text?.trunc(length: 40)
+                    if message.imageUrl == nil {
+                        
+                        // Set the eventChatCell's detail text label to the latest message.
+                        eventChatCell.detailTextLabel?.text = message.text?.trunc(length: 40)
+                        
+                    } else {
+                        
+                        if let imageSenderKey = message.fromId {
+                            
+                            UserService.sharedInstance.fetchUserData(withKey: imageSenderKey, completion: { (imageSenderName) in
+                                
+                                // Set the eventChatCell's detail text to the image default message.
+                                eventChatCell.detailTextLabel?.text = "\(imageSenderName) sent an image."
+                            })
+                        }
+                    }
                     
                     // Set the eventChatCell's time label to the latest message's timeStamp.
                     if let seconds = message.timeStamp?.doubleValue {

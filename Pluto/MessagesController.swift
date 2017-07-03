@@ -21,6 +21,7 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
     var messages = [Message]()
     var userProfileImageUrls = [String]()
     let messageCellId = "messageCellId"
+    var timer: Timer?
     
     // MARK: - View Configuration
     
@@ -168,11 +169,24 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
             
             MessageService.sharedInstance.updateMessages(toId: toId, fromId: fromId, values: values, completion: {
                 
-                DispatchQueue.main.async {
-                    
-                }
+                self.attemptReloadOfTable()
             })
         }
+    }
+    
+    fileprivate func attemptReloadOfTable() {
+        
+        timer?.invalidate()
+        
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
+    }
+    
+    func handleReloadTable() {
+        
+        DispatchQueue.main.async(execute: {
+            
+            self.collectionView?.reloadData()
+        })
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -366,7 +380,21 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
             messageBubbleCell.messageTextView.isHidden = true
         }
         
-        messageBubbleCell.configureCell(message: message)
+        // Check to see if the message sender is the same as the previous message sender.
+        
+        var isSameSender = false
+        
+        if messages.count > 1 {
+            
+//            //let previousMessage = messages[indexPath.item]
+//            
+//            if message.fromId == previousMessage.fromId {
+//                
+//                isSameSender = true
+//            }
+        }
+
+        messageBubbleCell.configureCell(message: message, isSameSender: isSameSender)
         
         return messageBubbleCell
     }    
