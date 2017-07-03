@@ -111,6 +111,12 @@ class ChatInputContainerView: UIView, UIImagePickerControllerDelegate, UINavigat
         
         // Show the user's photo gallery.
         let imagePickerController = UIImagePickerController()
+        imagePickerController.navigationBar.isTranslucent = false
+        imagePickerController.navigationBar.barTintColor = DARK_BLUE_COLOR
+        imagePickerController.navigationBar.tintColor = WHITE_COLOR
+        imagePickerController.navigationBar.titleTextAttributes = [
+            NSForegroundColorAttributeName : WHITE_COLOR
+        ]
         imagePickerController.delegate = self
         messagesController?.present(imagePickerController, animated: true, completion: nil)
     }

@@ -104,7 +104,7 @@ class ChatCell: BaseCollectionViewCell, UITableViewDelegate, UITableViewDataSour
         let event = userEvents[indexPath.row]
         
         // Set the eventChatCell's text label to the event's title.
-        eventChatCell.textLabel?.text = event.title
+        eventChatCell.textLabel?.text = event.title.trunc(length: 20)
         
         // Set the cell's image.
         let image = event.image

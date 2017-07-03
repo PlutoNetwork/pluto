@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "map_burger.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "1f354.png",
       "scale" : "2x"
     },
     {

@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "map_party.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "1f389.png",
       "scale" : "2x"
     },
     {

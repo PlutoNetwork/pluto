@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "map_football.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "1f3c8.png",
       "scale" : "2x"
     },
     {

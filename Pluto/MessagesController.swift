@@ -63,7 +63,7 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
         // Set the title.
         if let eventTitle = event?.title {
             
-            eventTitleLabel.text = eventTitle
+            eventTitleLabel.text = eventTitle.trunc(length: 20)
             containerView.addSubview(eventTitleLabel)
         }
         
