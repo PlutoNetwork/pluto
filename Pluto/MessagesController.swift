@@ -16,6 +16,7 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
     
     // MARK: - Global Variables
     
+    var chatCell: ChatCell?
     var event: Event?
     var messages = [Message]()
     var userProfileImageUrls = [String]()
@@ -56,7 +57,7 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
         // Create a text label that shows the event's title.
         let eventTitleLabel = UILabel()
         eventTitleLabel.textColor = UIColor.white
-        
+        eventTitleLabel.font = UIFont.boldSystemFont(ofSize: 16)
         eventTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         // Set the title.
@@ -110,6 +111,9 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
                     
                     self.collectionView?.reloadData()
                     
+                    // Also reload the ChatCell's chats table view.
+                    self.chatCell?.chatsTableView.reloadData()
+                    
                     // Move the messages up so the user can see the latest ones.
                     self.moveMessagesUp()
                 }
@@ -129,35 +133,45 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
             
             if messageText != "" {
                 
-                // We need to send the message to the event.
-                let toId = event?.key
+                // Clear the input text field.
+                self.messageInputAccessoryView.inputTextField.text = nil
                 
-                // Use the current user's id as the fromId to show the message sender.
-                guard let uid = Auth.auth().currentUser?.uid else {
-                    
-                    print("ERROR: could not get user ID.")
-                    return
-                }
-                
-                let fromId = uid
-                
-                // We should get a timestamp too, so we know when the message was sent out.
-                let timeStamp: NSNumber = NSNumber(value: Int(Date().timeIntervalSince1970))
-                
-                let values = ["text": messageText, "toId": toId!, "fromId": fromId, "timeStamp": timeStamp] as [String: Any]
-                
-                DispatchQueue.global(qos: .background).async {
-                    
-                    MessageService.sharedInstance.updateMessages(toId: toId!, fromId: fromId, values: values, completion: {
-                        
-                        DispatchQueue.main.async {
-                            
-                            // Clear the inputTextField in the inputView.
-                            self.messageInputAccessoryView.inputTextField.text = nil
-                        }
-                    })
-                }
+                let properties: [String: AnyObject] = ["text": messageText as AnyObject]
+                self.sendMessageWith(properties: properties)
             }
+        }
+    }
+    
+    func sendMessageWith(properties: [String: AnyObject]) {
+        
+        // We need to send the message to the event.
+        let toId = (event?.key)!
+        
+        // Use the current user's id as the fromId to show the message sender.
+        guard let uid = Auth.auth().currentUser?.uid else {
+            
+            print("ERROR: could not get user ID.")
+            return
+        }
+        
+        let fromId = uid
+        
+        // We should get a timestamp too, so we know when the message was sent out.
+        let timeStamp: NSNumber = NSNumber(value: Int(Date().timeIntervalSince1970))
+        
+        var values: [String: AnyObject] = ["toId": toId as AnyObject, "fromId": fromId as AnyObject, "timeStamp": timeStamp]
+        
+        // Append the parameter dictionary to the values.
+        properties.forEach({values[$0] = $1})
+        
+        DispatchQueue.global(qos: .background).async {
+            
+            MessageService.sharedInstance.updateMessages(toId: toId, fromId: fromId, values: values, completion: {
+                
+                DispatchQueue.main.async {
+                    
+                }
+            })
         }
     }
     
@@ -214,6 +228,84 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
         }
     }
     
+    // We need these here for zooming out.
+    var startingFrame: CGRect?
+    var startingImageView: UIImageView?
+    var blackBackgroundView: UIView?
+    
+    func performZoomInForStartingImageView(startingImageView: UIImageView) {
+        
+        self.startingImageView = startingImageView
+        self.startingImageView?.isHidden = true
+        
+        // Establish a starting frame.
+
+        startingFrame = startingImageView.superview?.convert(startingImageView.frame, to: nil)
+        
+        // Reference the imageView that will be zoomed.
+        let zoomingImageView = UIImageView(frame: startingFrame!)
+        zoomingImageView.image = startingImageView.image
+        zoomingImageView.isUserInteractionEnabled = true
+        zoomingImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleImageZoomOutTap)))
+        
+        // Reference the whole of the screen.
+        if let keyWindow = UIApplication.shared.keyWindow {
+            
+            // Add a black background to hide the rest of the window.
+            blackBackgroundView = UIView(frame: keyWindow.frame)
+            blackBackgroundView?.backgroundColor = UIColor.black
+            keyWindow.addSubview(blackBackgroundView!)
+            blackBackgroundView?.alpha = 0
+            
+            // Add the image view.
+            keyWindow.addSubview(zoomingImageView)
+            
+            // Perform the zoom-in animation.
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                
+                self.blackBackgroundView?.alpha = 1
+                self.messageInputAccessoryView.alpha = 0
+                
+                // heightForRect2 / widthForRect1 = heightForRect1 / widthForRect2
+                // heightForRect2 = heightForRect1 / widthForRect1 * widthForRect2
+                let height = self.startingFrame!.height / self.startingFrame!.width * keyWindow.frame.width
+                
+                // Set the width to match the whole of the screen's width.
+                zoomingImageView.frame = CGRect(x: 0, y: 0, width: keyWindow.frame.width, height: height)
+                
+                // Position the image to the center of the screen.
+                zoomingImageView.center = keyWindow.center
+                
+            }, completion: nil)
+        }
+    }
+    
+    func handleImageZoomOutTap(tapGesture: UITapGestureRecognizer) {
+        
+        if let zoomOutImageView = tapGesture.view {
+            
+            zoomOutImageView.layer.cornerRadius = 16
+            zoomOutImageView.layer.masksToBounds = true
+            
+            // We need to animate back to the imageView's normal position within the message bubble.
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: { 
+                
+                // Change the frame of the image back to normal.
+                zoomOutImageView.frame = self.startingFrame!
+                
+                // Hide the black background view and bring back the messageInputAccessoryView.
+                self.blackBackgroundView?.alpha = 0
+                self.messageInputAccessoryView.alpha = 1
+                
+            }, completion: { (completed) in
+                
+                // Remove the zoomOutImageView from the superView.
+                zoomOutImageView.removeFromSuperview()
+                self.startingImageView?.isHidden = false
+            })
+        }
+    }
+
     // MARK: - Collection View Functions
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -226,10 +318,19 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
         // Provide a default height value.
         var height: CGFloat = 80
         
-        // We need the height of each cell matching the text content size.
-        if let text = messages[indexPath.item].text {
+        let message = messages[indexPath.item]
+        
+        // We need the height of each cell matching the text content size or the image size.
+        if let text = message.text {
             
             height = estimateFrameForText(text: text).height + 20 // Added 20 for padding on the bottom.
+            
+        } else if let imageWidth = message.imageWidth?.floatValue, let imageHeight = message.imageHeight?.floatValue {
+            
+            // heightofRect1 / widthOfRect1 = heightOfRect2 / widthOfRect2
+            // heightofRect1 = heightofRect2 / widthOfRect2 * widthOfRect1
+
+            height = CGFloat(imageHeight / imageWidth * 200) // The 200 is the default width set in the sizeForItem function.
         }
         
         let width = UIScreen.main.bounds.width
@@ -249,12 +350,20 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
         
         let messageBubbleCell = collectionView.dequeueReusableCell(withReuseIdentifier: messageCellId, for: indexPath) as! MessageBubbleCell
         
+        messageBubbleCell.messagesController = self
+        
         let message = messages[indexPath.item]
         
-        // Set the width of the bubbleView to match the text content width.
+        // Set the width of the bubbleView to match the text content width or the image width.
         if let text = message.text {
             
             messageBubbleCell.bubbleWidthAnchor?.constant = estimateFrameForText(text: text).width + 32 // Added the extra space b/c of cut off text problem
+            messageBubbleCell.messageTextView.isHidden = false
+            
+        } else if message.imageUrl != nil {
+            
+            messageBubbleCell.bubbleWidthAnchor?.constant = 200
+            messageBubbleCell.messageTextView.isHidden = true
         }
         
         messageBubbleCell.configureCell(message: message)

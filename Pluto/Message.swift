@@ -14,16 +14,23 @@ class Message: NSObject {
     var fromId: String?
     var text: String?
     var timeStamp: NSNumber?
+    var imageUrl: String?
+    var imageWidth: NSNumber?
+    var imageHeight: NSNumber?
     
-    init(toId: String, fromId: String, text: String, timeStamp: NSNumber) {
+    init(toId: String, fromId: String, text: String, timeStamp: NSNumber, imageUrl: String, imageWidth: NSNumber, imageHeight: NSNumber) {
         
         self.toId = toId
         self.fromId = fromId
         self.text = text
         self.timeStamp = timeStamp
+        self.imageUrl = imageUrl
+        self.imageWidth = imageWidth
+        self.imageHeight = imageHeight
     }
     
     init(messageData: Dictionary<String, AnyObject>) {
+        super.init()
         
         if let toId = messageData["toId"] as? String {
             
@@ -44,6 +51,20 @@ class Message: NSObject {
             
             self.timeStamp = timeStamp
         }
+        
+        if let imageUrl = messageData["imageUrl"] as? String {
+            
+            self.imageUrl = imageUrl
+        }
+        
+        if let imageWidth = messageData["imageWidth"] as? NSNumber {
+            
+            self.imageWidth = imageWidth
+        }
+        
+        if let imageHeight = messageData["imageHeight"] as? NSNumber {
+            
+            self.imageHeight = imageHeight
+        }
     }
-
 }

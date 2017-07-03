@@ -156,6 +156,7 @@ class LoginController: UIViewController, GIDSignInUIDelegate {
     
     // MARK: - Global Variables
     
+    var mainController: MainController?
     var imageSelected = false
     
     // MARK: - View Configuration

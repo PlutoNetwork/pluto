@@ -117,7 +117,7 @@ class ChatCell: BaseCollectionViewCell, UITableViewDelegate, UITableViewDataSour
                 DispatchQueue.main.async {
                     
                     // Set the eventChatCell's detail text label to the latest message.
-                    eventChatCell.detailTextLabel?.text = message.text
+                    eventChatCell.detailTextLabel?.text = message.text?.trunc(length: 40)
                     
                     // Set the eventChatCell's time label to the latest message's timeStamp.
                     if let seconds = message.timeStamp?.doubleValue {
@@ -130,7 +130,6 @@ class ChatCell: BaseCollectionViewCell, UITableViewDelegate, UITableViewDataSour
                         
                         eventChatCell.timeLabel.text = dateFormatter.string(from: timeStampDate)
                     }
-                    
                 }
             }
         }
@@ -144,6 +143,7 @@ class ChatCell: BaseCollectionViewCell, UITableViewDelegate, UITableViewDataSour
         
         // Pass in the event to the MessagesController.
         let messagesController = MessagesController(collectionViewLayout: UICollectionViewFlowLayout())
+        messagesController.chatCell = self
         messagesController.event = event
         
         // Open the MessagesController.

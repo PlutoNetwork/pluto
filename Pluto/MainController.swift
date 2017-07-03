@@ -61,7 +61,7 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
         let navigationBarTitleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width - 32, height: view.frame.height))
         navigationBarTitleLabel.text = "Pluto - Beta"
         navigationBarTitleLabel.textColor = WHITE_COLOR
-        navigationBarTitleLabel.font = UIFont.systemFont(ofSize: 20)
+        navigationBarTitleLabel.font = UIFont.boldSystemFont(ofSize: 20)
         navigationItem.titleView = navigationBarTitleLabel
     }
     
@@ -86,7 +86,6 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         // Set up constraints for the UI components.
         setUpMenuBar()
-        setUpMainCollectionView()
         
         checkIfUserLoggedIn()
     }
@@ -98,6 +97,10 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
             
             // Without the following line, a warning appears and tells us that we have too many controllers while the app is starting. To fix, add the following:
             perform(#selector(handleLogout), with: nil, afterDelay: 0)
+            
+        } else {
+            
+            setUpMainCollectionView()
         }
     }
     
@@ -111,7 +114,7 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     func setUpMainCollectionView() {
-        
+                
         if let flowLayout = mainCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             
             // Make the mainCollectionView flow horizontally.

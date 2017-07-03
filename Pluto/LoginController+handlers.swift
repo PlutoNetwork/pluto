@@ -13,7 +13,7 @@ import GoogleSignIn
 import NVActivityIndicatorView
 
 extension LoginController: GIDSignInDelegate, NVActivityIndicatorViewable {
-    
+        
     func handleLoginRegisterSegmentChange() {
         
         // Change the addProfilePicImageView and modify user interaction ability.
@@ -92,6 +92,9 @@ extension LoginController: GIDSignInDelegate, NVActivityIndicatorViewable {
                 return
             }
             
+            // Reload the main controller.
+            self.mainController?.setUpMainCollectionView()
+            
             // Dismiss the login controller.
             self.dismiss(animated: true, completion: nil)
         }
@@ -128,10 +131,10 @@ extension LoginController: GIDSignInDelegate, NVActivityIndicatorViewable {
                         
                     case ERROR_WEAK_PASSWORD:
                         SCLAlertView().showError("Whoops!", subTitle: "Your password is weak. Make it longer.")
-                    case ERROR_NO_EMAIL:
+                    case ERROR_BAD_EMAIL:
                         SCLAlertView().showError("Whoops!", subTitle: "Your email is invalid. Make it exist.")
                     case ERROR_ACCOUNT_EXISTS:
-                        SCLAlertView().showError("Whoops!", subTitle: "There's already an account with this email.")
+                        SCLAlertView().showError("Whoops!", subTitle: "There's a problem with your email. Either an account already exists or you just typed it incorrectly.")
                     default:
                         SCLAlertView().showError("Whoops!", subTitle: "Pluto could not create your account. Try again.")
                     }
@@ -167,7 +170,8 @@ extension LoginController: GIDSignInDelegate, NVActivityIndicatorViewable {
                             let values = ["name": name,
                                           "email": email,
                                           "profileImageUrl": profileImageUrl,
-                                          "pushToken": token]
+                                          "pushToken": token as Any,
+                                          "events": ["-123456789": true]] as [String : Any]
                             
                             // Once the profile pic has been uploaded, register the user to Firebase.
                             self.registerUserToDatabase(withUid: uid, values: values as [String : AnyObject])
@@ -255,7 +259,8 @@ extension LoginController: GIDSignInDelegate, NVActivityIndicatorViewable {
         let values = ["name": name,
                       "email": email,
                       "profileImageUrl": profileImageUrl,
-                      "pushToken": token]
+                      "pushToken": token as Any,
+                      "events": ["-123456789": true]] as [String : Any]
         
         // Authenticate with Firebase.
         Auth.auth().signIn(with: withCredentials) { (user, error) in
@@ -287,6 +292,9 @@ extension LoginController: GIDSignInDelegate, NVActivityIndicatorViewable {
                 
                 print("ERROR: could not authenticate the user with Firebase. Details: \(error.debugDescription)")
             }
+            
+            // Reload the main controller.
+            self.mainController?.setUpMainCollectionView()
             
             // Dismiss the login controller.
             self.dismiss(animated: true, completion: nil)

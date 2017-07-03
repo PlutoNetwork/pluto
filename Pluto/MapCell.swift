@@ -150,6 +150,7 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
         case .notDetermined:
             
             print("INFO: Location status not determined.")
+            locationAuthStatus()
             
         case .authorizedAlways: fallthrough
             

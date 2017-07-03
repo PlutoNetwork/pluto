@@ -28,6 +28,7 @@ extension MainController {
         }
         
         let loginController = LoginController()
+        loginController.mainController = self
         
         // Transition to the LoginController.
         present(loginController, animated: true, completion: nil)

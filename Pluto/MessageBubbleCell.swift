@@ -12,6 +12,8 @@ import Kingfisher
 
 class MessageBubbleCell: BaseCollectionViewCell {
     
+    var messagesController: MessagesController?
+    
     let bubbleView: UIView = {
         
         let view = UIView()
@@ -27,6 +29,7 @@ class MessageBubbleCell: BaseCollectionViewCell {
         
         let textView = UITextView()
         textView.text = "Message goes here."
+        textView.isEditable = false
         textView.font = UIFont.systemFont(ofSize: 16)
         textView.textColor = WHITE_COLOR
         textView.backgroundColor = UIColor.clear // Need this so we can see the bubble view.
@@ -45,6 +48,27 @@ class MessageBubbleCell: BaseCollectionViewCell {
         
         return imageView
     }()
+
+    lazy var messageImageView: UIImageView = {
+        
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 16
+        imageView.layer.masksToBounds = true
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleImageZoomInTap(tapGesture:))))
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return imageView
+    }()
+    
+    func handleImageZoomInTap(tapGesture: UITapGestureRecognizer) {
+                
+        if let tappedImageView = tapGesture.view as? UIImageView {
+        
+            messagesController?.performZoomInForStartingImageView(startingImageView: tappedImageView)
+        }
+    }
     
     override func setUpViews() {
         super.setUpViews()
@@ -76,6 +100,14 @@ class MessageBubbleCell: BaseCollectionViewCell {
         bubbleWidthAnchor = bubbleView.widthAnchor.constraint(equalToConstant: 200)
         bubbleWidthAnchor?.isActive = true
         bubbleView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        
+        bubbleView.addSubview(messageImageView)
+        
+        // Add X, Y, width, and height constraints to the messageImageView.
+        messageImageView.leftAnchor.constraint(equalTo: bubbleView.leftAnchor, constant: 8).isActive = true
+        messageImageView.topAnchor.constraint(equalTo: bubbleView.topAnchor).isActive = true
+        messageImageView.widthAnchor.constraint(equalTo: bubbleView.widthAnchor).isActive = true
+        messageImageView.heightAnchor.constraint(equalTo: bubbleView.heightAnchor).isActive = true
     }
     
     func setUpMessageTextView() {
@@ -148,6 +180,20 @@ class MessageBubbleCell: BaseCollectionViewCell {
                 bubbleRightAnchor?.isActive = false
                 bubbleLeftAnchor?.isActive = true
             }
+        }
+        
+        // If there was an image in the message, set the image.
+        if let messageImageUrl = message.imageUrl {
+            
+            // Set the image using the Kingfisher library.
+            let url = URL(string: messageImageUrl)
+            messageImageView.kf.setImage(with: url)
+            messageImageView.isHidden = false
+            bubbleView.backgroundColor = UIColor.clear
+            
+        } else {
+            
+            messageImageView.isHidden = true
         }
     }
 }

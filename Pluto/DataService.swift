@@ -89,4 +89,11 @@ class DataService {
         
         return _REF_EVENT_PICS
     }
+    
+    private var _REF_MESSAGE_PICS = STORAGE_BASE.child("message_pics").child("\(NSUUID().uuidString).png")
+    
+    var REF_MESSAGE_PICS: StorageReference {
+        
+        return _REF_MESSAGE_PICS
+    }
 }
