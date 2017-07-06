@@ -1,5 +1,5 @@
 //
-//  ChatInputContainerView.swift
+//  MessageInputContainerView.swift
 //  Pluto
 //
 //  Created by Faisal M. Lalani on 7/1/17.
@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class ChatInputContainerView: UIView, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class MessageInputContainerView: UIView, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     // MARK: - UIComponents
     
@@ -60,11 +60,11 @@ class ChatInputContainerView: UIView, UIImagePickerControllerDelegate, UINavigat
     
     // MARK: - Global Variables
     
-    var messagesController: MessagesController? {
+    var messageLogController: MessageLogController? {
         didSet {
             
-            // Add functionality to the send button using a function from MessagesController.
-            sendButton.addTarget(messagesController, action: #selector(MessagesController.handleSend), for: .touchUpInside)
+            // Add functionality to the send button using a function from MessageLogController.
+            sendButton.addTarget(messageLogController, action: #selector(MessageLogController.handleSend), for: .touchUpInside)
         }
     }
     
@@ -118,7 +118,8 @@ class ChatInputContainerView: UIView, UIImagePickerControllerDelegate, UINavigat
             NSForegroundColorAttributeName : WHITE_COLOR
         ]
         imagePickerController.delegate = self
-        messagesController?.present(imagePickerController, animated: true, completion: nil)
+        imagePickerController.allowsEditing = true
+        messageLogController?.present(imagePickerController, animated: true, completion: nil)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -142,7 +143,7 @@ class ChatInputContainerView: UIView, UIImagePickerControllerDelegate, UINavigat
         }
         
         // Dismiss the image picker.
-        messagesController?.dismiss(animated: true, completion: nil)
+        messageLogController?.dismiss(animated: true, completion: nil)
     }
     
     private func uploadToFirebaseStorageUsing(image: UIImage) {
@@ -169,13 +170,13 @@ class ChatInputContainerView: UIView, UIImagePickerControllerDelegate, UINavigat
         
         let properties: [String: AnyObject] = ["imageUrl": imageUrl as AnyObject, "imageWidth": image.size.width as AnyObject, "imageHeight": image.size.height as AnyObject]
         
-        messagesController?.sendMessageWith(properties: properties)
+        messageLogController?.sendMessageWith(properties: properties)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         
         // Dismiss the image picker.
-        messagesController?.dismiss(animated: true, completion: nil)
+        messageLogController?.dismiss(animated: true, completion: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -183,7 +184,7 @@ class ChatInputContainerView: UIView, UIImagePickerControllerDelegate, UINavigat
     }
 }
 
-extension ChatInputContainerView: UITextFieldDelegate {
+extension MessageInputContainerView: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         

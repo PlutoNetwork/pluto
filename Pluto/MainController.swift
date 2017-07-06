@@ -47,7 +47,7 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
     // MARK: - Global Variables
     
     let mapCellId = "mapCell"
-    let chatCellId = "chatCell"
+    let messagesCellId = "messagesCell"
     let profileCellId = "profileCell"
     let notificationsCellId = "notificationsCell"
     
@@ -132,7 +132,7 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         // Register cell classes in the mainCollectionView.
         mainCollectionView.register(MapCell.self, forCellWithReuseIdentifier: mapCellId)
-        mainCollectionView.register(ChatCell.self, forCellWithReuseIdentifier: chatCellId)
+        mainCollectionView.register(MessagesCell.self, forCellWithReuseIdentifier: messagesCellId)
         
         // The top of each section is hidden by the menuBar. So adjust the content and the scroll.
         let contentInset = UIEdgeInsetsMake(50, 0, 0, 0)
@@ -180,11 +180,11 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         } else if indexPath.item == 1 {
             
-            let chatCell = collectionView.dequeueReusableCell(withReuseIdentifier: chatCellId, for: indexPath) as! ChatCell
+            let messagesCell = collectionView.dequeueReusableCell(withReuseIdentifier: messagesCellId, for: indexPath) as! MessagesCell
             
-            chatCell.mainController = self
+            messagesCell.mainController = self
             
-            return chatCell
+            return messagesCell
         }
         
         return UICollectionViewCell()

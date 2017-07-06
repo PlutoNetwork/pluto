@@ -93,7 +93,7 @@ extension LoginController: GIDSignInDelegate, NVActivityIndicatorViewable {
             }
             
             // Reload the main controller.
-            self.mainController?.setUpMainCollectionView()
+            self.mainController?.mainCollectionView.reloadData()
             
             // Dismiss the login controller.
             self.dismiss(animated: true, completion: nil)
@@ -294,7 +294,7 @@ extension LoginController: GIDSignInDelegate, NVActivityIndicatorViewable {
             }
             
             // Reload the main controller.
-            self.mainController?.setUpMainCollectionView()
+            self.mainController?.mainCollectionView.reloadData()
             
             // Dismiss the login controller.
             self.dismiss(animated: true, completion: nil)

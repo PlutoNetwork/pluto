@@ -12,7 +12,7 @@ import Kingfisher
 
 class MessageBubbleCell: BaseCollectionViewCell {
     
-    var messagesController: MessagesController?
+    var messageLogController: MessageLogController?
     
     let bubbleView: UIView = {
         
@@ -43,7 +43,6 @@ class MessageBubbleCell: BaseCollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 16
-        imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView
@@ -54,7 +53,6 @@ class MessageBubbleCell: BaseCollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 16
-        imageView.layer.masksToBounds = true
         imageView.isUserInteractionEnabled = true
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleImageZoomInTap(tapGesture:))))
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -65,11 +63,11 @@ class MessageBubbleCell: BaseCollectionViewCell {
     func handleImageZoomInTap(tapGesture: UITapGestureRecognizer) {
         
         // Dismiss the keyboard.
-        messagesController?.messageInputAccessoryView.inputTextField.resignFirstResponder()
+        messageLogController?.messageInputAccessoryView.inputTextField.resignFirstResponder()
         
         if let tappedImageView = tapGesture.view as? UIImageView {
         
-            messagesController?.performZoomInForStartingImageView(startingImageView: tappedImageView)
+            messageLogController?.performZoomInForStartingImageView(startingImageView: tappedImageView)
         }
     }
     
@@ -131,10 +129,11 @@ class MessageBubbleCell: BaseCollectionViewCell {
         profileImageView.heightAnchor.constraint(equalToConstant: 32).isActive = true
     }
     
-    func configureCell(message: Message, isSameSender: Bool) {
+    func configureCell(message: Message) {
         
         // Set the messageBubbleCell's textView text as the message content.
         messageTextView.text = message.text
+        profileImageView.image = nil
         
         guard let uid = Auth.auth().currentUser?.uid else {
             
@@ -160,24 +159,8 @@ class MessageBubbleCell: BaseCollectionViewCell {
                 
             } else {
                 
-                if !isSameSender {
-                                
-                    // Set the profile images of the fromUsers.
-                    DispatchQueue.global(qos: .background).async {
-                        
-                        if let messageFromId = message.fromId {
-                            
-                            UserService.sharedInstance.fetchUserProfileImage(withKey: messageFromId, completion: { (profileImageUrl) in
-                                
-                                DispatchQueue.main.async {
-                                    
-                                    let url = URL(string: profileImageUrl)
-                                    self.profileImageView.kf.setImage(with: url)
-                                }
-                            })
-                        }
-                    }
-                }
+                // Download the profile image of the message sender.
+                self.fetchUserProfileImage(withKey: messageFromId)
                 
                 // Since the message is from someone else, make the bubbleView gray and the text black.
                 bubbleView.backgroundColor = LIGHT_BLUE_COLOR
@@ -192,8 +175,7 @@ class MessageBubbleCell: BaseCollectionViewCell {
         if let messageImageUrl = message.imageUrl {
             
             // Set the image using the Kingfisher library.
-            let url = URL(string: messageImageUrl)
-            messageImageView.kf.setImage(with: url)
+            messageImageView.setImageWithKingfisher(url: messageImageUrl)
             messageImageView.isHidden = false
             bubbleView.backgroundColor = UIColor.clear
             
@@ -201,5 +183,29 @@ class MessageBubbleCell: BaseCollectionViewCell {
             
             messageImageView.isHidden = true
         }
+    }
+    
+    func fetchUserProfileImage(withKey: String) {
+        
+        print("About to fetch pic")
+        
+        // Go into the Firebase database and retrieve the given user's data.
+        DataService.ds.REF_USERS.child(withKey).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            print("Fetching...")
+            
+            if let userData = snapshot.value as? [String: AnyObject] {
+                
+                print("Found user \(userData["name"]!)")
+                
+                if let profileImageUrl = userData["profileImageUrl"] as? String {
+                    
+                    print("Setting \(userData["name"]!)'s pic.")
+                    self.profileImageView.setImageWithKingfisher(url: profileImageUrl)
+                }
+            }
+        })
+        
+        print("****")
     }
 }

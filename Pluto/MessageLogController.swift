@@ -1,5 +1,5 @@
 //
-//  MessagesController.swift
+//  MessageLogController.swift
 //  Pluto
 //
 //  Created by Faisal M. Lalani on 6/29/17.
@@ -10,88 +10,68 @@ import UIKit
 import Firebase
 import Kingfisher
 
-class MessagesController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class MessageLogController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     // MARK: - UI Components
     
+    lazy var eventDetailsButtonItem: UIBarButtonItem = {
+        
+        let button = UIBarButtonItem(image: UIImage(named: "ic_dehaze_white"), style: .plain, target: self, action: #selector(handleShowEventDetails))
+        
+        return button
+    }()
+    
+    func handleShowEventDetails() {
+        
+        // Pass the event to the EventController.
+        let eventController = EventController()
+        eventController.event = event
+        
+        // Open the EventController.
+        navigationController?.pushViewController(eventController, animated: true)
+    }
+    
     // MARK: - Global Variables
     
-    var chatCell: ChatCell?
-    var event: Event?
+    var messagesCell: MessagesCell?
+    
+    var event: Event? {
+        didSet {
+            
+            navigationItem.title = event?.title
+            observeMessages()
+        }
+    }
+    
     var messages = [Message]()
     var userProfileImageUrls = [String]()
-    let messageCellId = "messageCellId"
-    var timer: Timer?
+    let messageBubbleCellId = "messageBubbleCellId"
     
     // MARK: - View Configuration
     
     fileprivate func navigationBarCustomization() {
         
-        // Create a title view to show in the middle of the navigation bar.
-        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
+        // Set the color of the navigationItem to white.
+        let colorAttribute = [NSForegroundColorAttributeName: UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = colorAttribute
         
-        // Create a container view that fixes spacing issues.
-        let containerView = UIView()
-        containerView.translatesAutoresizingMaskIntoConstraints = false
+        // Change the tint color to white.
+        navigationController?.navigationBar.tintColor = WHITE_COLOR
         
-        titleView.addSubview(containerView)
-            
-        // Create an image view to show the event's image.
-        let eventImageView = UIImageView()
-        eventImageView.contentMode = .scaleAspectFill
-        
-        eventImageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        // Set the image.
-        if let eventImage = event?.image {
-            
-            eventImageView.image = UIImage(named: eventImage)
-            containerView.addSubview(eventImageView)
-        }
-        
-        // Add X, Y, width, and height constraints to the eventImageView.
-        eventImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor).isActive = true
-        eventImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
-        eventImageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        eventImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
-        // Create a text label that shows the event's title.
-        let eventTitleLabel = UILabel()
-        eventTitleLabel.textColor = UIColor.white
-        eventTitleLabel.font = UIFont.boldSystemFont(ofSize: 16)
-        eventTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        // Set the title.
-        if let eventTitle = event?.title {
-            
-            eventTitleLabel.text = eventTitle.trunc(length: 20)
-            containerView.addSubview(eventTitleLabel)
-        }
-        
-        // Add X, Y, width, and height constraints to the eventTitleLabel.
-        // - TODO: Fix spacing for long event titles.
-        eventTitleLabel.leftAnchor.constraint(equalTo: eventImageView.rightAnchor, constant: 8).isActive = true
-        eventTitleLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
-        eventTitleLabel.centerYAnchor.constraint(equalTo: eventImageView.centerYAnchor).isActive = true
-        eventTitleLabel.heightAnchor.constraint(equalTo: eventImageView.heightAnchor).isActive = true
-        
-        // Add X and Y to the containerView.
-        containerView.centerXAnchor.constraint(equalTo: titleView.centerXAnchor).isActive = true
-        containerView.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
-        
-        navigationItem.titleView = titleView
+        // Add the bar button items.
+        navigationItem.rightBarButtonItems = [eventDetailsButtonItem]
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         navigationBarCustomization()
         
         // Change the background color of the background.
         collectionView?.backgroundColor = HIGHLIGHT_COLOR
         
         // Register a cell class for the collectionView.
-        collectionView?.register(MessageBubbleCell.self, forCellWithReuseIdentifier: messageCellId)
+        collectionView?.register(MessageBubbleCell.self, forCellWithReuseIdentifier: messageBubbleCellId)
         
         // Make the collectionView draggable.
         collectionView?.alwaysBounceVertical = true
@@ -101,37 +81,67 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
         
         // The following line will allow the user to interact with the keyboard.
         collectionView?.keyboardDismissMode = .interactive
-        
-        DispatchQueue.global(qos: .background).async {
-        
-            MessageService.sharedInstance.observeMessages(event: self.event!) { (messages) in
-                
-                self.messages = messages
-                
-                DispatchQueue.main.async {
-                    
-                    self.collectionView?.reloadData()
-                    
-                    // Also reload the ChatCell's chats table view.
-                    self.chatCell?.chatsTableView.reloadData()
-                    
-                    // Move the messages up so the user can see the latest ones.
-                    self.moveMessagesUp()
-                }
-            }
-        }
-        
+    
         // Set up the keyboard voodoo.
         setUpKeyboardObservers()
+    }
+    
+    func observeMessages() {
+        
+        if let eventKey = event?.key {
+            
+            DataService.ds.REF_EVENT_MESSAGES.child(eventKey).observe(.childAdded, with: { (snapshot) in
+                
+                let messageKey = snapshot.key
+                
+                // Find all the messages under the current event.
+                self.fetchMessageData(withMessageId: messageKey)
+            })
+        }
+    }
+    
+    func fetchMessageData(withMessageId: String) {
+        
+        // Grab the message's data from Firebase.
+        DataService.ds.REF_MESSAGES.child(withMessageId).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            if let messageData = snapshot.value as? [String: AnyObject] {
+                
+                let message = Message(messageData: messageData)
+        
+                // Add the message to the array of messages.
+                self.messages.append(message)
+                
+                self.attemptReloadOfTable()
+            }
+        })
+    }
+    
+    var timer: Timer?
+    
+    fileprivate func attemptReloadOfTable() {
+        
+        timer?.invalidate()
+        
+        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
+    }
+    
+    func handleReloadTable() {
+        
+        DispatchQueue.main.async(execute: {
+            
+            self.collectionView?.reloadData()
+            self.moveMessagesUp()
+        })
     }
     
     func handleSend() {
         
         // We need to generate a list of items in the Firebase database so we can have multiple messages.
         // We can do this by creating a new childRef every time the send button is tapped.
-        
         if let messageText = messageInputAccessoryView.inputTextField.text {
             
+            // Make sure messageText isn't empty.
             if messageText != "" {
                 
                 // Clear the input text field.
@@ -158,35 +168,14 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
         let fromId = uid
         
         // We should get a timestamp too, so we know when the message was sent out.
-        let timeStamp: NSNumber = NSNumber(value: Int(Date().timeIntervalSince1970))
+        let timeStamp = Int(Date().timeIntervalSince1970)
         
-        var values: [String: AnyObject] = ["toId": toId as AnyObject, "fromId": fromId as AnyObject, "timeStamp": timeStamp]
+        var values: [String: AnyObject] = ["toId": toId as AnyObject, "fromId": fromId as AnyObject, "timeStamp": timeStamp as AnyObject]
         
         // Append the parameter dictionary to the values.
         properties.forEach({values[$0] = $1})
         
-        DispatchQueue.global(qos: .background).async {
-            
-            MessageService.sharedInstance.updateMessages(toId: toId, fromId: fromId, values: values, completion: {
-                
-                self.attemptReloadOfTable()
-            })
-        }
-    }
-    
-    fileprivate func attemptReloadOfTable() {
-        
-        timer?.invalidate()
-        
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
-    }
-    
-    func handleReloadTable() {
-        
-        DispatchQueue.main.async(execute: {
-            
-            self.collectionView?.reloadData()
-        })
+        MessageService.sharedInstance.updateMessages(toId: toId, fromId: fromId, values: values)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -203,12 +192,12 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
         NotificationCenter.default.removeObserver(self)
     }
     
-    lazy var messageInputAccessoryView: ChatInputContainerView = {
+    lazy var messageInputAccessoryView: MessageInputContainerView = {
         
-        let chatInputContainerView = ChatInputContainerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
-        chatInputContainerView.messagesController = self
+        let messageInputContainerView = MessageInputContainerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
+        messageInputContainerView.messageLogController = self
         
-        return chatInputContainerView
+        return messageInputContainerView
     }()
     
     // The following overrides will allow us to move the inputContainerView with the keyboard.
@@ -236,7 +225,7 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
         
         // Move the latest up to show it above the keyboard.
         if messages.count > 0 {
-            
+        
             let indexPath = IndexPath(item: messages.count - 1, section: 0)
             collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
         }
@@ -362,9 +351,9 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let messageBubbleCell = collectionView.dequeueReusableCell(withReuseIdentifier: messageCellId, for: indexPath) as! MessageBubbleCell
+        let messageBubbleCell = collectionView.dequeueReusableCell(withReuseIdentifier: messageBubbleCellId, for: indexPath) as! MessageBubbleCell
         
-        messageBubbleCell.messagesController = self
+        messageBubbleCell.messageLogController = self
         
         let message = messages[indexPath.item]
         
@@ -379,22 +368,8 @@ class MessagesController: UICollectionViewController, UICollectionViewDelegateFl
             messageBubbleCell.bubbleWidthAnchor?.constant = 200
             messageBubbleCell.messageTextView.isHidden = true
         }
-        
-        // Check to see if the message sender is the same as the previous message sender.
-        
-        var isSameSender = false
-        
-        if messages.count > 1 {
-            
-//            //let previousMessage = messages[indexPath.item]
-//            
-//            if message.fromId == previousMessage.fromId {
-//                
-//                isSameSender = true
-//            }
-        }
 
-        messageBubbleCell.configureCell(message: message, isSameSender: isSameSender)
+        messageBubbleCell.configureCell(message: message)
         
         return messageBubbleCell
     }    

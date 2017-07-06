@@ -15,7 +15,8 @@
 		062F07DA1F01C8F7008F3014 /* Pluto.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 062F07D81F01C8F7008F3014 /* Pluto.xcdatamodeld */; };
 		062F07DC1F01C8F7008F3014 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 062F07DB1F01C8F7008F3014 /* Assets.xcassets */; };
 		062F07DF1F01C8F7008F3014 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 062F07DD1F01C8F7008F3014 /* LaunchScreen.storyboard */; };
-		064AC71E1F0843C6009B7FE0 /* ChatInputContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064AC71D1F0843C6009B7FE0 /* ChatInputContainerView.swift */; };
+		064AC71E1F0843C6009B7FE0 /* MessageInputContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064AC71D1F0843C6009B7FE0 /* MessageInputContainerView.swift */; };
+		068993901F0C048500899045 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0689938F1F0C048500899045 /* Extensions.swift */; };
 		06A2F14D1F01EBF700FCA614 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06A2F14C1F01EBF700FCA614 /* GoogleService-Info.plist */; };
 		06A2F1501F01F24E00FCA614 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F14F1F01F24E00FCA614 /* DataService.swift */; };
 		06A2F1521F02004100FCA614 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1511F02004100FCA614 /* MainController.swift */; };
@@ -28,10 +29,8 @@
 		06A2F1681F032E5C00FCA614 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1671F032E5C00FCA614 /* Constants.swift */; };
 		06A2F16A1F03366100FCA614 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1691F03366100FCA614 /* Event.swift */; };
 		06A2F16C1F03721C00FCA614 /* MapCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F16B1F03721C00FCA614 /* MapCell.swift */; };
-		06A2F16E1F037BB500FCA614 /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F16D1F037BB500FCA614 /* ChatCell.swift */; };
-		06A2F1701F037BC400FCA614 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F16F1F037BC400FCA614 /* ProfileCell.swift */; };
-		06A2F1721F037BDA00FCA614 /* NotificationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1711F037BDA00FCA614 /* NotificationsCell.swift */; };
-		06A2F1741F04089D00FCA614 /* CreateEventController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1731F04089D00FCA614 /* CreateEventController.swift */; };
+		06A2F16E1F037BB500FCA614 /* MessagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F16D1F037BB500FCA614 /* MessagesCell.swift */; };
+		06A2F1741F04089D00FCA614 /* EventController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1731F04089D00FCA614 /* EventController.swift */; };
 		06A2F1881F041CAA00FCA614 /* GeoFire.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F17F1F041CAA00FCA614 /* GeoFire.m */; };
 		06A2F1891F041CAA00FCA614 /* GFBase32Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1811F041CAA00FCA614 /* GFBase32Utils.m */; };
 		06A2F18A1F041CAA00FCA614 /* GFGeoHash.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1831F041CAA00FCA614 /* GFGeoHash.m */; };
@@ -40,8 +39,8 @@
 		06A2F18F1F045C4E00FCA614 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F18E1F045C4E00FCA614 /* EventService.swift */; };
 		06A2F1911F04B6A300FCA614 /* EventAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1901F04B6A300FCA614 /* EventAnnotation.swift */; };
 		06A2F1931F04BAAB00FCA614 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1921F04BAAB00FCA614 /* UserService.swift */; };
-		06A2F1951F055DEA00FCA614 /* MessagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1941F055DEA00FCA614 /* MessagesController.swift */; };
-		06A2F1981F0583C300FCA614 /* EventChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1971F0583C300FCA614 /* EventChatCell.swift */; };
+		06A2F1951F055DEA00FCA614 /* MessageLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1941F055DEA00FCA614 /* MessageLogController.swift */; };
+		06A2F1981F0583C300FCA614 /* EventMessagesPreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1971F0583C300FCA614 /* EventMessagesPreviewCell.swift */; };
 		06A2F19A1F058FF300FCA614 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1991F058FF300FCA614 /* Message.swift */; };
 		06A2F19C1F05915000FCA614 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F19B1F05915000FCA614 /* MessageService.swift */; };
 		06A2F19E1F06275D00FCA614 /* MessageBubbleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F19D1F06275D00FCA614 /* MessageBubbleCell.swift */; };
@@ -60,7 +59,8 @@
 		062F07DB1F01C8F7008F3014 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		062F07DE1F01C8F7008F3014 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		062F07E01F01C8F7008F3014 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		064AC71D1F0843C6009B7FE0 /* ChatInputContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInputContainerView.swift; sourceTree = "<group>"; };
+		064AC71D1F0843C6009B7FE0 /* MessageInputContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageInputContainerView.swift; sourceTree = "<group>"; };
+		0689938F1F0C048500899045 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		06A2F14C1F01EBF700FCA614 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		06A2F14F1F01F24E00FCA614 /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		06A2F1511F02004100FCA614 /* MainController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
@@ -74,10 +74,8 @@
 		06A2F1671F032E5C00FCA614 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		06A2F1691F03366100FCA614 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		06A2F16B1F03721C00FCA614 /* MapCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCell.swift; sourceTree = "<group>"; };
-		06A2F16D1F037BB500FCA614 /* ChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
-		06A2F16F1F037BC400FCA614 /* ProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
-		06A2F1711F037BDA00FCA614 /* NotificationsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsCell.swift; sourceTree = "<group>"; };
-		06A2F1731F04089D00FCA614 /* CreateEventController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEventController.swift; sourceTree = "<group>"; };
+		06A2F16D1F037BB500FCA614 /* MessagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesCell.swift; sourceTree = "<group>"; };
+		06A2F1731F04089D00FCA614 /* EventController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventController.swift; sourceTree = "<group>"; };
 		06A2F1781F041CAA00FCA614 /* GeoFire.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoFire.h; sourceTree = "<group>"; };
 		06A2F1791F041CAA00FCA614 /* GFCircleQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GFCircleQuery.h; sourceTree = "<group>"; };
 		06A2F17A1F041CAA00FCA614 /* GFQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GFQuery.h; sourceTree = "<group>"; };
@@ -97,8 +95,8 @@
 		06A2F18E1F045C4E00FCA614 /* EventService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
 		06A2F1901F04B6A300FCA614 /* EventAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventAnnotation.swift; sourceTree = "<group>"; };
 		06A2F1921F04BAAB00FCA614 /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
-		06A2F1941F055DEA00FCA614 /* MessagesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesController.swift; sourceTree = "<group>"; };
-		06A2F1971F0583C300FCA614 /* EventChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventChatCell.swift; sourceTree = "<group>"; };
+		06A2F1941F055DEA00FCA614 /* MessageLogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageLogController.swift; sourceTree = "<group>"; };
+		06A2F1971F0583C300FCA614 /* EventMessagesPreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventMessagesPreviewCell.swift; sourceTree = "<group>"; };
 		06A2F1991F058FF300FCA614 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		06A2F19B1F05915000FCA614 /* MessageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
 		06A2F19D1F06275D00FCA614 /* MessageBubbleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageBubbleCell.swift; sourceTree = "<group>"; };
@@ -158,11 +156,11 @@
 				062F07DD1F01C8F7008F3014 /* LaunchScreen.storyboard */,
 				062F07D11F01C8F6008F3014 /* AppDelegate.swift */,
 				062F08021F01CD0D008F3014 /* Controllers */,
+				06A2F15A1F02FBC400FCA614 /* Views */,
 				06A2F1561F0229E900FCA614 /* Models */,
 				06A2F1751F041C8900FCA614 /* Resources */,
 				06A2F14E1F01F23400FCA614 /* Services */,
 				06A2F1661F032E4B00FCA614 /* Utilities */,
-				06A2F15A1F02FBC400FCA614 /* Views */,
 				062F07D81F01C8F7008F3014 /* Pluto.xcdatamodeld */,
 				06A2F18D1F041D1500FCA614 /* Pluto-Bridging-Header.h */,
 			);
@@ -174,8 +172,8 @@
 			children = (
 				06A2F1551F0221C000FCA614 /* LoginController */,
 				06A2F15D1F02FCBD00FCA614 /* MainController */,
-				06A2F1731F04089D00FCA614 /* CreateEventController.swift */,
-				06A2F1941F055DEA00FCA614 /* MessagesController.swift */,
+				06A2F1731F04089D00FCA614 /* EventController.swift */,
+				06A2F1941F055DEA00FCA614 /* MessageLogController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -217,9 +215,7 @@
 				06A2F1641F031AC800FCA614 /* BaseCollectionViewCell.swift */,
 				06A2F1611F031A1E00FCA614 /* MenuBar */,
 				06A2F16B1F03721C00FCA614 /* MapCell.swift */,
-				06A2F1961F05839E00FCA614 /* ChatCell */,
-				06A2F16F1F037BC400FCA614 /* ProfileCell.swift */,
-				06A2F1711F037BDA00FCA614 /* NotificationsCell.swift */,
+				06A2F1961F05839E00FCA614 /* MessagesCell */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -246,6 +242,7 @@
 			isa = PBXGroup;
 			children = (
 				06A2F1671F032E5C00FCA614 /* Constants.swift */,
+				0689938F1F0C048500899045 /* Extensions.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -297,15 +294,15 @@
 			path = Implementation;
 			sourceTree = "<group>";
 		};
-		06A2F1961F05839E00FCA614 /* ChatCell */ = {
+		06A2F1961F05839E00FCA614 /* MessagesCell */ = {
 			isa = PBXGroup;
 			children = (
-				06A2F16D1F037BB500FCA614 /* ChatCell.swift */,
-				06A2F1971F0583C300FCA614 /* EventChatCell.swift */,
+				06A2F16D1F037BB500FCA614 /* MessagesCell.swift */,
+				06A2F1971F0583C300FCA614 /* EventMessagesPreviewCell.swift */,
 				06A2F19D1F06275D00FCA614 /* MessageBubbleCell.swift */,
-				064AC71D1F0843C6009B7FE0 /* ChatInputContainerView.swift */,
+				064AC71D1F0843C6009B7FE0 /* MessageInputContainerView.swift */,
 			);
-			name = ChatCell;
+			name = MessagesCell;
 			sourceTree = "<group>";
 		};
 		3D8FD35569022D3F3255DC6C /* Pods */ = {
@@ -472,28 +469,27 @@
 				06A2F1931F04BAAB00FCA614 /* UserService.swift in Sources */,
 				06A2F1881F041CAA00FCA614 /* GeoFire.m in Sources */,
 				06A2F1501F01F24E00FCA614 /* DataService.swift in Sources */,
-				06A2F1741F04089D00FCA614 /* CreateEventController.swift in Sources */,
+				06A2F1741F04089D00FCA614 /* EventController.swift in Sources */,
 				06A2F19E1F06275D00FCA614 /* MessageBubbleCell.swift in Sources */,
 				06A2F18B1F041CAA00FCA614 /* GFGeoHashQuery.m in Sources */,
 				06A2F16C1F03721C00FCA614 /* MapCell.swift in Sources */,
-				06A2F16E1F037BB500FCA614 /* ChatCell.swift in Sources */,
+				06A2F16E1F037BB500FCA614 /* MessagesCell.swift in Sources */,
 				06A2F18C1F041CAA00FCA614 /* GFQuery.m in Sources */,
 				06A2F1911F04B6A300FCA614 /* EventAnnotation.swift in Sources */,
 				06A2F1631F031A3900FCA614 /* MenuCell.swift in Sources */,
-				06A2F1721F037BDA00FCA614 /* NotificationsCell.swift in Sources */,
-				06A2F1951F055DEA00FCA614 /* MessagesController.swift in Sources */,
+				06A2F1951F055DEA00FCA614 /* MessageLogController.swift in Sources */,
 				06A2F15F1F03127B00FCA614 /* MainController+handlers.swift in Sources */,
 				06A2F1521F02004100FCA614 /* MainController.swift in Sources */,
-				06A2F1981F0583C300FCA614 /* EventChatCell.swift in Sources */,
+				06A2F1981F0583C300FCA614 /* EventMessagesPreviewCell.swift in Sources */,
 				06A2F1581F0229F500FCA614 /* User.swift in Sources */,
 				06A2F1891F041CAA00FCA614 /* GFBase32Utils.m in Sources */,
-				06A2F1701F037BC400FCA614 /* ProfileCell.swift in Sources */,
 				06A2F19C1F05915000FCA614 /* MessageService.swift in Sources */,
 				06A2F18F1F045C4E00FCA614 /* EventService.swift in Sources */,
 				06A2F1681F032E5C00FCA614 /* Constants.swift in Sources */,
 				06A2F18A1F041CAA00FCA614 /* GFGeoHash.m in Sources */,
 				06A2F16A1F03366100FCA614 /* Event.swift in Sources */,
-				064AC71E1F0843C6009B7FE0 /* ChatInputContainerView.swift in Sources */,
+				068993901F0C048500899045 /* Extensions.swift in Sources */,
+				064AC71E1F0843C6009B7FE0 /* MessageInputContainerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

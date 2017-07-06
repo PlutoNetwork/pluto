@@ -26,7 +26,7 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
     }()
     
     // MARK: - Global Variables
-    
+        
     var locationManager = CLLocationManager()
     var mapHasCenteredOnce = false
     
@@ -93,24 +93,14 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
             // First check if the key and location exist, because the query may not find anything.
             if let key = key, let location = location {
                 
-                DispatchQueue.global(qos: .background).async {
+                EventService.sharedInstance.fetchEvent(withKey: key, completion: { (event) in
                     
-                    EventService.sharedInstance.fetchEvents(withKey: key, completion: { (event) in
-                        
-                        // Check if the user is the event creator.
-                        EventService.sharedInstance.checkIfUserIsGoingToEvent(withKey: key, completion: { (isUserGoing) in
-                            
-                            DispatchQueue.main.async {
-                                
-                                // Create an annotation with the event's data.
-                                let eventAnnotation = EventAnnotation(coordinate: location.coordinate, eventKey: event.key, title: event.title, image: event.image, count: event.count, isUserGoing: isUserGoing)
-                                
-                                // Add the eventAnnotation to the mapView.
-                                self.mapView.addAnnotation(eventAnnotation)
-                            }
-                        })
-                    })
-                }
+                    // Create an annotation with the event's data.
+                    let eventAnnotation = EventAnnotation(coordinate: location.coordinate, event: event)
+                    
+                    // Add the eventAnnotation to the mapView.
+                    self.mapView.addAnnotation(eventAnnotation)
+                })
             }
         })
     }
@@ -173,7 +163,7 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
     func centerMapOnLocation(location: CLLocation) {
         
         // Specify a region to show.
-        let span = MKCoordinateSpanMake(0.003, 0.003)
+        let span = MKCoordinateSpanMake(0.01, 0.01)
         let coordinateRegion = MKCoordinateRegionMake(location.coordinate, span)
         
         // Show the region.
@@ -206,6 +196,12 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
         let eventAnnotationIdentifier = "event"
         var eventAnnotationView: MKAnnotationView?
         
+        guard let uid = Auth.auth().currentUser?.uid else {
+            
+            print("ERROR: could not get user ID.")
+            return MKAnnotationView()
+        }
+        
         // Create an imageView to show instead of the annotation pin.
         let eventImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         eventImageView.contentMode = .scaleAspectFill
@@ -217,28 +213,29 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
             // This annotationView specficially refers to the user's current location.
             eventAnnotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "User")
             
-            // We need the user's profile picture.
-            UserService.sharedInstance.fetchCurrentUserData(completion: { (name, profileImageUrl) in
+            // Make the eventImageView bigger to assert the user's dominance.
+            eventImageView.frame = CGRect(x: 0, y: 0, width: 75, height: 75)
+            
+            // Add a border around the image.
+            eventImageView.layer.borderWidth = 5
+            eventImageView.layer.borderColor = LIGHT_BLUE_COLOR.cgColor
+            
+            // Set the eventAnnotationView (really the userAnnotationView)'s image to the user's profile picture.
+            // Use the Kingfisher library.
+            UserService.sharedInstance.fetchUserData(withKey: uid, completion: { (user) in
                 
-                // Set the eventAnnotationView (really the userAnnotationView)'s image to the user's profile picture.
-                // Use the Kingfisher library.
-                let url = URL(string: profileImageUrl)
-                eventImageView.kf.setImage(with: url)
-                
-                // Make the eventImageView bigger to assert the user's dominance.
-                eventImageView.frame = CGRect(x: 0, y: 0, width: 75, height: 75)
-                
-                // Add a border around the image.
-                eventImageView.layer.borderWidth = 5
-                eventImageView.layer.borderColor = LIGHT_BLUE_COLOR.cgColor
-                
-                // Add the eventImageView to the eventAnnotationView.
-                eventAnnotationView?.addSubview(eventImageView)
-                
-                // Round the eventImageView with the new frame.
-                eventImageView.layer.cornerRadius = eventImageView.layer.frame.size.width/2
-                
+                if let profileImageUrl = user.profileImageUrl {
+                    
+                    eventImageView.setImageWithKingfisher(url: profileImageUrl)
+                    
+                    // Set a corner radius.
+                    eventImageView.layer.cornerRadius = eventImageView.layer.frame.size.width/2
+                    
+                    // Add the eventImageView to the eventAnnotationView.
+                    eventAnnotationView?.addSubview(eventImageView)
+                }
             })
+
         } else if let deqAnnotation = mapView.dequeueReusableAnnotationView(withIdentifier: eventAnnotationIdentifier) {
             
             eventAnnotationView = deqAnnotation
@@ -253,27 +250,18 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
         
         if let eventAnnotationView = eventAnnotationView, let eventAnnotation = annotation as? EventAnnotation {
             
-            eventAnnotationView.canShowCallout = true
-            
-            // Create a button for directions that shows when the user taps on the annotation.
-    
-            // Change the calloutButton accordingly.
-            if eventAnnotation.isUserGoing {
-                
-                eventAnnotationView.rightCalloutAccessoryView = self.annotationCalloutButton(image: UIImage(named: "ic_done")!)
-                
-            } else {
-                
-                eventAnnotationView.rightCalloutAccessoryView = self.annotationCalloutButton(image: UIImage(named: "ic_add")!)
-            }
+            // Hide the little pop-up that usually happens when a user taps an annotation.
+            eventAnnotationView.canShowCallout = false
             
             // Set the image.
-            let image = eventAnnotation.image
-            eventAnnotationView.image = UIImage(named: image)
+            if let image = eventAnnotation.event?.image {
+            
+                eventAnnotationView.image = UIImage(named: image)
+            }
             
             // Add a badge that shows the number of people going using the BadgeSwift library.
             let eventCountBadge = BadgeSwift()
-            eventCountBadge.text = "\(eventAnnotation.count)"
+            eventCountBadge.text = "\(eventAnnotation.event?.count ?? 0)"
             eventCountBadge.textColor = WHITE_COLOR
             eventCountBadge.badgeColor = LIGHT_BLUE_COLOR
             eventCountBadge.translatesAutoresizingMaskIntoConstraints = false
@@ -289,49 +277,36 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
         return eventAnnotationView
     }
     
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        
-        if let eventAnnotation = view.annotation as? EventAnnotation {
-            
-            // Change the eventAnnotation information.
-            eventAnnotation.isUserGoing = !eventAnnotation.isUserGoing
-            
-            let eventKey = eventAnnotation.eventKey
-            
-            DispatchQueue.global(qos: .background).async {
-                
-                // Download the event data from Firebase so we can adjust the count.
-                EventService.sharedInstance.fetchSingleEvent(withKey: eventKey) { (event) in
-                    
-                    EventService.sharedInstance.changeEventCount(event: event) {
-                        
-                        // Refresh the annotations on the map.
-                        DispatchQueue.main.async {
-                                                        
-                            // Change the calloutButton accordingly.
-                            if eventAnnotation.isUserGoing {
-                                
-                                view.rightCalloutAccessoryView = self.annotationCalloutButton(image: UIImage(named: "ic_done")!)
-                                eventAnnotation.count = eventAnnotation.count+1
-                                
-                            } else {
-                                
-                                view.rightCalloutAccessoryView = self.annotationCalloutButton(image: UIImage(named: "ic_add")!)
-                                eventAnnotation.count = eventAnnotation.count-1
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
     func annotationCalloutButton(image: UIImage) -> UIButton {
         
         let calloutButton = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
         calloutButton.setImage(image, for: .normal)
         
         return calloutButton
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        
+        if let userAnnotation = view.annotation {
+            
+            if userAnnotation.isKind(of: MKUserLocation.self) {
+                
+                // Show the user's profile.
+            }
+        }
+        
+        if let eventAnnotation = view.annotation as? EventAnnotation {
+            
+            // Allow the user to select the annotation again.
+            mapView.deselectAnnotation(eventAnnotation, animated: false)
+            
+            // Pass the event to the EventController.
+            let eventController = EventController()
+            eventController.event = eventAnnotation.event
+            
+            // Open the EventController.
+            mainController?.navigationController?.pushViewController(eventController, animated: true)
+        }
     }
     
     func mapViewPointLongPressed(gestureRecognizer: UIGestureRecognizer){
@@ -345,12 +320,12 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
             let point = gestureRecognizer.location(in: mapView)
             let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
             
-            // Pass the coordinate to the CreateEventController.
-            let createEventController = CreateEventController()
-            createEventController.coordinate = coordinate
+            // Pass the coordinate to the EventController.
+            let eventController = EventController()
+            eventController.coordinate = coordinate
             
-            // Open the EventDetailsController.
-            mainController?.navigationController?.pushViewController(createEventController, animated: true)
+            // Open the EventController.
+            mainController?.navigationController?.pushViewController(eventController, animated: true)
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  EventChatCell.swift
+//  EventMessagesPreviewCell.swift
 //  Pluto
 //
 //  Created by Faisal M. Lalani on 6/29/17.
@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import BadgeSwift
 
-class EventChatCell: UITableViewCell {
+class EventMessagesPreviewCell: UITableViewCell {
     
     // MARK: - UI Components
     
@@ -68,6 +68,9 @@ class EventChatCell: UITableViewCell {
         // Change the background color of the cell.
         backgroundColor = DARK_BLUE_COLOR
         
+        // Turn off the hideous highlighting that happens when a user taps on a cell.
+        selectionStyle = .none
+        
         // Add the UI components to the cell.
         addSubview(eventImageView)
         addSubview(timeLabel)
@@ -106,21 +109,51 @@ class EventChatCell: UITableViewCell {
         newMessageCountBadge.heightAnchor.constraint(equalToConstant: 25).isActive = true
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-extension String {
-    
-    func trunc(length: Int, trailing: String? = "...") -> String {
+    func configureCell(event: Event, message: Message) {
         
-        if self.characters.count > length {
+        // Set the text label to the event's title.
+        textLabel?.text = event.title.trunc(length: 20)
+        
+        // Set the cell's image.
+        if let image = event.image {
             
-            return self.substring(to: self.index(self.startIndex, offsetBy: length)) + (trailing ?? "")
+            eventImageView.image = UIImage(named: image)
+        }
+        
+        if message.imageUrl == nil {
+            
+            // Set the detail text label to the latest message.
+            detailTextLabel?.text = message.text?.trunc(length: 40)
             
         } else {
-            return self
+            
+            if let imageSenderKey = message.fromId {
+                
+                UserService.sharedInstance.fetchUserData(withKey: imageSenderKey, completion: { (user) in
+                    
+                    // Set the detail text to the image default message.
+                    if let imageSenderName = user.name {
+                        
+                        self.detailTextLabel?.text = "\(imageSenderName) sent an image."
+                    }
+                })
+            }
         }
+        
+        // Set time label to the latest message's timeStamp.
+        if let seconds = message.timeStamp?.doubleValue {
+            
+            let timeStampDate = Date(timeIntervalSince1970: seconds)
+            
+            // Format the time stamp.
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "hh:mm a"
+            
+            timeLabel.text = dateFormatter.string(from: timeStampDate)
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
