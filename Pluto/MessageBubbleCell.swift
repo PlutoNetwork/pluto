@@ -80,9 +80,9 @@ class MessageBubbleCell: BaseCollectionViewCell {
         addSubview(profileImageView)
         
         // Set up the constraints for the UI components.
+        setUpProfileImageView()
         setUpBubbleView()
         setUpMessageTextView()
-        setUpProfileImageView()
     }
     
     // We need these here so we can access them elsewhere.
@@ -96,7 +96,6 @@ class MessageBubbleCell: BaseCollectionViewCell {
         bubbleRightAnchor = bubbleView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8)
         bubbleRightAnchor?.isActive = true
         bubbleLeftAnchor = bubbleView.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 8)
-        bubbleLeftAnchor?.isActive = false // By default, the bubble will be on the right. Change in MessagesController.
         bubbleView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         bubbleWidthAnchor = bubbleView.widthAnchor.constraint(equalToConstant: 200)
         bubbleWidthAnchor?.isActive = true
@@ -127,85 +126,5 @@ class MessageBubbleCell: BaseCollectionViewCell {
         profileImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         profileImageView.widthAnchor.constraint(equalToConstant: 32).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 32).isActive = true
-    }
-    
-    func configureCell(message: Message) {
-        
-        // Set the messageBubbleCell's textView text as the message content.
-        messageTextView.text = message.text
-        profileImageView.image = nil
-        
-        guard let uid = Auth.auth().currentUser?.uid else {
-            
-            print("ERROR: could not get user ID.")
-            return
-        }
-        
-        // We need to check which user the message is from so we can sort gray and orange bubbles.
-        
-        if let messageFromId = message.fromId {
-            
-            if messageFromId == uid {
-                
-                // Since the message is from the user, make the bubbleView orange and the text white.
-                bubbleView.backgroundColor = DARK_BLUE_COLOR
-                
-                // Move the bubble to the right.
-                bubbleRightAnchor?.isActive = true
-                bubbleLeftAnchor?.isActive = false
-                
-                // Hide the profileImageView since the current user is the sender.
-                profileImageView.isHidden = true
-                
-            } else {
-                
-                // Download the profile image of the message sender.
-                self.fetchUserProfileImage(withKey: messageFromId)
-                
-                // Since the message is from someone else, make the bubbleView gray and the text black.
-                bubbleView.backgroundColor = LIGHT_BLUE_COLOR
-                
-                // Move the bubble to the left.
-                bubbleRightAnchor?.isActive = false
-                bubbleLeftAnchor?.isActive = true
-            }
-        }
-        
-        // If there was an image in the message, set the image.
-        if let messageImageUrl = message.imageUrl {
-            
-            // Set the image using the Kingfisher library.
-            messageImageView.setImageWithKingfisher(url: messageImageUrl)
-            messageImageView.isHidden = false
-            bubbleView.backgroundColor = UIColor.clear
-            
-        } else {
-            
-            messageImageView.isHidden = true
-        }
-    }
-    
-    func fetchUserProfileImage(withKey: String) {
-        
-        print("About to fetch pic")
-        
-        // Go into the Firebase database and retrieve the given user's data.
-        DataService.ds.REF_USERS.child(withKey).observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            print("Fetching...")
-            
-            if let userData = snapshot.value as? [String: AnyObject] {
-                
-                print("Found user \(userData["name"]!)")
-                
-                if let profileImageUrl = userData["profileImageUrl"] as? String {
-                    
-                    print("Setting \(userData["name"]!)'s pic.")
-                    self.profileImageView.setImageWithKingfisher(url: profileImageUrl)
-                }
-            }
-        })
-        
-        print("****")
     }
 }

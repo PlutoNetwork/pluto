@@ -12,16 +12,18 @@ class Message: NSObject {
 
     var toId: String?
     var fromId: String?
+    var fromIdProfileImageUrl: String?
     var text: String?
     var timeStamp: NSNumber?
     var imageUrl: String?
     var imageWidth: NSNumber?
     var imageHeight: NSNumber?
     
-    init(toId: String, fromId: String, text: String, timeStamp: NSNumber, imageUrl: String, imageWidth: NSNumber, imageHeight: NSNumber) {
+    init(toId: String, fromId: String, fromIdProfileImageUrl: String, text: String, timeStamp: NSNumber, imageUrl: String, imageWidth: NSNumber, imageHeight: NSNumber) {
         
         self.toId = toId
         self.fromId = fromId
+        self.fromIdProfileImageUrl = fromIdProfileImageUrl
         self.text = text
         self.timeStamp = timeStamp
         self.imageUrl = imageUrl
@@ -40,6 +42,11 @@ class Message: NSObject {
         if let fromId = messageData["fromId"] as? String {
             
             self.fromId = fromId
+        }
+        
+        if let fromIdProfileImageUrl = messageData["fromIdProfileImageUrl"] as? String {
+            
+            self.fromIdProfileImageUrl = fromIdProfileImageUrl
         }
         
         if let text = messageData["text"] as? String {

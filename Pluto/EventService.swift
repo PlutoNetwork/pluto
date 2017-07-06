@@ -62,7 +62,7 @@ struct EventService {
             
             let defaultMessage = "Welcome to the '\(event.title!)' group chat!"
             
-            let values: [String: AnyObject] = ["toId": toId as AnyObject, "fromId": fromId as AnyObject, "timeStamp": timeStamp as AnyObject, "text": defaultMessage as AnyObject]
+            let values: [String: AnyObject] = ["toId": toId as AnyObject, "fromId": fromId as AnyObject, "fromIdProfileImageUrl": PLUTO_DEFAULT_IMAGE_URL as AnyObject, "timeStamp": timeStamp as AnyObject, "text": defaultMessage as AnyObject]
             
             MessageService.sharedInstance.updateMessages(toId: toId, fromId: fromId, values: values)
         }

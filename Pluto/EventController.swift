@@ -36,14 +36,14 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
     
     func handleUpdateEvent() {
         
-        if let eventToBeUpdated = self.event {
+        if let eventTitle = self.newEventTitle, let eventImage = self.newEventImage {
             
             // The user is updating a created event.
             // Check if the user has filled out all the required fields.
             if form.validate().isEmpty {
                 
                 // Update the event.
-                updateEvent(event: eventToBeUpdated)
+                updateEvent(eventTitle: eventTitle, eventImage: eventImage)
             }
         }
         
@@ -109,17 +109,20 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
         })
     }
     
-    func updateEvent(event: Event) {
+    func updateEvent(eventTitle: String, eventImage: String) {
         
-        /// Holds the reference to the user's image key in the database.
-        let eventRef = DataService.ds.REF_EVENTS.child(event.key)
+        if let eventKey = self.event?.key {
         
-        // Sets the value for the updated fields.
+            /// Holds the reference to the user's image key in the database.
+            let eventRef = DataService.ds.REF_EVENTS.child(eventKey)
         
-        let updatedEvent = ["title": event.title as Any,
-                            "eventImage": event.image as Any]
-        
-        eventRef.updateChildValues(updatedEvent)
+            // Sets the value for the updated fields.
+            
+            let updatedEvent = ["title": eventTitle as Any,
+                                "eventImage": eventImage as Any]
+            
+            eventRef.updateChildValues(updatedEvent)
+        }
     }
     
     func changeEventCount(event: Event) {
@@ -211,7 +214,8 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
             event?.image = ""
             
             navigationItemTitle = "Create Event"
-            manipulateEventBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(handleCreateEvent))
+            manipulateEventBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleCreateEvent))
+            navigationItem.rightBarButtonItems = [manipulateEventBarButtonItem!]
             
         } else {
             
@@ -231,6 +235,7 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
                 } else {
                     
                     // The user is not the creator.
+                    self.tableView.isUserInteractionEnabled = false
                     
                     navigationItemTitle = "Event Details"
                     
@@ -262,7 +267,7 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
         
         // Create a form using the Eureka library.
         form
-            +++ Section("Details")	// The basic event details section.
+            +++ Section("Header")
             <<< TextRow() {
                 $0.title = "Title"
                 $0.placeholder = "Pick a title for your event"
@@ -313,6 +318,87 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
                     }
                 }
             }
+            
+            +++ Section("Time")
+            <<< DateTimeInlineRow("Starts") {
+                $0.title = $0.tag
+                $0.value = Date().addingTimeInterval(60*60*24)
+                $0.cell.backgroundColor = DARK_BLUE_COLOR
+                $0.cellUpdate { (cell, row) in
+                    
+                    cell.textLabel?.textColor = WHITE_COLOR
+                    cell.tintColor = WHITE_COLOR
+                    
+                    if !row.isValid {
+                        
+                        // The row is empty, notify the user by highlighting the label.
+                        cell.textLabel?.textColor = UIColor.red
+                    }
+                }
+                }
+                .onChange { [weak self] row in
+                    
+                    let endRow: DateTimeInlineRow! = self?.form.rowBy(tag: "Ends")
+                    
+                    if row.value?.compare(endRow.value!) == .orderedDescending {
+                        
+                        endRow.value = Date(timeInterval: 60*60*24, since: row.value!)
+                        
+                        endRow.cell!.textLabel?.textColor = UIColor.red
+                        
+                        endRow.updateCell()
+                    }
+                }
+                .onExpandInlineRow { [weak self] cell, row, inlineRow in
+                    inlineRow.cellUpdate() { cell, row in
+                        cell.datePicker.datePickerMode = .dateAndTime
+                    }
+                    let color = cell.detailTextLabel?.textColor
+                    row.onCollapseInlineRow { cell, _, _ in
+                        cell.detailTextLabel?.textColor = color
+                    }
+                    cell.detailTextLabel?.textColor = cell.tintColor
+            }
+            <<< DateTimeInlineRow("Ends") {
+                $0.title = $0.tag
+                $0.value = Date().addingTimeInterval(60*60*25)
+                $0.cell.backgroundColor = DARK_BLUE_COLOR
+                $0.cellUpdate { (cell, row) in
+                    
+                    cell.textLabel?.textColor = WHITE_COLOR
+                    cell.tintColor = WHITE_COLOR
+                    
+                    if !row.isValid {
+                        
+                        // The row is empty, notify the user by highlighting the label.
+                        cell.textLabel?.textColor = UIColor.red
+                    }
+                }
+                }
+                .onChange { [weak self] row in
+                    let startRow: DateTimeInlineRow! = self?.form.rowBy(tag: "Starts")
+                    
+                    if row.value?.compare(startRow.value!) == .orderedAscending {
+                        row.cell!.textLabel?.textColor = UIColor.red
+                    }
+                    else {
+                        
+                        row.cell!.textLabel?.textColor = WHITE_COLOR
+                    }
+                    
+                    row.updateCell()
+                }
+                .onExpandInlineRow { [weak self] cell, row, inlineRow in
+                    inlineRow.cellUpdate { cell, dateRow in
+                        cell.datePicker.datePickerMode = .dateAndTime
+
+                    }
+                    let color = cell.detailTextLabel?.textColor
+                    row.onCollapseInlineRow { cell, _, _ in
+                        cell.detailTextLabel?.textColor = color
+                    }
+                    cell.detailTextLabel?.textColor = cell.tintColor
+        }
         
         // Add a delete option if the user is the event's creator.
         if !isNewEvent && isEventCreator {

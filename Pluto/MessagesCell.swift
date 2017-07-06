@@ -201,7 +201,7 @@ class MessagesCell: BaseCollectionViewCell, UITableViewDelegate, UITableViewData
         
         // Grab the message from the messages array.
         
-        if messages.count > 0 {
+        if messages.isEmpty == false {
         
             let message = messages[indexPath.row]
             eventMessagesPreviewCell.configureCell(event: event, message: message)

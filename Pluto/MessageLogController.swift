@@ -73,11 +73,11 @@ class MessageLogController: UICollectionViewController, UICollectionViewDelegate
         // Register a cell class for the collectionView.
         collectionView?.register(MessageBubbleCell.self, forCellWithReuseIdentifier: messageBubbleCellId)
         
-        // Make the collectionView draggable.
-        collectionView?.alwaysBounceVertical = true
-        
         // Add some space to the top and bottom of the collectionView.
         collectionView?.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+        
+        // Make the collectionView draggable.
+        collectionView?.alwaysBounceVertical = true
         
         // The following line will allow the user to interact with the keyboard.
         collectionView?.keyboardDismissMode = .interactive
@@ -112,26 +112,14 @@ class MessageLogController: UICollectionViewController, UICollectionViewDelegate
                 // Add the message to the array of messages.
                 self.messages.append(message)
                 
-                self.attemptReloadOfTable()
+                DispatchQueue.main.async(execute: {
+                    
+                    self.collectionView?.reloadData()
+                    // Scroll the latest message.
+                    let indexPath = IndexPath(item: self.messages.count - 1, section: 0)
+                    self.collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
+                })
             }
-        })
-    }
-    
-    var timer: Timer?
-    
-    fileprivate func attemptReloadOfTable() {
-        
-        timer?.invalidate()
-        
-        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
-    }
-    
-    func handleReloadTable() {
-        
-        DispatchQueue.main.async(execute: {
-            
-            self.collectionView?.reloadData()
-            self.moveMessagesUp()
         })
     }
     
@@ -170,12 +158,22 @@ class MessageLogController: UICollectionViewController, UICollectionViewDelegate
         // We should get a timestamp too, so we know when the message was sent out.
         let timeStamp = Int(Date().timeIntervalSince1970)
         
-        var values: [String: AnyObject] = ["toId": toId as AnyObject, "fromId": fromId as AnyObject, "timeStamp": timeStamp as AnyObject]
-        
-        // Append the parameter dictionary to the values.
-        properties.forEach({values[$0] = $1})
-        
-        MessageService.sharedInstance.updateMessages(toId: toId, fromId: fromId, values: values)
+        // Grab the sender's profile image url.
+        DataService.ds.REF_USERS.child(fromId).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            if let userData = snapshot.value as? [String: AnyObject] {
+                
+                if let profileImageUrl = userData["profileImageUrl"] as? String {
+                    
+                    var values: [String: AnyObject] = ["toId": toId as AnyObject, "fromId": fromId as AnyObject, "fromIdProfileImageUrl": profileImageUrl as AnyObject, "timeStamp": timeStamp as AnyObject]
+                    
+                    // Append the parameter dictionary to the values.
+                    properties.forEach({values[$0] = $1})
+                    
+                    MessageService.sharedInstance.updateMessages(toId: toId, fromId: fromId, values: values)
+                }
+            }
+        })
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -227,7 +225,7 @@ class MessageLogController: UICollectionViewController, UICollectionViewDelegate
         if messages.count > 0 {
         
             let indexPath = IndexPath(item: messages.count - 1, section: 0)
-            collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
+            collectionView?.scrollToItem(at: indexPath, at: .top, animated: true)
         }
     }
     
@@ -357,6 +355,11 @@ class MessageLogController: UICollectionViewController, UICollectionViewDelegate
         
         let message = messages[indexPath.item]
         
+        // Set the messageBubbleCell's textView text as the message content.
+        messageBubbleCell.messageTextView.text = message.text
+        
+        setUpMessageBubbleCell(messageBubbleCell, message: message)
+        
         // Set the width of the bubbleView to match the text content width or the image width.
         if let text = message.text {
             
@@ -368,9 +371,65 @@ class MessageLogController: UICollectionViewController, UICollectionViewDelegate
             messageBubbleCell.bubbleWidthAnchor?.constant = 200
             messageBubbleCell.messageTextView.isHidden = true
         }
-
-        messageBubbleCell.configureCell(message: message)
         
         return messageBubbleCell
-    }    
+    }
+    
+    fileprivate func setUpMessageBubbleCell(_ cell: MessageBubbleCell, message: Message) {
+        
+        if let profileImageUrl = message.fromIdProfileImageUrl {
+            
+            cell.profileImageView.setImageWithKingfisher(url: profileImageUrl)
+        }
+        
+        guard let uid = Auth.auth().currentUser?.uid else {
+            
+            print("ERROR: could not get user ID.")
+            return
+        }
+        
+        // We need to check which user the message is from so we can sort gray and orange bubbles.
+        
+        if let messageFromId = message.fromId {
+            
+            if messageFromId == uid {
+                
+                // Since the message is from the user, make the bubbleView orange and the text white.
+                cell.bubbleView.backgroundColor = DARK_BLUE_COLOR
+                
+                // Hide the profileImageView since the current user is the sender.
+                cell.profileImageView.isHidden = true
+                
+                // Move the bubble to the right.
+                cell.bubbleRightAnchor?.isActive = true
+                cell.bubbleLeftAnchor?.isActive = false
+                
+            } else {
+                
+                // Since the message is from someone else, make the bubbleView gray and the text black.
+                cell.bubbleView.backgroundColor = LIGHT_BLUE_COLOR
+                
+                // Show the profileImageView since the current user is the sender.
+                cell.profileImageView.isHidden = false
+                
+                // Move the bubble to the left.
+                cell.bubbleRightAnchor?.isActive = false
+                cell.bubbleLeftAnchor?.isActive = true
+            }
+        }
+        
+        // If there was an image in the message, set the image.
+        if let messageImageUrl = message.imageUrl {
+            
+            // Set the image using the Kingfisher library.
+            cell.messageImageView.setImageWithKingfisher(url: messageImageUrl)
+            cell.messageImageView.isHidden = false
+            cell.bubbleView.backgroundColor = UIColor.clear
+            
+        } else {
+            
+            cell.messageImageView.isHidden = true
+        }
+
+    }
 }
