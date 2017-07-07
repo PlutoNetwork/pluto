@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import EventKit
 
 struct EventService {
     
@@ -65,6 +66,118 @@ struct EventService {
             let values: [String: AnyObject] = ["toId": toId as AnyObject, "fromId": fromId as AnyObject, "fromIdProfileImageUrl": PLUTO_DEFAULT_IMAGE_URL as AnyObject, "timeStamp": timeStamp as AnyObject, "text": defaultMessage as AnyObject]
             
             MessageService.sharedInstance.updateMessages(toId: toId, fromId: fromId, values: values)
+        }
+    }
+    
+    var calendar: EKCalendar!
+    
+    func syncToCalendar(add: Bool, event: Event) {
+        
+        let eventStore = EKEventStore()
+        
+        if EKEventStore.authorizationStatus(for: .event) != EKAuthorizationStatus.authorized {
+            
+            eventStore.requestAccess(to: .event, completion: { (granted, error) in
+                
+                if error != nil {
+                    
+                    /* ERROR: Something went wrong and the user's calendar could not be accessed. */
+                    
+                    print(error.debugDescription)
+                    
+                } else {
+                    
+                    /* SUCCESS: We have access to modify the user's calendar. */
+                    
+                    if add {
+                        
+                        DispatchQueue.main.async {
+                            
+                            self.calendarCall(calEvent: eventStore, add: true, event: event)
+                        }
+                    } else {
+                        
+                        DispatchQueue.main.async {
+                            
+                            self.calendarCall(calEvent: eventStore, add: false, event: event)
+                        }
+                    }
+                }
+            })
+            
+        } else {
+            
+            // Code if we already have permission.
+            
+            if add {
+                
+                calendarCall(calEvent: eventStore, add: true, event: event)
+                
+            } else {
+                
+                self.calendarCall(calEvent: eventStore, add: false, event: event)
+            }
+        }
+    }
+    func calendarCall(calEvent: EKEventStore, add: Bool, event: Event){
+        
+        let newEvent = EKEvent(eventStore: calEvent)
+        
+        newEvent.title = event.title //Sets event title
+        newEvent.startDate = event.timeStart.toDate() // Sets start date and time for event
+        newEvent.endDate = event.timeEnd.toDate() // Sets end date and time for event
+        newEvent.location = event.address // Copies location into calendar
+        newEvent.calendar = calEvent.defaultCalendarForNewEvents // Copies event into calendar
+        newEvent.notes = event.eventDescription // Copies event description into calendar
+        
+        if add {
+            
+            do {
+                
+                //Saves event to calendar
+                try calEvent.save(newEvent, span: .thisEvent)
+                
+                let notice = SCLAlertView()
+                
+                notice.addButton("Go to calendar", action: {
+                    
+                    let date = newEvent.startDate as NSDate
+                    
+                    UIApplication.shared.openURL(NSURL(string: "calshow:\(date.timeIntervalSinceReferenceDate)")! as URL)
+                })
+                
+                notice.showSuccess("Success", subTitle: "Event added to calendar.", closeButtonTitle: "Done")
+                
+            } catch {
+                
+                SCLAlertView().showError("Error!", subTitle: "Event not added; try again later.")
+            }
+            
+        } else {
+            
+            let predicate = calEvent.predicateForEvents(withStart: newEvent.startDate, end: newEvent.endDate, calendars: nil)
+            
+            let eV = calEvent.events(matching: predicate) as [EKEvent]!
+            
+            if eV != nil {
+                
+                for i in eV! {
+                    
+                    if i.title == newEvent.title {
+                        
+                        do {
+                            
+                            try calEvent.remove(i, span: EKSpan.thisEvent, commit: true)
+                            
+                            SCLAlertView().showSuccess("Success", subTitle: "Event removed from calendar.")
+                            
+                        } catch {
+                            
+                            SCLAlertView().showError("Error!", subTitle: "Event not removed; try again later.")
+                        }
+                    }
+                }
+            }
         }
     }
 }

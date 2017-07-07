@@ -123,6 +123,9 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
             
             // Create a default message and add it to the event.
             EventService.sharedInstance.addDefaultMessagesTo(event: newEvent)
+            
+            // Sync the event to the user's calendar.
+            EventService.sharedInstance.syncToCalendar(add: true, event: newEvent)
         })
     }
     
@@ -164,12 +167,14 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
                     event.adjustCount(addToCount: false)
                     eventRef.removeValue()
                     userEventRef.removeValue()
+                    EventService.sharedInstance.syncToCalendar(add: false, event: event)
                     
                 } else {
                     
                     event.adjustCount(addToCount: true)
                     eventRef.setValue(true)
                     userEventRef.setValue(true)
+                    EventService.sharedInstance.syncToCalendar(add: true, event: event)
                 }
             }
         }

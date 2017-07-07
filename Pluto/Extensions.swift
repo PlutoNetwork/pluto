@@ -36,7 +36,8 @@ extension String {
     func toDate() -> Date {
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = DATE_FORMAT
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .short
         return dateFormatter.date(from: self)!
     }
 }
@@ -61,7 +62,8 @@ extension Date {
     func toString() -> String {
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = DATE_FORMAT
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .short
         return dateFormatter.string(from: self)
     }
 }
