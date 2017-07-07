@@ -44,6 +44,8 @@
 		06A2F19A1F058FF300FCA614 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F1991F058FF300FCA614 /* Message.swift */; };
 		06A2F19C1F05915000FCA614 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F19B1F05915000FCA614 /* MessageService.swift */; };
 		06A2F19E1F06275D00FCA614 /* MessageBubbleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A2F19D1F06275D00FCA614 /* MessageBubbleCell.swift */; };
+		06AE9A071F0EDA92006F5BD5 /* CustomFormRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AE9A061F0EDA92006F5BD5 /* CustomFormRows.swift */; };
+		06AE9A091F102035006F5BD5 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AE9A081F102035006F5BD5 /* LocationService.swift */; };
 		59A92D86D3E4CD59512A36D6 /* Pods_Pluto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF89C375029B119D199AE2CB /* Pods_Pluto.framework */; };
 /* End PBXBuildFile section */
 
@@ -100,6 +102,8 @@
 		06A2F1991F058FF300FCA614 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		06A2F19B1F05915000FCA614 /* MessageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
 		06A2F19D1F06275D00FCA614 /* MessageBubbleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageBubbleCell.swift; sourceTree = "<group>"; };
+		06AE9A061F0EDA92006F5BD5 /* CustomFormRows.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomFormRows.swift; sourceTree = "<group>"; };
+		06AE9A081F102035006F5BD5 /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		2E88C97749A68A95B04F28AB /* Pods-Pluto.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pluto.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pluto/Pods-Pluto.debug.xcconfig"; sourceTree = "<group>"; };
 		46ABF12315458623F5736911 /* Pods-Pluto.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pluto.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pluto/Pods-Pluto.release.xcconfig"; sourceTree = "<group>"; };
 		CF89C375029B119D199AE2CB /* Pods_Pluto.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pluto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -185,6 +189,7 @@
 				06A2F18E1F045C4E00FCA614 /* EventService.swift */,
 				06A2F1921F04BAAB00FCA614 /* UserService.swift */,
 				06A2F19B1F05915000FCA614 /* MessageService.swift */,
+				06AE9A081F102035006F5BD5 /* LocationService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -216,6 +221,7 @@
 				06A2F1611F031A1E00FCA614 /* MenuBar */,
 				06A2F16B1F03721C00FCA614 /* MapCell.swift */,
 				06A2F1961F05839E00FCA614 /* MessagesCell */,
+				06AE9A061F0EDA92006F5BD5 /* CustomFormRows.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -464,6 +470,7 @@
 				06A2F15C1F02FBD200FCA614 /* MenuBar.swift in Sources */,
 				06A2F1541F02216900FCA614 /* LoginController+handlers.swift in Sources */,
 				06A2F19A1F058FF300FCA614 /* Message.swift in Sources */,
+				06AE9A091F102035006F5BD5 /* LocationService.swift in Sources */,
 				06A2F1651F031AC800FCA614 /* BaseCollectionViewCell.swift in Sources */,
 				062F07DA1F01C8F7008F3014 /* Pluto.xcdatamodeld in Sources */,
 				06A2F1931F04BAAB00FCA614 /* UserService.swift in Sources */,
@@ -490,6 +497,7 @@
 				06A2F16A1F03366100FCA614 /* Event.swift in Sources */,
 				068993901F0C048500899045 /* Extensions.swift in Sources */,
 				064AC71E1F0843C6009B7FE0 /* MessageInputContainerView.swift in Sources */,
+				06AE9A071F0EDA92006F5BD5 /* CustomFormRows.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

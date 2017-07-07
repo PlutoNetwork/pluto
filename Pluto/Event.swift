@@ -18,13 +18,21 @@ class Event: NSObject {
     var creator: String!
     var title: String!
     var image: String!
+    var eventDescription: String!
+    var address: String!
+    var timeStart: String!
+    var timeEnd: String!
     
-    init(count: Int, creator: String, title: String, image: String) {
+    init(count: Int, creator: String, title: String, image: String, eventDescription: String, address: String, timeStart: String, timeEnd: String) {
         
         self.count = count
         self.creator = creator
         self.title = title
         self.image = image
+        self.eventDescription = eventDescription
+        self.address = address
+        self.timeStart = timeStart
+        self.timeEnd = timeEnd
     }
     
     init(eventKey: String, eventData: Dictionary<String, AnyObject>) {
@@ -49,6 +57,26 @@ class Event: NSObject {
         if let image = eventData["eventImage"] as? String {
             
             self.image = image
+        }
+        
+        if let eventDescription = eventData["eventDescription"] as? String {
+            
+            self.eventDescription = eventDescription
+        }
+        
+        if let address = eventData["address"] as? String {
+            
+            self.address = address
+        }
+        
+        if let timeStart = eventData["timeStart"] as? String {
+            
+            self.timeStart = timeStart
+        }
+        
+        if let timeEnd = eventData["timeEnd"] as? String {
+            
+            self.timeEnd = timeEnd
         }
         
         eventRef = DataService.ds.REF_EVENTS.child(key)

@@ -32,4 +32,21 @@ struct MessageService {
             DataService.ds.REF_EVENT_MESSAGES.child(toId).updateChildValues([messageId: 1])
         })
     }
+    
+    func deleteMessagesUnder(eventKey: String, completion: @escaping () -> ()) {
+        
+        DataService.ds.REF_EVENT_MESSAGES.child(eventKey).observe(.value, with: { (snapshot) in
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                
+                for snap in snapshot {
+                    
+                    let messageKey = snap.key
+                    DataService.ds.REF_MESSAGES.child(messageKey).removeValue()
+                }
+                
+                completion()
+            }
+        })
+    }
 }

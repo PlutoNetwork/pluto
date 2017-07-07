@@ -11,10 +11,6 @@ import Firebase
 
 extension MainController {
     
-    func handleSearch() {
-        
-    }
-    
     func handleLogout() {
         
         do {

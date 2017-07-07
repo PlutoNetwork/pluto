@@ -31,6 +31,14 @@ extension String {
             return self
         }
     }
+    
+    // Converts strings to dates.
+    func toDate() -> Date {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = DATE_FORMAT
+        return dateFormatter.date(from: self)!
+    }
 }
 
 extension UIImageView {
@@ -45,5 +53,15 @@ extension UIImageView {
         let url = URL(string: url)
         self.kf.indicatorType = .activity
         self.kf.setImage(with: url)
+    }
+}
+
+extension Date {
+    // Converts dates to strings.
+    func toString() -> String {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = DATE_FORMAT
+        return dateFormatter.string(from: self)
     }
 }

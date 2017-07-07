@@ -19,31 +19,28 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
     
     func handleCreateEvent() {
         
-        if let eventTitle = self.newEventTitle, let eventImage = self.newEventImage {
+        // The user is saving a new event.
+        // Check if the user has filled out all the required fields.
+        if form.validate().isEmpty {
             
-            // The user is saving a new event.
-            // Check if the user has filled out all the required fields.
-            if form.validate().isEmpty {
-                
-                // Create the event.
-                createEvent(eventTitle: eventTitle, eventImage: eventImage, eventLocationCoordinate: coordinate!)
-            }
+            // Create the event.
+            createEvent()
+            
+            // Dismiss the controller.
+            navigationController?.popViewController(animated: true)
         }
-        
-        // Dismiss the controller.
-        navigationController?.popViewController(animated: true)
     }
     
     func handleUpdateEvent() {
         
-        if let eventTitle = self.newEventTitle, let eventImage = self.newEventImage {
+        if let eventTitle = newEventValues["title"], let eventImage = newEventValues["eventImage"] {
             
             // The user is updating a created event.
             // Check if the user has filled out all the required fields.
             if form.validate().isEmpty {
                 
                 // Update the event.
-                updateEvent(eventTitle: eventTitle, eventImage: eventImage)
+                updateEvent(eventTitle: eventTitle as! String, eventImage: eventImage as! String)
             }
         }
         
@@ -64,7 +61,7 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
         navigationController?.popViewController(animated: true)
     }
     
-    func createEvent(eventTitle: String, eventImage: String, eventLocationCoordinate: CLLocationCoordinate2D) {
+    func createEvent() {
         
         guard let uid = Auth.auth().currentUser?.uid else {
             
@@ -72,20 +69,42 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
             return
         }
         
-        // Create a dictionary of values to add to the database.
-        let values = ["count": 1,
-                      "creator": uid,
-                      "title": eventTitle as Any,
-                      "eventImage": eventImage] as [String: Any]
+        // Add other required values like count to the event.
+        newEventValues["count"] = 1 as AnyObject
+        newEventValues["creator"] = uid as AnyObject
         
-        /// An event created on Firebase with a random key.
-        let newEvent = DataService.ds.REF_EVENTS.childByAutoId()
+        guard let latitude = coordinate?.latitude, let longitude = coordinate?.longitude else {
+            
+            print("ERROR: no coordinate found.")
+            return
+        }
         
-        /// Uses the event model to add data to the event created on Firebase.
-        newEvent.setValue(values, withCompletionBlock: { (error, reference) in
+        let location = CLLocation(latitude: latitude, longitude: longitude)
+        
+        LocationService.sharedInstance.convertCoordinatesToAddress(latitude: latitude, longitude: longitude) { (address) in
+            
+            self.newEventValues["address"] = address as AnyObject
+            
+            /// An event created on Firebase with a random key.
+            let newEventRef = DataService.ds.REF_EVENTS.childByAutoId()
+            
+            self.updateFirebaseWith(newEventReference: newEventRef, location: location)
+        }
+    }
+    
+    func updateFirebaseWith(newEventReference: DatabaseReference, location: CLLocation) {
+        
+        guard let uid = Auth.auth().currentUser?.uid else {
+            
+            print("ERROR: could not get user ID.")
+            return
+        }
+        
+        /// Uses the event reference to add data to the event created on Firebase.
+        newEventReference.setValue(newEventValues, withCompletionBlock: { (error, reference) in
             
             /// The key for the event created on Firebase.
-            let newEventKey = newEvent.key
+            let newEventKey = newEventReference.key
             
             /// A reference to the new event under the current user.
             let userEventRef = DataService.ds.REF_CURRENT_USER.child("events").child(newEventKey)
@@ -96,16 +115,14 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
             eventUserRef.setValue(true)
             
             // Save the event location to Firebase.
-            let location = CLLocation(latitude: eventLocationCoordinate.latitude, longitude:eventLocationCoordinate.longitude)
-            
             let geoFire = GeoFire(firebaseRef: DataService.ds.REF_EVENT_LOCATIONS)
             geoFire?.setLocation(location, forKey: newEventKey)
             
             // Use the Event model to reference the event so we can add a message to it.
-            let event = Event(eventKey: newEventKey, eventData: values as Dictionary<String, AnyObject>)
+            let newEvent = Event(eventKey: newEventKey, eventData: self.newEventValues as Dictionary<String, AnyObject>)
             
             // Create a default message and add it to the event.
-            EventService.sharedInstance.addDefaultMessagesTo(event: event)
+            EventService.sharedInstance.addDefaultMessagesTo(event: newEvent)
         })
     }
     
@@ -165,8 +182,7 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
     var event: Event?
     
     var isNewEvent = false
-    var newEventTitle: String?
-    var newEventImage: String?
+    var newEventValues = [String: AnyObject]()
     var isEventCreator = false
     
     // MARK: - View Configuration
@@ -188,8 +204,6 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
         tableView.separatorColor = LIGHT_BLUE_COLOR
         
         checkPassedInEvent()
-        
-        setUpForm()
     }
     
     func checkPassedInEvent() {
@@ -209,15 +223,25 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
             isNewEvent = true
             isEventCreator = true
             
-            // Set empty values for the new event.
-            event?.title = ""
-            event?.image = ""
+            newEventValues = ["title": "", "eventImage": "", "eventDescription": "", "address": "", "timeStart": Date(), "timeEnd": Date()] as [String: AnyObject]
+            
+            LocationService.sharedInstance.convertCoordinatesToAddress(latitude: (self.coordinate?.latitude)!, longitude: (self.coordinate?.longitude)!, completion: { (address) in
+                
+                self.newEventValues["address"] = address as AnyObject
+            })
             
             navigationItemTitle = "Create Event"
             manipulateEventBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleCreateEvent))
             navigationItem.rightBarButtonItems = [manipulateEventBarButtonItem!]
             
         } else {
+
+            newEventValues = ["title": event?.title,
+                              "eventImage": event?.image,
+                              "eventDescription": event?.eventDescription,
+                              "address": event?.address,
+                              "timeStart": event?.timeStart,
+                              "timeEnd": event?.timeEnd] as [String: AnyObject]
             
             // The user is viewing a created event.
             // Check if the user is the event creator.
@@ -261,6 +285,8 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
         }
         
         navigationItem.title = navigationItemTitle
+        setUpForm()
+
     }
     
     func setUpForm() {
@@ -270,13 +296,12 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
             +++ Section("Header")
             <<< TextRow() {
                 $0.title = "Title"
-                $0.placeholder = "Pick a title for your event"
                 $0.cell.backgroundColor = DARK_BLUE_COLOR
-                $0.value = event?.title
-                $0.onChange { [unowned self] row in
+                $0.value = newEventValues["title"] as? String
+                $0.onChange { row in
                     
                     // Set the value to the event's title.
-                    self.newEventTitle = row.value
+                    self.newEventValues["title"] = row.value as AnyObject
                 }
                 $0.add(rule: RuleRequired())
                 $0.validationOptions = .validatesOnChange
@@ -295,14 +320,14 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
             }
             <<< PushRow<String>() {
                 $0.title = "Select image"
-                $0.selectorTitle = "Pick an image"
                 $0.options = ["🍔", "🏈", "🎉", "🎷"]
                 $0.cell.backgroundColor = DARK_BLUE_COLOR
-                $0.value = self.event?.image
-                $0.onChange { [unowned self] row in
+                $0.value = (newEventValues["eventImage"] as? String)
+                $0.selectorTitle = "Choose an emoji"
+                $0.onChange { row in
                     
                     // Set the value to the event's image.
-                    self.newEventImage = row.value
+                    self.newEventValues["eventImage"] = row.value as AnyObject
                 }
                 $0.add(rule: RuleRequired())
                 $0.validationOptions = .validatesOnChange
@@ -317,6 +342,81 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
                         cell.textLabel?.textColor = UIColor.red
                     }
                 }
+                _ = $0.onPresent { (from, to) in
+                    
+                    // Change the colors of the push view controller.
+                    to.view.layoutSubviews()
+                    to.tableView?.backgroundColor = DARK_BLUE_COLOR
+                    to.tableView.separatorColor = LIGHT_BLUE_COLOR
+                    to.selectableRowCellUpdate = { (cell, row) in
+                     
+                        cell.backgroundColor = DARK_BLUE_COLOR
+                    }
+                }
+            }
+            <<< TextAreaRow() {
+                $0.placeholder = "Description"
+                $0.textAreaHeight = .dynamic(initialTextViewHeight: 110)
+                $0.cell.backgroundColor = DARK_BLUE_COLOR
+                $0.value = newEventValues["eventDescription"] as? String
+                $0.cellUpdate({ (cell, row) in
+                    
+                    cell.textView.backgroundColor = DARK_BLUE_COLOR
+                    cell.textView.textColor = WHITE_COLOR
+                    cell.textView.tintColor = WHITE_COLOR
+                    cell.placeholderLabel?.textColor = WHITE_COLOR
+                })
+                $0.onChange { row in
+                    
+                    // Set the value to the event's description.
+                    self.newEventValues["eventDescription"] = row.value as AnyObject
+                }
+            }
+            
+            +++ Section("Location")
+            <<< LabelRow () {
+                $0.title = (newEventValues["address"] as? String)
+                $0.tag = "address"
+                $0.cell.backgroundColor = DARK_BLUE_COLOR
+                $0.cellUpdate({ (cell, row) in
+                    
+                    cell.textLabel?.textColor = WHITE_COLOR
+                    cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 12)
+                    
+                })
+            }
+            <<< LocationRow(){
+                $0.title = "Change location"
+                $0.value = CLLocation(latitude: (coordinate?.latitude)!, longitude: (coordinate?.longitude)!)
+                $0.cell.backgroundColor = DARK_BLUE_COLOR
+                //$0.value = eventAddress
+                $0.cellUpdate({ (cell, row) in
+                    
+                    cell.textLabel?.textColor = WHITE_COLOR
+                    cell.tintColor = WHITE_COLOR
+                    cell.detailTextLabel?.textColor = UIColor.clear
+                    
+                    if !row.isValid {
+                        
+                        // The row is empty, notify the user by highlighting the label.
+                        cell.textLabel?.textColor = UIColor.red
+                    }
+                })
+                $0.onChange { [weak self] row in
+                    
+                    let addressLabelRow: LabelRow! = self?.form.rowBy(tag: "address")
+                    
+                    // Set the value to the event's coordinates.
+                    if let eventCoordinate = row.value?.coordinate {
+                        
+                        self?.coordinate = eventCoordinate
+                        
+                        LocationService.sharedInstance.convertCoordinatesToAddress(latitude: eventCoordinate.latitude, longitude: eventCoordinate.longitude, completion: { (address) in
+                            
+                            addressLabelRow.value = address
+                        })
+                    }
+                }
             }
             
             +++ Section("Time")
@@ -324,15 +424,18 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
                 $0.title = $0.tag
                 $0.value = Date().addingTimeInterval(60*60*24)
                 $0.cell.backgroundColor = DARK_BLUE_COLOR
+                $0.value = (newEventValues["timeStart"] as? String)?.toDate()
                 $0.cellUpdate { (cell, row) in
                     
                     cell.textLabel?.textColor = WHITE_COLOR
                     cell.tintColor = WHITE_COLOR
+                    cell.detailTextLabel?.textColor = WHITE_COLOR
                     
-                    if !row.isValid {
+                    if self.isNewEvent {
                         
-                        // The row is empty, notify the user by highlighting the label.
-                        cell.textLabel?.textColor = UIColor.red
+                        // Set the starting value to the event's start time.
+                        let timeStart = row.value?.toString()
+                        self.newEventValues["timeStart"] = timeStart as AnyObject
                     }
                 }
                 }
@@ -340,18 +443,32 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
                     
                     let endRow: DateTimeInlineRow! = self?.form.rowBy(tag: "Ends")
                     
-                    if row.value?.compare(endRow.value!) == .orderedDescending {
-                        
-                        endRow.value = Date(timeInterval: 60*60*24, since: row.value!)
-                        
-                        endRow.cell!.textLabel?.textColor = UIColor.red
-                        
-                        endRow.updateCell()
+                    if let endRowValue = endRow.value {
+                    
+                        if row.value?.compare(endRowValue) == .orderedDescending {
+                            
+                            endRow.value = Date(timeInterval: 60*60, since: row.value!)
+                            
+                            endRow.cell!.textLabel?.textColor = UIColor.red
+                            
+                            endRow.updateCell()
+                            
+                            // Set the value to the event's start time.
+                            let timeStart = row.value?.toString()
+                            self?.newEventValues["timeStart"] = timeStart as AnyObject
+                            
+                            // Set the endRow's value to the event's end time (in case he/she does not change the end row).
+                            let timeEnd = endRowValue.toString()
+                            self?.newEventValues["timeEnd"] = timeEnd as AnyObject
+                        }
                     }
                 }
-                .onExpandInlineRow { [weak self] cell, row, inlineRow in
+                .onExpandInlineRow { cell, row, inlineRow in
+                    
                     inlineRow.cellUpdate() { cell, row in
                         cell.datePicker.datePickerMode = .dateAndTime
+                        cell.datePicker.backgroundColor = DARK_BLUE_COLOR
+                        cell.datePicker.setValue(WHITE_COLOR, forKey: "textColor")
                     }
                     let color = cell.detailTextLabel?.textColor
                     row.onCollapseInlineRow { cell, _, _ in
@@ -363,35 +480,48 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
                 $0.title = $0.tag
                 $0.value = Date().addingTimeInterval(60*60*25)
                 $0.cell.backgroundColor = DARK_BLUE_COLOR
+                $0.value = (newEventValues["timeEnd"] as? String)?.toDate()
                 $0.cellUpdate { (cell, row) in
                     
                     cell.textLabel?.textColor = WHITE_COLOR
                     cell.tintColor = WHITE_COLOR
+                    cell.detailTextLabel?.textColor = WHITE_COLOR
                     
-                    if !row.isValid {
+                    if self.isNewEvent {
                         
-                        // The row is empty, notify the user by highlighting the label.
-                        cell.textLabel?.textColor = UIColor.red
+                        // Set the starting value to the event's end time.
+                        let timeEnd = row.value?.toString()
+                        self.newEventValues["timeEnd"] = timeEnd as AnyObject
                     }
                 }
                 }
                 .onChange { [weak self] row in
                     let startRow: DateTimeInlineRow! = self?.form.rowBy(tag: "Starts")
                     
-                    if row.value?.compare(startRow.value!) == .orderedAscending {
-                        row.cell!.textLabel?.textColor = UIColor.red
-                    }
-                    else {
-                        
-                        row.cell!.textLabel?.textColor = WHITE_COLOR
+                    if let startRowValue = startRow.value {
+                    
+                        if row.value?.compare(startRowValue) == .orderedAscending {
+                            
+                            row.cell!.textLabel?.textColor = UIColor.red
+                        }
+                            
+                        else {
+                            
+                            row.cell!.textLabel?.textColor = WHITE_COLOR
+                        }
                     }
                     
                     row.updateCell()
+                    
+                    // Set the value to the event's end time.
+                    let timeEnd = row.value?.toString()
+                    self?.newEventValues["timeEnd"] = timeEnd as AnyObject
                 }
-                .onExpandInlineRow { [weak self] cell, row, inlineRow in
+                .onExpandInlineRow { cell, row, inlineRow in
                     inlineRow.cellUpdate { cell, dateRow in
                         cell.datePicker.datePickerMode = .dateAndTime
-
+                        cell.datePicker.backgroundColor = DARK_BLUE_COLOR
+                        cell.datePicker.setValue(WHITE_COLOR, forKey: "textColor")
                     }
                     let color = cell.detailTextLabel?.textColor
                     row.onCollapseInlineRow { cell, _, _ in
@@ -432,21 +562,16 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
         notice.addButton("Delete") { 
             
             if let eventKey = event.key {
-                
+                                
                 DataService.ds.REF_EVENTS.child(eventKey).removeValue()
                 DataService.ds.REF_CURRENT_USER_EVENTS.child(eventKey).removeValue()
+                DataService.ds.REF_EVENT_LOCATIONS.child(eventKey).removeValue()
                 
                 // Grab the messages under the event and delete them.
-                DataService.ds.REF_EVENT_MESSAGES.child(eventKey).observe(.childAdded, with: { (snapshot) in
+                MessageService.sharedInstance.deleteMessagesUnder(eventKey: eventKey, completion: { 
                     
-                    let messageKey = snapshot.key
-                    
-                    // Delete all the messages.
-                    DataService.ds.REF_MESSAGES.child(messageKey).removeValue()
+                    DataService.ds.REF_EVENT_MESSAGES.child(eventKey).removeValue()
                 })
-                
-                // Delete the event message node.
-                DataService.ds.REF_EVENT_MESSAGES.child(eventKey).removeValue()
             }
             
             // Dismiss the controller.
@@ -461,7 +586,7 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
         // Change header label color.
         if let view = view as? UITableViewHeaderFooterView {
             
-            view.textLabel?.textColor = WHITE_COLOR
+            view.textLabel?.textColor = LIGHT_BLUE_COLOR
         }
     }
 }

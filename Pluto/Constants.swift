@@ -23,3 +23,6 @@ let ERROR_WRONG_PASSWORD = 17009
 // Data
 let PLUTO_ACCOUNT_ID = "w9YWADPMa0drVdlOZBAk4Ypi4c02"
 let PLUTO_DEFAULT_IMAGE_URL = "https://firebasestorage.googleapis.com/v0/b/pluto-e6437.appspot.com/o/profile_pics%2F82E23F55-8E55-467C-AF62-1D95393E9E6F.png?alt=media&token=5409aa8e-09d2-4178-bf8a-3ff80df9577d"
+
+// Other
+let DATE_FORMAT = "M/d/yy, h:mm a"
