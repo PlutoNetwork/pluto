@@ -303,8 +303,6 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
             // Pass the event to the EventController.
             let eventController = EventController()
             eventController.event = eventAnnotation.event
-            let coordinate = eventAnnotation.coordinate
-            eventController.coordinate = coordinate
             
             // Open the EventController.
             mainController?.navigationController?.pushViewController(eventController, animated: true)
@@ -324,7 +322,8 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
             
             // Pass the coordinate to the EventController.
             let eventController = EventController()
-            eventController.coordinate = coordinate
+            eventController.newEventValues["latitude"] = coordinate.latitude as AnyObject
+            eventController.newEventValues["longitude"] = coordinate.longitude as AnyObject
             
             // Open the EventController.
             mainController?.navigationController?.pushViewController(eventController, animated: true)

@@ -73,11 +73,7 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
         newEventValues["count"] = 1 as AnyObject
         newEventValues["creator"] = uid as AnyObject
         
-        guard let latitude = coordinate?.latitude, let longitude = coordinate?.longitude else {
-            
-            print("ERROR: no coordinate found.")
-            return
-        }
+        guard let latitude = newEventValues["latitude"] as? CLLocationDegrees, let longitude = newEventValues["longitude"] as? CLLocationDegrees else { return }
         
         let location = CLLocation(latitude: latitude, longitude: longitude)
         
@@ -122,11 +118,30 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
             let newEvent = Event(eventKey: newEventKey, eventData: self.newEventValues as Dictionary<String, AnyObject>)
             
             // Create a default message and add it to the event.
-            EventService.sharedInstance.addDefaultMessagesTo(event: newEvent)
+            self.addDefaultMessageTo(event: newEvent)
             
             // Sync the event to the user's calendar.
             EventService.sharedInstance.syncToCalendar(add: true, event: newEvent)
         })
+    }
+    
+    func addDefaultMessageTo(event: Event) {
+        
+        // We need to send the message to the event.
+        if let toId = event.key {
+            
+            // Use the Pluto account's id as the fromId to show the message sender.
+            let fromId = PLUTO_ACCOUNT_ID
+            
+            // We should get a timestamp too, so we know when the event was created..
+            let timeStamp = Int(Date().timeIntervalSince1970)
+            
+            let defaultMessage = "Welcome to the '\(event.title!)' group chat!"
+            
+            let values: [String: AnyObject] = ["toId": toId as AnyObject, "fromId": fromId as AnyObject, "fromIdProfileImageUrl": PLUTO_DEFAULT_IMAGE_URL as AnyObject, "timeStamp": timeStamp as AnyObject, "text": defaultMessage as AnyObject]
+            
+            MessageService.sharedInstance.updateMessages(toId: toId, fromId: fromId, values: values)
+        }
     }
     
     func updateEvent(eventTitle: String, eventImage: String) {
@@ -182,8 +197,6 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
     
     // MARK: - Global Variables
     
-    var coordinate: CLLocationCoordinate2D?
-    
     var event: Event?
     
     var isNewEvent = false
@@ -228,11 +241,20 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
             isNewEvent = true
             isEventCreator = true
             
-            newEventValues = ["title": "", "eventImage": "", "eventDescription": "", "address": "", "timeStart": Date(), "timeEnd": Date()] as [String: AnyObject]
+            let blank = ""
+            newEventValues["title"] = blank as AnyObject
+            newEventValues["eventImage"] = blank as AnyObject
+            newEventValues["eventDescription"] = blank as AnyObject
+            newEventValues["timeStart"] = Date() as AnyObject
+            newEventValues["timeEnd"] = Date().addingTimeInterval(60*60) as AnyObject
             
-            LocationService.sharedInstance.convertCoordinatesToAddress(latitude: (self.coordinate?.latitude)!, longitude: (self.coordinate?.longitude)!, completion: { (address) in
+            guard let latitude = newEventValues["latitude"] as? CLLocationDegrees, let longitude = newEventValues["longitude"] as? CLLocationDegrees else { return }
+            
+            LocationService.sharedInstance.convertCoordinatesToAddress(latitude: latitude, longitude: longitude, completion: { (address) in
                 
                 self.newEventValues["address"] = address as AnyObject
+                
+                self.setUpForm()
             })
             
             navigationItemTitle = "Create Event"
@@ -241,12 +263,17 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
             
         } else {
 
-            newEventValues = ["title": event?.title,
-                              "eventImage": event?.image,
-                              "eventDescription": event?.eventDescription,
-                              "address": event?.address,
-                              "timeStart": event?.timeStart,
-                              "timeEnd": event?.timeEnd] as [String: AnyObject]
+            if let event = event {
+            
+                newEventValues = ["title": event.title,
+                                  "eventImage": event.image,
+                                  "eventDescription": event.eventDescription,
+                                  "address": event.address,
+                                  "latitude": event.latitude,
+                                  "longitude": event.longitude,
+                                  "timeStart": event.timeStart.toDate(),
+                                  "timeEnd": event.timeEnd.toDate()] as [String: AnyObject]
+            }
             
             // The user is viewing a created event.
             // Check if the user is the event creator.
@@ -287,14 +314,16 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
                     }
                 }
             }
+            
+            self.setUpForm()
         }
         
         navigationItem.title = navigationItemTitle
-        setUpForm()
-
     }
     
     func setUpForm() {
+        
+        guard let latitude = newEventValues["latitude"] as? CLLocationDegrees, let longitude = newEventValues["longitude"] as? CLLocationDegrees else { return }
         
         // Create a form using the Eureka library.
         form
@@ -392,7 +421,7 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
             }
             <<< LocationRow(){
                 $0.title = "Change location"
-                $0.value = CLLocation(latitude: (coordinate?.latitude)!, longitude: (coordinate?.longitude)!)
+                $0.value = CLLocation(latitude: latitude, longitude: longitude)
                 $0.cell.backgroundColor = DARK_BLUE_COLOR
                 //$0.value = eventAddress
                 $0.cellUpdate({ (cell, row) in
@@ -414,11 +443,17 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
                     // Set the value to the event's coordinates.
                     if let eventCoordinate = row.value?.coordinate {
                         
-                        self?.coordinate = eventCoordinate
+                        // Save it as an NSNumber so Firebase can store it.
+                        let latitude: NSNumber = NSNumber(value: eventCoordinate.latitude)
+                        let longitude: NSNumber = NSNumber(value: eventCoordinate.longitude)
+                        
+                        self?.newEventValues["latitude"] = latitude
+                        self?.newEventValues["longitude"] = longitude
                         
                         LocationService.sharedInstance.convertCoordinatesToAddress(latitude: eventCoordinate.latitude, longitude: eventCoordinate.longitude, completion: { (address) in
                             
                             addressLabelRow.value = address
+                            self?.newEventValues["address"] = address as AnyObject
                         })
                     }
                 }
@@ -427,9 +462,8 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
             +++ Section("Time")
             <<< DateTimeInlineRow("Starts") {
                 $0.title = $0.tag
-                $0.value = Date().addingTimeInterval(60*60*24)
                 $0.cell.backgroundColor = DARK_BLUE_COLOR
-                $0.value = (newEventValues["timeStart"] as? String)?.toDate()
+                $0.value = newEventValues["timeStart"] as? Date
                 $0.cellUpdate { (cell, row) in
                     
                     cell.textLabel?.textColor = WHITE_COLOR
@@ -483,9 +517,8 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
             }
             <<< DateTimeInlineRow("Ends") {
                 $0.title = $0.tag
-                $0.value = Date().addingTimeInterval(60*60*25)
+                $0.value = (newEventValues["timeEnd"] as? Date)
                 $0.cell.backgroundColor = DARK_BLUE_COLOR
-                $0.value = (newEventValues["timeEnd"] as? String)?.toDate()
                 $0.cellUpdate { (cell, row) in
                     
                     cell.textLabel?.textColor = WHITE_COLOR

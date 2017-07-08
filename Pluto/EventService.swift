@@ -50,25 +50,6 @@ struct EventService {
         })
     }
     
-    func addDefaultMessagesTo(event: Event) {
-        
-        // We need to send the message to the event.
-        if let toId = event.key {
-        
-            // Use the Pluto account's id as the fromId to show the message sender.
-            let fromId = PLUTO_ACCOUNT_ID
-            
-            // We should get a timestamp too, so we know when the event was created..
-            let timeStamp = Int(Date().timeIntervalSince1970)
-            
-            let defaultMessage = "Welcome to the '\(event.title!)' group chat!"
-            
-            let values: [String: AnyObject] = ["toId": toId as AnyObject, "fromId": fromId as AnyObject, "fromIdProfileImageUrl": PLUTO_DEFAULT_IMAGE_URL as AnyObject, "timeStamp": timeStamp as AnyObject, "text": defaultMessage as AnyObject]
-            
-            MessageService.sharedInstance.updateMessages(toId: toId, fromId: fromId, values: values)
-        }
-    }
-    
     var calendar: EKCalendar!
     
     func syncToCalendar(add: Bool, event: Event) {

@@ -20,10 +20,12 @@ class Event: NSObject {
     var image: String!
     var eventDescription: String!
     var address: String!
+    var latitude: NSNumber!
+    var longitude: NSNumber!
     var timeStart: String!
     var timeEnd: String!
     
-    init(count: Int, creator: String, title: String, image: String, eventDescription: String, address: String, timeStart: String, timeEnd: String) {
+    init(count: Int, creator: String, title: String, image: String, eventDescription: String, address: String, latitude: NSNumber, longitude: NSNumber, timeStart: String, timeEnd: String) {
         
         self.count = count
         self.creator = creator
@@ -31,6 +33,8 @@ class Event: NSObject {
         self.image = image
         self.eventDescription = eventDescription
         self.address = address
+        self.latitude = latitude
+        self.longitude = longitude
         self.timeStart = timeStart
         self.timeEnd = timeEnd
     }
@@ -67,6 +71,16 @@ class Event: NSObject {
         if let address = eventData["address"] as? String {
             
             self.address = address
+        }
+        
+        if let latitude = eventData["latitude"] as? NSNumber {
+            
+            self.latitude = latitude
+        }
+        
+        if let longitude = eventData["longitude"] as? NSNumber {
+            
+            self.longitude = longitude
         }
         
         if let timeStart = eventData["timeStart"] as? String {
