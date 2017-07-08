@@ -33,15 +33,13 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
     
     func handleUpdateEvent() {
         
-        if let eventTitle = newEventValues["title"], let eventImage = newEventValues["eventImage"] {
+        
+        // The user is updating a created event.
+        // Check if the user has filled out all the required fields.
+        if form.validate().isEmpty {
             
-            // The user is updating a created event.
-            // Check if the user has filled out all the required fields.
-            if form.validate().isEmpty {
-                
-                // Update the event.
-                updateEvent(eventTitle: eventTitle as! String, eventImage: eventImage as! String)
-            }
+            // Update the event.
+            updateEvent()
         }
         
         // Dismiss the controller.
@@ -54,7 +52,6 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
             
             // The user wants to add a created event.
             changeEventCount(event: eventToBeAddedOrRemoved)
-            
         }
         
         // Dismiss the controller.
@@ -144,19 +141,13 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
         }
     }
     
-    func updateEvent(eventTitle: String, eventImage: String) {
+    func updateEvent() {
         
-        if let eventKey = self.event?.key {
+        if let event = event {
         
             /// Holds the reference to the user's image key in the database.
-            let eventRef = DataService.ds.REF_EVENTS.child(eventKey)
-        
-            // Sets the value for the updated fields.
-            
-            let updatedEvent = ["title": eventTitle as Any,
-                                "eventImage": eventImage as Any]
-            
-            eventRef.updateChildValues(updatedEvent)
+            let eventRef = DataService.ds.REF_EVENTS.child(event.key)
+            eventRef.updateChildValues(newEventValues)
         }
     }
     
@@ -271,8 +262,8 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
                                   "address": event.address,
                                   "latitude": event.latitude,
                                   "longitude": event.longitude,
-                                  "timeStart": event.timeStart.toDate(),
-                                  "timeEnd": event.timeEnd.toDate()] as [String: AnyObject]
+                                  "timeStart": event.timeStart,
+                                  "timeEnd": event.timeEnd] as [String: AnyObject]
             }
             
             // The user is viewing a created event.
@@ -419,51 +410,56 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
                     
                 })
             }
-            <<< LocationRow(){
-                $0.title = "Change location"
-                $0.value = CLLocation(latitude: latitude, longitude: longitude)
-                $0.cell.backgroundColor = DARK_BLUE_COLOR
-                //$0.value = eventAddress
-                $0.cellUpdate({ (cell, row) in
-                    
-                    cell.textLabel?.textColor = WHITE_COLOR
-                    cell.tintColor = WHITE_COLOR
-                    cell.detailTextLabel?.textColor = UIColor.clear
-                    
-                    if !row.isValid {
-                        
-                        // The row is empty, notify the user by highlighting the label.
-                        cell.textLabel?.textColor = UIColor.red
-                    }
-                })
-                $0.onChange { [weak self] row in
-                    
-                    let addressLabelRow: LabelRow! = self?.form.rowBy(tag: "address")
-                    
-                    // Set the value to the event's coordinates.
-                    if let eventCoordinate = row.value?.coordinate {
-                        
-                        // Save it as an NSNumber so Firebase can store it.
-                        let latitude: NSNumber = NSNumber(value: eventCoordinate.latitude)
-                        let longitude: NSNumber = NSNumber(value: eventCoordinate.longitude)
-                        
-                        self?.newEventValues["latitude"] = latitude
-                        self?.newEventValues["longitude"] = longitude
-                        
-                        LocationService.sharedInstance.convertCoordinatesToAddress(latitude: eventCoordinate.latitude, longitude: eventCoordinate.longitude, completion: { (address) in
+            
+            if isEventCreator {
+                form
+                    +++ Section()
+                    <<< LocationRow () {
+                        $0.title = "Change location"
+                        $0.value = CLLocation(latitude: latitude, longitude: longitude)
+                        $0.cell.backgroundColor = DARK_BLUE_COLOR
+                        $0.cellUpdate({ (cell, row) in
                             
-                            addressLabelRow.value = address
-                            self?.newEventValues["address"] = address as AnyObject
+                            cell.textLabel?.textColor = WHITE_COLOR
+                            cell.tintColor = WHITE_COLOR
+                            cell.detailTextLabel?.textColor = UIColor.clear
+                            
+                            if !row.isValid {
+                                
+                                // The row is empty, notify the user by highlighting the label.
+                                cell.textLabel?.textColor = UIColor.red
+                            }
                         })
+                        $0.onChange { [weak self] row in
+                            
+                            let addressLabelRow: LabelRow! = self?.form.rowBy(tag: "address")
+                            
+                            // Set the value to the event's coordinates.
+                            if let eventCoordinate = row.value?.coordinate {
+                                
+                                // Save it as an NSNumber so Firebase can store it.
+                                let latitude: NSNumber = NSNumber(value: eventCoordinate.latitude)
+                                let longitude: NSNumber = NSNumber(value: eventCoordinate.longitude)
+                                
+                                self?.newEventValues["latitude"] = latitude
+                                self?.newEventValues["longitude"] = longitude
+                                
+                                LocationService.sharedInstance.convertCoordinatesToAddress(latitude: eventCoordinate.latitude, longitude: eventCoordinate.longitude, completion: { (address) in
+                                    
+                                    addressLabelRow.value = address
+                                    self?.newEventValues["address"] = address as AnyObject
+                                })
+                            }
+                        }
                     }
                 }
-            }
-            
+        
+        form
             +++ Section("Time")
             <<< DateTimeInlineRow("Starts") {
                 $0.title = $0.tag
                 $0.cell.backgroundColor = DARK_BLUE_COLOR
-                $0.value = newEventValues["timeStart"] as? Date
+                $0.value = (newEventValues["timeStart"] as? String)?.toDate()
                 $0.cellUpdate { (cell, row) in
                     
                     cell.textLabel?.textColor = WHITE_COLOR
@@ -517,7 +513,7 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
             }
             <<< DateTimeInlineRow("Ends") {
                 $0.title = $0.tag
-                $0.value = (newEventValues["timeEnd"] as? Date)
+                $0.value = (newEventValues["timeEnd"] as? String)?.toDate()
                 $0.cell.backgroundColor = DARK_BLUE_COLOR
                 $0.cellUpdate { (cell, row) in
                     
