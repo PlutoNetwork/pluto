@@ -50,6 +50,25 @@ struct EventService {
         })
     }
     
+    
+    func deleteUserEventsUnder(eventKey: String, completion: @escaping () -> ()) {
+        
+        DataService.ds.REF_EVENTS.child(eventKey).child("users").observe(.value, with: { (snapshot) in
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                
+                for snap in snapshot {
+                    
+                    print(snap)
+                    let userKey = snap.key
+                    DataService.ds.REF_USERS.child(userKey).child("events").child(eventKey).removeValue()
+                }
+                
+                completion()
+            }
+        })
+    }
+    
     var calendar: EKCalendar!
     
     func syncToCalendar(add: Bool, event: Event) {
@@ -124,7 +143,7 @@ struct EventService {
                     
                     let date = newEvent.startDate as NSDate
                     
-                    UIApplication.shared.openURL(NSURL(string: "calshow:\(date.timeIntervalSinceReferenceDate)")! as URL)
+                    UIApplication.shared.open(NSURL(string: "calshow:\(date.timeIntervalSinceReferenceDate)")! as URL, options: [:], completionHandler: nil)
                 })
                 
                 notice.showSuccess("Success", subTitle: "Event added to calendar.", closeButtonTitle: "Done")

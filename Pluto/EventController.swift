@@ -161,7 +161,7 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
         
         if let eventKey = event.key {
             
-            let eventRef = DataService.ds.REF_EVENTS.child(eventKey).child("events").child(uid)
+            let eventRef = DataService.ds.REF_EVENTS.child(eventKey).child("users").child(uid)
             let userEventRef = DataService.ds.REF_CURRENT_USER_EVENTS.child(eventKey)
             
             // Adjust the database to reflect whether or not the user is going to the event.
@@ -236,8 +236,8 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
             newEventValues["title"] = blank as AnyObject
             newEventValues["eventImage"] = blank as AnyObject
             newEventValues["eventDescription"] = blank as AnyObject
-            newEventValues["timeStart"] = Date() as AnyObject
-            newEventValues["timeEnd"] = Date().addingTimeInterval(60*60) as AnyObject
+            newEventValues["timeStart"] = Date().toString() as AnyObject
+            newEventValues["timeEnd"] = Date().addingTimeInterval(60*60).toString() as AnyObject
             
             guard let latitude = newEventValues["latitude"] as? CLLocationDegrees, let longitude = newEventValues["longitude"] as? CLLocationDegrees else { return }
             
@@ -422,7 +422,7 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
                             
                             cell.textLabel?.textColor = WHITE_COLOR
                             cell.tintColor = WHITE_COLOR
-                            cell.detailTextLabel?.textColor = UIColor.clear
+                            cell.detailTextLabel?.textColor = WHITE_COLOR
                             
                             if !row.isValid {
                                 
@@ -596,10 +596,15 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
         notice.addButton("Delete") { 
             
             if let eventKey = event.key {
-                                
-                DataService.ds.REF_EVENTS.child(eventKey).removeValue()
-                DataService.ds.REF_CURRENT_USER_EVENTS.child(eventKey).removeValue()
-                DataService.ds.REF_EVENT_LOCATIONS.child(eventKey).removeValue()
+                
+                // Delete the event under users who are attending.
+                EventService.sharedInstance.deleteUserEventsUnder(eventKey: eventKey, completion: { 
+                    
+                    DataService.ds.REF_EVENTS.child(eventKey).removeValue()
+                })
+                
+                let geoFire = GeoFire(firebaseRef: DataService.ds.REF_EVENT_LOCATIONS)
+                geoFire?.removeKey(eventKey)
                 
                 // Grab the messages under the event and delete them.
                 MessageService.sharedInstance.deleteMessagesUnder(eventKey: eventKey, completion: { 
