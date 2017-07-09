@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>AXPhotoViewer.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>BadgeSwift.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -30,6 +35,11 @@
 			<false/>
 		</dict>
 		<key>FBSDKShareKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>FLAnimatedImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -72,22 +82,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>1A0F2DB6E85872B1695ABC158935EAEB</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>2BB3C7A0D901BA50C22490631DD34A01</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>2F0C0F810568D3E82219429D9D870F04</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>3A27C0D6D294D8A3D57B2E98325DFC9F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -117,6 +117,16 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>98F9FC3905AB389E156D83360D712ACB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A8E7351E8EAE0655A69D825A504F681D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>B1C4AAFAF49036C7007633DAA3C806AD</key>
 		<dict>
 			<key>primary</key>
@@ -132,7 +142,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>CD3123CF828E319BDE8F120700CC642B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>E396A93E4C79B22B7816E9F02F62ECED</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FF30F73260577FA3617682BCE223DE39</key>
 		<dict>
 			<key>primary</key>
 			<true/>

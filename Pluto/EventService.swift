@@ -51,7 +51,7 @@ struct EventService {
     }
     
     
-    func deleteUserEventsUnder(eventKey: String, completion: @escaping () -> ()) {
+    func updateUserEventsUnder(eventKey: String, completion: @escaping () -> ()) {
         
         DataService.ds.REF_EVENTS.child(eventKey).child("users").observe(.value, with: { (snapshot) in
             
@@ -59,9 +59,8 @@ struct EventService {
                 
                 for snap in snapshot {
                     
-                    print(snap)
                     let userKey = snap.key
-                    DataService.ds.REF_USERS.child(userKey).child("events").child(eventKey).removeValue()
+                    DataService.ds.REF_USERS.child(userKey).child("events").child(eventKey).setValue(false)
                 }
                 
                 completion()
@@ -81,13 +80,11 @@ struct EventService {
                 
                 if error != nil {
                     
-                    /* ERROR: Something went wrong and the user's calendar could not be accessed. */
-                    
-                    print(error.debugDescription)
+                    print("ERROR: something went wrong syncing to the calendar. Details: \(error.debugDescription)")
                     
                 } else {
                     
-                    /* SUCCESS: We have access to modify the user's calendar. */
+                    // We have access to modify the user's calendar.
                     
                     if add {
                         

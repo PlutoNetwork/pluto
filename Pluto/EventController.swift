@@ -593,14 +593,17 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
         
         let notice = SCLAlertView()
         
-        notice.addButton("Delete") { 
+        notice.addButton("Delete") {
+            
+            // Remove the event from the calendar.
+            EventService.sharedInstance.syncToCalendar(add: false, event: event)
             
             if let eventKey = event.key {
                 
                 // Delete the event under users who are attending.
-                EventService.sharedInstance.deleteUserEventsUnder(eventKey: eventKey, completion: { 
+                EventService.sharedInstance.updateUserEventsUnder(eventKey: eventKey, completion: {
                     
-                    DataService.ds.REF_EVENTS.child(eventKey).removeValue()
+                    //DataService.ds.REF_EVENTS.child(eventKey).removeValue()
                 })
                 
                 let geoFire = GeoFire(firebaseRef: DataService.ds.REF_EVENT_LOCATIONS)

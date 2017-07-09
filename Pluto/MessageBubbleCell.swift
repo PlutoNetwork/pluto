@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import Kingfisher
+import AXPhotoViewer
 
 class MessageBubbleCell: BaseCollectionViewCell {
     
@@ -66,8 +67,12 @@ class MessageBubbleCell: BaseCollectionViewCell {
         messageLogController?.messageInputAccessoryView.inputTextField.resignFirstResponder()
         
         if let tappedImageView = tapGesture.view as? UIImageView {
-        
-            messageLogController?.performZoomInForStartingImageView(startingImageView: tappedImageView)
+                    
+            let photo = Photo(attributedTitle: NSAttributedString(string: ""), attributedDescription: NSAttributedString(string: ""), attributedCredit: NSAttributedString(string: ""), image: tappedImageView.image)
+            let photos = [photo]
+            let dataSource = PhotosDataSource(photos: photos, initialPhotoIndex: 0, prefetchBehavior: .aggressive)
+            let photosViewController = PhotosViewController(dataSource: dataSource)
+            messageLogController?.navigationController?.present(photosViewController, animated: true)
         }
     }
     

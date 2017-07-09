@@ -12,10 +12,12 @@ class EventAnnotation: NSObject, MKAnnotation {
     
     var coordinate = CLLocationCoordinate2D()
     var event: Event?
+    var title: String?
     
-    init(coordinate: CLLocationCoordinate2D, event: Event?) {
+    init(coordinate: CLLocationCoordinate2D, event: Event?, title: String) {
         
         self.coordinate = coordinate
         self.event = event
+        self.title = title
     }
 }

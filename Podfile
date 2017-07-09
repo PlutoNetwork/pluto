@@ -19,4 +19,5 @@ target 'Pluto' do
     pod 'NVActivityIndicatorView'
     pod 'Kingfisher', '~> 3.0'
     pod 'BadgeSwift', '~> 5.0'
+    pod 'AXPhotoViewer', '~> 1.0.0-beta.11'
 end

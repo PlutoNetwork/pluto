@@ -84,19 +84,21 @@ class MessagesCell: BaseCollectionViewCell, UITableViewDelegate, UITableViewData
         userEventsRef.observe(.childAdded, with: { (snapshot) in
             
             let eventKey = snapshot.key
-            self.fetchEvent(withKey: eventKey)
+            self.fetchEvent(withKey: eventKey, toDelete: false)
         })
         
         // Detect removed events.
         userEventsRef.observe(.childRemoved, with: { (snapshot) in
          
-            // Remove the deleted event from the userEvents dictionary and reload the table.
+            // Remove the deleted event from the userEvents dictionary and the user's calendar and reload the table.
             self.userEventsDictionary.removeValue(forKey: snapshot.key)
+            let eventKey = snapshot.key
+            self.fetchEvent(withKey: eventKey, toDelete: true)
             self.attemptReloadOfTable()
         })
     }
     
-    func fetchEvent(withKey: String) {
+    func fetchEvent(withKey: String, toDelete: Bool) {
         
         let eventRef = DataService.ds.REF_EVENTS.child(withKey)
         
@@ -109,11 +111,18 @@ class MessagesCell: BaseCollectionViewCell, UITableViewDelegate, UITableViewData
                 // Use the data received from Firebase to create a new Event object.
                 let event = Event(eventKey: key, eventData: eventData)
                 
-                // Add the event to the userEvents dictionary.
-                self.userEventsDictionary[key] = event
+                if toDelete {
+                    
+                    EventService.sharedInstance.syncToCalendar(add: false, event: event)
+                    
+                } else {
                 
-                // Grab the event's messages.
-                self.observeEventMessages(event: event)
+                    // Add the event to the userEvents dictionary.
+                    self.userEventsDictionary[key] = event
+                    
+                    // Grab the event's messages.
+                    self.observeEventMessages(event: event)
+                }
             }
         })
     }
@@ -201,7 +210,7 @@ class MessagesCell: BaseCollectionViewCell, UITableViewDelegate, UITableViewData
         
         // Grab the message from the messages array.
         
-        if userEvents.isEmpty == false {
+        if messages.count > 0  {
         
             let message = messages[indexPath.row]
             eventMessagesPreviewCell.configureCell(event: event, message: message)
