@@ -115,9 +115,10 @@ class MessageLogController: UICollectionViewController, UICollectionViewDelegate
                 DispatchQueue.main.async(execute: {
                     
                     self.collectionView?.reloadData()
+                    
                     // Scroll the latest message.
                     let indexPath = IndexPath(item: self.messages.count - 1, section: 0)
-                    self.collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
+                    self.collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: false)
                 })
             }
         })
@@ -267,6 +268,18 @@ class MessageLogController: UICollectionViewController, UICollectionViewDelegate
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         
         return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 16)], context: nil)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        // Set the initial state of the cell.
+        cell.alpha = 0
+        
+        // Animate to change the final state.
+        UIView.animate(withDuration: 0.5) {
+            
+            cell.alpha = 1.0
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

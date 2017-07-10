@@ -344,7 +344,7 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
                 }
             }
             <<< PushRow<String>() {
-                $0.title = "Select image"
+                $0.title = "Type"
                 $0.options = ["🍔", "🏈", "🎉", "🎷"]
                 $0.cell.backgroundColor = DARK_BLUE_COLOR
                 $0.value = (newEventValues["eventImage"] as? String)
