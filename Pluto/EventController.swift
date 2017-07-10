@@ -9,13 +9,10 @@
 import UIKit
 import Eureka
 import Firebase
-import NVActivityIndicatorView
 
-class EventController: FormViewController, NVActivityIndicatorViewable {
+class EventController: FormViewController {
         
     // MARK: - UI Components
-    
-    var loadingView: NVActivityIndicatorView?
     
     func handleCreateEvent() {
         
@@ -32,7 +29,6 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
     }
     
     func handleUpdateEvent() {
-        
         
         // The user is updating a created event.
         // Check if the user has filled out all the required fields.
@@ -366,7 +362,7 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
         }
         
         form
-            +++ Section("Header")
+            +++ Section()
             <<< TextRow() {
                 $0.title = "Title"
                 $0.cell.backgroundColor = DARK_BLUE_COLOR
@@ -446,7 +442,7 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
                 }
             }
             
-            +++ Section("Location")
+            +++ Section()
             <<< LabelRow () {
                 $0.title = (newEventValues["address"] as? String)
                 $0.tag = "address"
@@ -503,7 +499,7 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
                 }
         
         form
-            +++ Section("Time")
+            +++ Section()
             <<< DateTimeInlineRow("Starts") {
                 $0.title = $0.tag
                 $0.cell.backgroundColor = DARK_BLUE_COLOR
@@ -616,7 +612,7 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
         if !isNewEvent && isEventCreator {
             
             form
-                +++ Section("Delete")
+                +++ Section()
                 <<< ButtonRow() { (row: ButtonRow) -> Void in
                     
                         row.title = "Delete"

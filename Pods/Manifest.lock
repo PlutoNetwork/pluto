@@ -83,6 +83,8 @@ PODS:
   - GTMSessionFetcher/Core (1.1.10)
   - GTMSessionFetcher/Full (1.1.10):
     - GTMSessionFetcher/Core (= 1.1.10)
+  - ImageRow (2.0.0):
+    - Eureka (= 3.0)
   - Kingfisher (3.10.3)
   - NVActivityIndicatorView (3.7.0):
     - NVActivityIndicatorView/Presenter (= 3.7.0)
@@ -102,6 +104,7 @@ DEPENDENCIES:
   - Firebase/Messaging
   - Firebase/Storage
   - GoogleSignIn
+  - ImageRow
   - Kingfisher (~> 3.0)
   - NVActivityIndicatorView
 
@@ -126,10 +129,11 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GTMOAuth2: 7fc9c10f5c745f4d9850419ea88889fe3baa6b7d
   GTMSessionFetcher: 30d874b96d0d76028f61fbd122801e3f030d47db
+  ImageRow: 9dfbfa38c1e62c25d638bc40e97a48c1809443c4
   Kingfisher: a0ac82dc5bcf0388dd74b294cf2cc13730c63436
   NVActivityIndicatorView: d3738df7e2e476aca0ba6bf32a8c9fbcfc33d64b
   Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
 
-PODFILE CHECKSUM: f3a4cd23960e64f3a30ceb574b4148a1f030bcfd
+PODFILE CHECKSUM: c29ffd15d10b6adf64326f69d3f289cc90459f63
 
 COCOAPODS: 1.1.1

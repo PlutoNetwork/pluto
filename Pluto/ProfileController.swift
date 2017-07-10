@@ -22,7 +22,12 @@ class ProfileController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func handleShowSettings() {
     
+        // Open the settings controller.
+        let settingsController = SettingsController()
+        // Pass along the profile pic.
+        settingsController.userProfileImage = profileImageView.image
         
+        navigationController?.pushViewController(settingsController, animated: true)
     }
     
     let profileImageView: UIImageView = {

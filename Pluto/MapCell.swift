@@ -85,7 +85,7 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
     func showEventsOnMap(location: CLLocation) {
     
         // Create a query that shows events within a given radius.
-        let circleQuery = geoFire.query(at: location, withRadius: 2.5)
+        let circleQuery = geoFire.query(at: location, withRadius: 5)
         
         // Whenever a key is found, show an event.
         _ = circleQuery?.observe(.keyEntered, with: { (key, location) in
@@ -199,11 +199,7 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
         let eventAnnotationIdentifier = "event"
         var eventAnnotationView: MKAnnotationView?
         
-        guard let uid = Auth.auth().currentUser?.uid else {
-            
-            print("ERROR: could not get user ID.")
-            return MKAnnotationView()
-        }
+        guard let uid = Auth.auth().currentUser?.uid else { return MKAnnotationView() }
         
         // Create an imageView to show instead of the annotation pin.
         let eventImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
@@ -221,7 +217,7 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
             
             // Add a border around the image.
             eventImageView.layer.borderWidth = 5
-            eventImageView.layer.borderColor = LIGHT_BLUE_COLOR.cgColor
+            eventImageView.layer.borderColor = DARK_BLUE_COLOR.cgColor
             
             // Set the eventAnnotationView (really the userAnnotationView)'s image to the user's profile picture.
             // Use the Kingfisher library.
@@ -270,7 +266,7 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
             eventCountBadge.text = eventAnnotation.event?.title
             eventCountBadge.numberOfLines = 2
             eventCountBadge.textColor = WHITE_COLOR
-            eventCountBadge.badgeColor = LIGHT_BLUE_COLOR
+            eventCountBadge.badgeColor = DARK_BLUE_COLOR
             eventCountBadge.translatesAutoresizingMaskIntoConstraints = false
             eventAnnotationView.addSubview(eventCountBadge)
             

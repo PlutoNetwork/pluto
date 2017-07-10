@@ -16,6 +16,7 @@ target 'Pluto' do
     pod 'Firebase/Messaging'
     pod 'GoogleSignIn'
     pod 'Eureka', '~> 3.0.0'
+    pod 'ImageRow'
     pod 'NVActivityIndicatorView'
     pod 'Kingfisher', '~> 3.0'
     pod 'BadgeSwift', '~> 5.0'
