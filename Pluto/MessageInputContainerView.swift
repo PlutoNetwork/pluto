@@ -8,8 +8,9 @@
 
 import UIKit
 import Firebase
+import ImagePicker
 
-class MessageInputContainerView: UIView, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class MessageInputContainerView: UIView, ImagePickerDelegate, UINavigationControllerDelegate {
     
     // MARK: - UIComponents
     
@@ -109,63 +110,43 @@ class MessageInputContainerView: UIView, UIImagePickerControllerDelegate, UINavi
     
     func handleUploadImageViewTap() {
         
-        // Show the user's photo gallery.
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.navigationBar.isTranslucent = false
-        imagePickerController.navigationBar.barTintColor = DARK_BLUE_COLOR
-        imagePickerController.navigationBar.tintColor = WHITE_COLOR
-        imagePickerController.navigationBar.titleTextAttributes = [
-            NSForegroundColorAttributeName : WHITE_COLOR
-        ]
+        // Use the ImagePicker library to summon the almighty image picker.
+        var configuration = Configuration()
+        configuration.doneButtonTitle = "Finish"
+        configuration.noImagesTitle = "Whoops! There are no images here!"
+        configuration.recordLocation = false
+        configuration.bottomContainerColor = DARK_BLUE_COLOR
+        configuration.gallerySeparatorColor = LIGHT_BLUE_COLOR
+        configuration.settingsColor = WHITE_COLOR
+        
+        let imagePickerController = ImagePickerController(configuration: configuration)
+        imagePickerController.imageLimit = 5
         imagePickerController.delegate = self
-        imagePickerController.allowsEditing = true
         messageLogController?.present(imagePickerController, animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
         
-        var selectedImageFromPicker: UIImage?
-        
-        // Grab the image that was selected by the user.
-        if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
-            
-            selectedImageFromPicker = editedImage
-            
-        } else if let originalImage = info["UIImagePickerControllerOriginalImage"] as? UIImage {
-            
-            selectedImageFromPicker = originalImage
+        // Send each image picked.
+        for image in images {
+       
+            MessageService.sharedInstance.uploadMessageImagesToFirebaseStorageUsing(image: image, completion: { (imageUrl) in
+                
+                self.sendMessageWith(imageUrl: imageUrl, image: image)
+            })
         }
         
-        if let selectedImage = selectedImageFromPicker {
-            
-            // Upload to Firebase storage.
-            uploadToFirebaseStorageUsing(image: selectedImage)
-        }
-        
-        // Dismiss the image picker.
         messageLogController?.dismiss(animated: true, completion: nil)
     }
     
-    private func uploadToFirebaseStorageUsing(image: UIImage) {
+    func cancelButtonDidPress(_ imagePicker: ImagePickerController) {
         
-        if let uploadData = UIImageJPEGRepresentation(image, 0.2) {
-            
-            DataService.ds.REF_MESSAGE_PICS.putData(uploadData, metadata: nil, completion: { (metadata, error) in
-                
-                if error != nil {
-                    
-                    print("ERROR: there was an error uploading the message image to Firebase. Details: \(error.debugDescription)")
-                    return
-                }
-                
-                if let imageUrl = metadata?.downloadURL()?.absoluteString {
-                    
-                    self.sendMessageWith(imageUrl: imageUrl, image: image)
-                }
-            })
-        }
     }
     
+    func wrapperDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+        
+    }
+        
     private func sendMessageWith(imageUrl: String, image: UIImage) {
         
         let properties: [String: AnyObject] = ["imageUrl": imageUrl as AnyObject, "imageWidth": image.size.width as AnyObject, "imageHeight": image.size.height as AnyObject]

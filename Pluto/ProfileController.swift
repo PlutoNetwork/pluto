@@ -267,7 +267,6 @@ class ProfileController: UIViewController, UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         
         let header = view as! UITableViewHeaderFooterView
-        header.backgroundColor = UIColor.clear
         header.textLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         header.textLabel?.textColor = WHITE_COLOR
     }

@@ -175,6 +175,7 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
             let mapCell = collectionView.dequeueReusableCell(withReuseIdentifier: mapCellId, for: indexPath) as! MapCell
          
             mapCell.mainController = self
+            fetchUserProfileImageUrl(cell: mapCell)
             
             return mapCell
         
@@ -188,5 +189,18 @@ class MainController: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
         
         return UICollectionViewCell()
+    }
+    
+    func fetchUserProfileImageUrl(cell: MapCell) {
+        
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        UserService.sharedInstance.fetchUserData(withKey: uid) { (user) in
+            
+            if let profileImageUrl = user.profileImageUrl {
+                
+                cell.profileImageUrl = profileImageUrl
+            }
+        }
     }
 }

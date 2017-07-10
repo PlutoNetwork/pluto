@@ -49,4 +49,25 @@ struct MessageService {
             }
         })
     }
+    
+    func uploadMessageImagesToFirebaseStorageUsing(image: UIImage, completion: @escaping (String) -> ()) {
+        
+        if let uploadData = UIImageJPEGRepresentation(image, 0.2) {
+            
+            DataService.ds.REF_MESSAGE_PICS.putData(uploadData, metadata: nil, completion: { (metadata, error) in
+                
+                if error != nil {
+                    
+                    print("ERROR: there was an error uploading the message image to Firebase. Details: \(error.debugDescription)")
+                    return
+                }
+                
+                if let imageUrl = metadata?.downloadURL()?.absoluteString {
+                    
+                    completion(imageUrl)
+                }
+            })
+        }
+        
+    }
 }

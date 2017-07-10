@@ -32,6 +32,33 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
     
     var geoFire: GeoFire!
     
+    var profileImageUrl: String? {
+        didSet {
+            
+            locationAuthStatus()
+            
+            // Set up the location manager.
+            setUpLocationManager()
+            
+            // Add the UI components.
+            addSubview(mapView)
+            
+            // Set up constraints for the UI components.
+            setUpMapView()
+            
+            // The following line will allow the map to follow the user's location.
+            // mapView.userTrackingMode = .follow
+            
+            // Add a long press gesture to the mapView.
+            let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(mapViewPointLongPressed(gestureRecognizer:)))
+            longPressGesture.delegate = self
+            mapView.addGestureRecognizer(longPressGesture)
+            
+            // Set up GeoFire.
+            geoFire = GeoFire(firebaseRef: DataService.ds.REF_EVENT_LOCATIONS)
+        }
+    }
+    
     // MARK: - View Configuration
     
     override func setUpViews() {
@@ -39,28 +66,6 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
         
         // Change the background color of the cell.
         backgroundColor = .clear
-        
-        locationAuthStatus()
-        
-        // Set up the location manager.
-        setUpLocationManager()
-        
-        // Add the UI components.
-        addSubview(mapView)
-        
-        // Set up constraints for the UI components.
-        setUpMapView()
-        
-        // The following line will allow the map to follow the user's location.
-        // mapView.userTrackingMode = .follow
-        
-        // Add a long press gesture to the mapView.
-        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(mapViewPointLongPressed(gestureRecognizer:)))
-        longPressGesture.delegate = self
-        mapView.addGestureRecognizer(longPressGesture)
-        
-        // Set up GeoFire.
-        geoFire = GeoFire(firebaseRef: DataService.ds.REF_EVENT_LOCATIONS)
     }
     
     func setUpMapView() {
@@ -199,8 +204,6 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
         let eventAnnotationIdentifier = "event"
         var eventAnnotationView: MKAnnotationView?
         
-        guard let uid = Auth.auth().currentUser?.uid else { return MKAnnotationView() }
-        
         // Create an imageView to show instead of the annotation pin.
         let eventImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         eventImageView.contentMode = .scaleAspectFill
@@ -220,24 +223,20 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
             eventImageView.layer.borderColor = DARK_BLUE_COLOR.cgColor
             
             // Set the eventAnnotationView (really the userAnnotationView)'s image to the user's profile picture.
-            // Use the Kingfisher library.
-            UserService.sharedInstance.fetchUserData(withKey: uid, completion: { (user) in
+            if let profileImageUrl = self.profileImageUrl {
                 
-                if let profileImageUrl = user.profileImageUrl {
-                    
-                    eventImageView.setImageWithKingfisher(url: profileImageUrl)
-                    
-                    // Set a corner radius.
-                    eventImageView.layer.cornerRadius = eventImageView.layer.frame.size.width/2
-                    
-                    // Add the eventImageView to the eventAnnotationView.
-                    eventAnnotationView?.addSubview(eventImageView)
-                    
-                    // Make the frame of the annotation view match the image view frame so it can be tapped.
-                    eventAnnotationView?.frame = eventImageView.frame
-                }
-            })
-
+                eventImageView.setImageWithKingfisher(url: profileImageUrl)
+                
+                // Set a corner radius.
+                eventImageView.layer.cornerRadius = eventImageView.layer.frame.size.width/2
+                
+                // Add the eventImageView to the eventAnnotationView.
+                eventAnnotationView?.addSubview(eventImageView)
+                
+                // Make the frame of the annotation view match the image view frame so it can be tapped.
+                eventAnnotationView?.frame = eventImageView.frame
+            }
+            
         } else if let deqAnnotation = mapView.dequeueReusableAnnotationView(withIdentifier: eventAnnotationIdentifier) {
             
             eventAnnotationView = deqAnnotation
