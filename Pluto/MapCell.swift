@@ -265,6 +265,7 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
             // Add a badge that shows the number of people going using the BadgeSwift library.
             let eventCountBadge = BadgeSwift()
             eventCountBadge.text = eventAnnotation.event?.title
+            eventCountBadge.numberOfLines = 2
             eventCountBadge.textColor = WHITE_COLOR
             eventCountBadge.badgeColor = LIGHT_BLUE_COLOR
             eventCountBadge.translatesAutoresizingMaskIntoConstraints = false
@@ -273,39 +274,12 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
             // Add X, Y, width, and height constraints to the eventCountBadge.
             eventCountBadge.centerXAnchor.constraint(equalTo: eventAnnotationView.centerXAnchor).isActive = true
             eventCountBadge.centerYAnchor.constraint(equalTo: eventAnnotationView.centerYAnchor, constant: eventAnnotationView.frame.height/2 + 10).isActive = true
-            //eventCountBadge.widthAnchor.constraint(equalToConstant: 25).isActive = true
+            eventCountBadge.widthAnchor.constraint(equalToConstant: 100).isActive = true
             eventCountBadge.heightAnchor.constraint(equalToConstant: 25).isActive = true
         }
         
         return eventAnnotationView
     }
-    
-//    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-//        
-//        if let eventAnnotation = view.annotation as? EventAnnotation {
-//            
-//            // Change the eventAnnotation information.
-//            //eventAnnotation.isUserGoing = !eventAnnotation.isUserGoing
-//            
-//            if let eventKey = eventAnnotation.event?.key {
-//                
-//                DataService.ds.REF_EVENTS.child(eventKey).child("users").observe(.value, with: { (snapshot) in
-//                    
-//                    if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-//                        
-//                        for snap in snapshot {
-//                            
-//                            let userKey = snap.key
-//                            UserService.sharedInstance.fetchUserData(withKey: userKey, completion: { (user) in
-//                                
-//                                eventAnnotation.title = user.name
-//                            })
-//                        }
-//                    }
-//                })
-//            }
-//        }
-//    }
     
     func annotationCalloutButton(image: UIImage) -> UIButton {
         
@@ -316,7 +290,7 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        
+                
         if let userAnnotation = view.annotation {
             
             if userAnnotation.isKind(of: MKUserLocation.self) {
@@ -335,7 +309,7 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
             eventController.event = eventAnnotation.event
             
             // Open the EventController.
-            mainController?.navigationController?.pushViewController(eventController, animated: true)
+            self.mainController?.navigationController?.pushViewController(eventController, animated: true)
         }
     }
     

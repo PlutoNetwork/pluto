@@ -34,7 +34,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>5</string>
+	<string>6</string>
 	<key>FacebookAppID</key>
 	<string>452270678470174</string>
 	<key>FacebookDisplayName</key>
@@ -48,6 +48,8 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Pluto needs to use your calendar to sync events.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Pluto needs to use your camera to take a picture.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
@@ -66,8 +68,6 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>NSCalendarsUsageDescription</key>
-	<string>Pluto needs to use your calendar to sync events.</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>
