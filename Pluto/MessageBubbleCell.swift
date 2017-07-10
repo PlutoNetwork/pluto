@@ -39,15 +39,35 @@ class MessageBubbleCell: BaseCollectionViewCell {
         return textView
     }()
     
-    let profileImageView: UIImageView = {
+    var messageSenderKey: String?
+    
+    lazy var profileImageView: UIImageView = {
         
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 16
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleProfileImageTap(tapGesture:))))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView
     }()
+    
+    func handleProfileImageTap(tapGesture: UITapGestureRecognizer) {
+        
+        if let key = messageSenderKey {
+        
+            UserService.sharedInstance.fetchUserData(withKey: key) { (user) in
+                
+                // Show the user's profile.
+                let profileController = ProfileController()
+                profileController.user = user
+                
+                // Open the ProfileController.
+                self.messageLogController?.navigationController?.pushViewController(profileController, animated: true)
+            }
+        }
+    }
 
     lazy var messageImageView: UIImageView = {
         

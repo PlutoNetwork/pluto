@@ -236,6 +236,9 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
                     
                     // Add the eventImageView to the eventAnnotationView.
                     eventAnnotationView?.addSubview(eventImageView)
+                    
+                    // Make the frame of the annotation view match the image view frame so it can be tapped.
+                    eventAnnotationView?.frame = eventImageView.frame
                 }
             })
 
@@ -295,7 +298,20 @@ class MapCell: BaseCollectionViewCell, MKMapViewDelegate, CLLocationManagerDeleg
             
             if userAnnotation.isKind(of: MKUserLocation.self) {
                 
-                // Show the user's profile.
+                // Allow the user to select the annotation again.
+                mapView.deselectAnnotation(userAnnotation, animated: false)
+                
+                guard let uid = Auth.auth().currentUser?.uid else { return }
+                
+                UserService.sharedInstance.fetchUserData(withKey: uid, completion: { (user) in
+                    
+                    // Show the user's profile.
+                    let profileController = ProfileController()
+                    profileController.user = user
+                    
+                    // Open the ProfileController.
+                    self.mainController?.navigationController?.pushViewController(profileController, animated: true)
+                })
             }
         }
         

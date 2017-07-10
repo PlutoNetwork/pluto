@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 class FriendsView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-
+    
     // MARK: - UI Components
     
     lazy var friendsCollectionView: UICollectionView = {
@@ -35,7 +35,10 @@ class FriendsView: UIView, UICollectionViewDelegate, UICollectionViewDataSource,
     
     // MARK: - Global Variables
     
+    var eventController: EventController?
+    
     let friendCellId = "friendCellId"
+    
     var event: Event? {
         didSet {
             
@@ -145,6 +148,8 @@ class FriendsView: UIView, UICollectionViewDelegate, UICollectionViewDataSource,
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let friendCell = collectionView.dequeueReusableCell(withReuseIdentifier: friendCellId, for: indexPath) as! FriendCell
+        
+        friendCell.eventController = eventController
         
         let user = eventUsers[indexPath.row]
         

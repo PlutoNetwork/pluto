@@ -12,16 +12,27 @@ class FriendCell: BaseCollectionViewCell {
     
     // MARK: - UI Components
     
-    let profileImageView: UIImageView = {
+    lazy var profileImageView: UIImageView = {
        
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "map_icon")
         imageView.contentMode = .scaleToFill
         imageView.layer.cornerRadius = 25
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleProfileImageTap(tapGesture:))))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView
     }()
+    
+    func handleProfileImageTap(tapGesture: UITapGestureRecognizer) {
+        
+        // Show the user's profile.
+        let profileController = ProfileController()
+        profileController.user = user
+        
+        // Open the ProfileController.
+        self.eventController?.navigationController?.pushViewController(profileController, animated: true)
+    }
     
     let nameLabel: UILabel = {
        
@@ -33,6 +44,11 @@ class FriendCell: BaseCollectionViewCell {
         
         return label
     }()
+    
+    // MARK: - Global Variables
+    
+    var eventController: EventController?
+    var user: User?
     
     // MARK: - View Configuration
 
@@ -60,6 +76,8 @@ class FriendCell: BaseCollectionViewCell {
     }
 
     func configureCell(user: User) {
+        
+        self.user = user
         
         if let profileImageUrl = user.profileImageUrl, let name = user.name {
             

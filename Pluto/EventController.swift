@@ -327,6 +327,7 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
                     header.onSetupView = { view, _ in
                         
                         view.event = self.event
+                        view.eventController = self
                     }
                     section.header = header
                 }

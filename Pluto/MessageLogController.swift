@@ -288,10 +288,13 @@ class MessageLogController: UICollectionViewController, UICollectionViewDelegate
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let messageBubbleCell = collectionView.dequeueReusableCell(withReuseIdentifier: messageBubbleCellId, for: indexPath) as! MessageBubbleCell
-        
+                
         messageBubbleCell.messageLogController = self
         
         let message = messages[indexPath.item]
+        
+        // Pass the sender key.
+        messageBubbleCell.messageSenderKey = message.fromId
         
         // Set the messageBubbleCell's textView text as the message content.
         messageBubbleCell.messageTextView.text = message.text
