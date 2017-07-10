@@ -60,7 +60,7 @@ struct EventService {
                 for snap in snapshot {
                     
                     let userKey = snap.key
-                    DataService.ds.REF_USERS.child(userKey).child("events").child(eventKey).setValue(false)
+                    DataService.ds.REF_USERS.child(userKey).child("events").child(eventKey).removeValue()
                 }
                 
                 completion()

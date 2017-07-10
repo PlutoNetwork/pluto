@@ -282,7 +282,7 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
                 } else {
                     
                     // The user is not the creator.
-                    self.tableView.isUserInteractionEnabled = false
+                    //self.tableView.isUserInteractionEnabled = false
                     
                     navigationItemTitle = "Event Details"
                     
@@ -317,6 +317,53 @@ class EventController: FormViewController, NVActivityIndicatorViewable {
         guard let latitude = newEventValues["latitude"] as? CLLocationDegrees, let longitude = newEventValues["longitude"] as? CLLocationDegrees else { return }
         
         // Create a form using the Eureka library.
+        
+        // If it's not a new event, show people going to the event.
+        if !isNewEvent {
+            form
+                +++ Section(){ section in
+                    var header = HeaderFooterView<FriendsView>(.class)
+                    header.height = { 100 }
+                    header.onSetupView = { view, _ in
+                        
+                        view.event = self.event
+                    }
+                    section.header = header
+                }
+                
+                +++ Section()
+                <<< PushRow<String>() {
+                    $0.title = "People going"
+                    $0.options = ["🍔", "🏈", "🎉", "🎷"]
+                    $0.cell.backgroundColor = DARK_BLUE_COLOR
+                    $0.value = ""
+                    $0.selectorTitle = "Choose an emoji"
+                    $0.onChange { row in
+                        
+                        // Set the value to the event's image.
+                        self.newEventValues["eventImage"] = row.value as AnyObject
+                    }
+                    $0.add(rule: RuleRequired())
+                    $0.validationOptions = .validatesOnChange
+                    $0.cellUpdate { (cell, row) in
+                        
+                        cell.textLabel?.textColor = WHITE_COLOR
+                        cell.tintColor = WHITE_COLOR
+                    }
+                    _ = $0.onPresent { (from, to) in
+                        
+                        // Change the colors of the push view controller.
+                        to.view.layoutSubviews()
+                        to.tableView?.backgroundColor = DARK_BLUE_COLOR
+                        to.tableView.separatorColor = LIGHT_BLUE_COLOR
+                        to.selectableRowCellUpdate = { (cell, row) in
+                            
+                            cell.backgroundColor = DARK_BLUE_COLOR
+                        }
+                    }
+            }
+        }
+        
         form
             +++ Section("Header")
             <<< TextRow() {

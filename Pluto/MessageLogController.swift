@@ -81,7 +81,10 @@ class MessageLogController: UICollectionViewController, UICollectionViewDelegate
         
         // The following line will allow the user to interact with the keyboard.
         collectionView?.keyboardDismissMode = .interactive
-    
+        
+        // Hide the scroll bar.
+        collectionView?.showsVerticalScrollIndicator = false
+        
         // Set up the keyboard voodoo.
         setUpKeyboardObservers()
     }
