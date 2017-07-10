@@ -10,6 +10,7 @@ import Foundation
 
 class User: NSObject {
     
+    var key: String?
     var name: String?
     var email: String?
     var profileImageUrl: String?
@@ -21,8 +22,10 @@ class User: NSObject {
         self.profileImageUrl = profileImageUrl
     }
     
-    init(userData: Dictionary<String, AnyObject>) {
+    init(userKey: String, userData: Dictionary<String, AnyObject>) {
         super.init()
+        
+        self.key = userKey
         
         if let name = userData["name"] as? String {
             

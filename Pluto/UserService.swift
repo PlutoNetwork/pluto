@@ -20,7 +20,7 @@ struct UserService {
             
             if let userData = snapshot.value as? [String: AnyObject] {
                 
-                let user = User(userData: userData)
+                let user = User(userKey: withKey, userData: userData)
                 
                 completion(user)
             }

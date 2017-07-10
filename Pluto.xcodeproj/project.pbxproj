@@ -49,6 +49,7 @@
 		06EDB2B81F1328F10066FF2E /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EDB2B71F1328F10066FF2E /* FriendsView.swift */; };
 		06EDB2BC1F134DC00066FF2E /* FriendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EDB2BB1F134DC00066FF2E /* FriendCell.swift */; };
 		06EDB2BF1F13D5440066FF2E /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EDB2BE1F13D5440066FF2E /* ProfileController.swift */; };
+		06EDB2C11F13E5570066FF2E /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EDB2C01F13E5570066FF2E /* EventCell.swift */; };
 		59A92D86D3E4CD59512A36D6 /* Pods_Pluto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF89C375029B119D199AE2CB /* Pods_Pluto.framework */; };
 /* End PBXBuildFile section */
 
@@ -110,6 +111,7 @@
 		06EDB2B71F1328F10066FF2E /* FriendsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
 		06EDB2BB1F134DC00066FF2E /* FriendCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendCell.swift; sourceTree = "<group>"; };
 		06EDB2BE1F13D5440066FF2E /* ProfileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
+		06EDB2C01F13E5570066FF2E /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
 		2E88C97749A68A95B04F28AB /* Pods-Pluto.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pluto.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pluto/Pods-Pluto.debug.xcconfig"; sourceTree = "<group>"; };
 		46ABF12315458623F5736911 /* Pods-Pluto.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pluto.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pluto/Pods-Pluto.release.xcconfig"; sourceTree = "<group>"; };
 		CF89C375029B119D199AE2CB /* Pods_Pluto.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pluto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -230,6 +232,7 @@
 				06A2F1961F05839E00FCA614 /* MessagesCell */,
 				06EDB2BD1F134DCB0066FF2E /* FriendsView */,
 				06EDB2B41F1327E80066FF2E /* Other */,
+				06EDB2C01F13E5570066FF2E /* EventCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -503,6 +506,7 @@
 				06A2F15C1F02FBD200FCA614 /* MenuBar.swift in Sources */,
 				06A2F1541F02216900FCA614 /* LoginController+handlers.swift in Sources */,
 				06A2F19A1F058FF300FCA614 /* Message.swift in Sources */,
+				06EDB2C11F13E5570066FF2E /* EventCell.swift in Sources */,
 				06AE9A091F102035006F5BD5 /* LocationService.swift in Sources */,
 				06A2F1651F031AC800FCA614 /* BaseCollectionViewCell.swift in Sources */,
 				062F07DA1F01C8F7008F3014 /* Pluto.xcdatamodeld in Sources */,

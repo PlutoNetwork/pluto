@@ -79,7 +79,7 @@ class FriendsView: UIView, UICollectionViewDelegate, UICollectionViewDataSource,
                             
                             if let userData = snapshot.value as? [String: AnyObject] {
                                 
-                                let user = User(userData: userData)
+                                let user = User(userKey: userKey, userData: userData)
 
                                 // Add the user to the eventUsers array.
                                 self.eventUsers.append(user)

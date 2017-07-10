@@ -18,6 +18,7 @@ class MessagesCell: BaseCollectionViewCell, UITableViewDelegate, UITableViewData
         
         let tableView = UITableView()
         tableView.backgroundColor = DARK_BLUE_COLOR
+        tableView.separatorColor = LIGHT_BLUE_COLOR
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.delegate = self
         tableView.dataSource = self
@@ -67,9 +68,6 @@ class MessagesCell: BaseCollectionViewCell, UITableViewDelegate, UITableViewData
         
         // Hide empty cells in the messagesTableView.
         messagesTableView.tableFooterView = UIView()
-        
-        // Change the color of the seperators.
-        messagesTableView.separatorColor = LIGHT_BLUE_COLOR
     }
     
     func fetchUserEvents() {
