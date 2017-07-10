@@ -259,6 +259,19 @@ class ProfileController: UIViewController, UITableViewDelegate, UITableViewDataS
         return 72
     }
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        return "Upcoming events"
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        
+        let header = view as! UITableViewHeaderFooterView
+        header.backgroundColor = UIColor.clear
+        header.textLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        header.textLabel?.textColor = WHITE_COLOR
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let eventCell = tableView.dequeueReusableCell(withIdentifier: eventCellId, for: indexPath) as! EventCell

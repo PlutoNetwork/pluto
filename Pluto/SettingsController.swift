@@ -29,8 +29,19 @@ class SettingsController: FormViewController {
             
             let imageRow: ImageRow! = form.rowBy(tag: "profileImage")
             
-            // Upload the new profile pic and save the new data.
-            uploadProfilePicToFirebase(image: imageRow.value!)
+            if imageSelected {
+            
+                // Upload the new profile pic and save the new data.
+                uploadProfilePicToFirebase(image: imageRow.value!)
+                
+            } else if valueChanged {
+                
+                // Update the event.
+                DataService.ds.REF_CURRENT_USER.updateChildValues(self.userValuesDictionary)
+            }
+            
+            // Dismiss the view controller.
+            self.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -38,6 +49,8 @@ class SettingsController: FormViewController {
     
     var userProfileImage: UIImage?
     var userValuesDictionary = [String: AnyObject]()
+    var imageSelected = false
+    var valueChanged = false
     
     // MARK: - View Configuration
     
@@ -96,7 +109,10 @@ class SettingsController: FormViewController {
                 cell.textLabel?.textColor = WHITE_COLOR
                 cell.accessoryView?.layer.cornerRadius = 35
                 cell.accessoryView?.frame = CGRect(x: 0, y: 0, width: 70, height: 70)
-            }
+            }.onChange({ _ in
+                
+                self.imageSelected = true
+            })
         
             +++ Section()
             <<< NameRow() {
@@ -118,6 +134,8 @@ class SettingsController: FormViewController {
                     }
                 }
                 $0.onChange({ row in
+                    
+                    self.valueChanged = true
                     
                     // Save the value to the userValuesDictionary.
                     self.userValuesDictionary["name"] = row.value as AnyObject
