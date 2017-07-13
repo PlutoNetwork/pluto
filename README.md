@@ -10,6 +10,8 @@
 
 Pluto is a social map that displays events and breaking news around you.
 
+**Note**: this repo is my *own* version of Pluto, developed individually in my own time. [This](https://github.com/PlutoNetwork/Pluto-iOS) is the link to the repo of Pluto that me and a team worked on.
+
 ## Features
 
 * **MapKit**
